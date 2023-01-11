@@ -2,7 +2,7 @@ import pandas as pd
 import psycopg2
 
 # Table circuit                DONE
-# data = pd.read_excel("upload/NOC Web parameter v3.xlsx",sheet_name='Circuit')
+# data = pd.read_excel("noc_project/upload/NOC Web parameter v3.xlsx",sheet_name='Circuit')
 # #print(data)
 # #print(list(data))
 # data = data.values.tolist()
@@ -29,7 +29,7 @@ import psycopg2
 # ##Table equipment       DONE
 # connection = psycopg2.connect(user="postgres",password="pplus1234",host="127.0.0.1",port="5432",database="python2565")
 # cursor = connection.cursor()
-# data = pd.read_excel("upload/NOC Web parameter v3.xlsx",sheet_name='Equipment')
+# data = pd.read_excel("noc_project/upload/NOC Web parameter v3.xlsx",sheet_name='Equipment')
 # #print(list(data))
 # #print(data)
 # data.fillna('', inplace=True)
@@ -49,7 +49,7 @@ import psycopg2
 # Table project      DONE 0.5 
 connection = psycopg2.connect(user="postgres",password="pplus1234",host="127.0.0.1",port="5432",database="python2565")
 cursor = connection.cursor()
-data = pd.read_excel("upload/NOC Web parameter v3.xlsx",sheet_name='Project')
+data = pd.read_excel("noc_project/upload/NOC Web parameter v3.xlsx",sheet_name='Project')
 data.fillna('', inplace=True)
 
 data = data.values.tolist()
@@ -73,7 +73,7 @@ for i in data:
 #TABLE site DONE
 # connection = psycopg2.connect(user="postgres",password="pplus1234",host="127.0.0.1",port="5432",database="python2565")
 # cursor = connection.cursor()
-# data = pd.read_excel("upload/NOC Web parameter v3.xlsx",sheet_name='Site')
+# data = pd.read_excel("noc_project/upload/NOC Web parameter v3.xlsx",sheet_name='Site')
 # data.fillna('', inplace=True)
 # data = data.values.tolist()
 # for i in data:
@@ -92,7 +92,7 @@ for i in data:
 #TABLE contract DONE
 # connection = psycopg2.connect(user="postgres",password="pplus1234",host="127.0.0.1",port="5432",database="python2565")
 # cursor = connection.cursor()
-# data = pd.read_excel("upload/NOC Web parameter v3.xlsx",sheet_name='Contract')
+# data = pd.read_excel("noc_project/upload/NOC Web parameter v3.xlsx",sheet_name='Contract')
 # data.fillna('', inplace=True)
 # data = data.values.tolist()
 # for i in data:
@@ -110,7 +110,7 @@ for i in data:
 #TABLE interface 
 # connection = psycopg2.connect(user="postgres",password="pplus1234",host="127.0.0.1",port="5432",database="python2565")
 # cursor = connection.cursor()
-# data = pd.read_excel("upload/NOC Web parameter v3.xlsx",sheet_name='Interface')
+# data = pd.read_excel("noc_project/upload/NOC Web parameter v3.xlsx",sheet_name='Interface')
 # data.fillna('', inplace=True)
 # data = data.values.tolist()
 # for i in data:
