@@ -243,7 +243,7 @@ def home():
                     zone5 = ['null']
                         #print(zone4[-1])
                 return render_template('circuit_detial.html',zone1 = zone1,zone2 = zone2,zone3 = zone3,zone4 = zone4,zone5 = zone5)
-            if index == 1:
+            elif index == 1:
                 zone1 = [res[1],res[0][0],res[0][3]] #Project Name , circuit_Id ,Serial_number 
                 zone2 = [] #project detials
                 zone3 = [] #contrat
@@ -263,25 +263,46 @@ def home():
                 #print(zone2)
                 for i in contrat:
                     if i[1] == res[1]:
-                        zone3 = i
-                        break
+                        conlist = []
+                        for a in i:
+                            a = str(a).replace("\n"," <br/> ")
+                            a = Markup(a)   
+                            conlist.append(a)
+                        zone3.append(conlist)
+
                 #print(zone3)
                 #zone4 = zone3[-1]
                 # zone4 = str(zone3[0]).replace("\n"," <br/> ")
                 # zone4 = Markup(zone4)
                 
                 return render_template('project_detial.html',zone1 = zone1,zone2 = zone2,zone3 = zone3)
+            elif index == 2:
+                zone1 = [res[0][1],res[0][0],res[0][3]] #Project Name , circuit_Id ,Serial_number
+                zone2 = [] #site detials
+                for i in site:
+                    if i[1] == zone1[0] and i[2] == res[1]:
+                        for a in i:
+                            a = str(a).replace("\n"," <br/> ")
+                            a = Markup(a)
+                            zone2.append(a) 
+                        break
+                return render_template('site_detial.html',zone1 = zone1,zone2 = zone2)
+
             elif index == 3: #Serial_number
                 zone1 = [res[0][1]] #Project Name
                 zone2 = [] #Detial Equipment
                 zone3 = [] #Site_name
                 zone4 = [] #Circuit_ID  list
                 for i in equipment:
+                    print(i[0],res[1])
                     if i[0] == res[1]:
                         zone2 = i
                         zone2 = list(zone2)
-                        zone2[-3] = zone2[-3].strftime("%d/%m/%y")
-                        zone2[-4] = zone2[-4].strftime("%d/%m/%y")
+                        try:
+                            zone2[-3] = zone2[-3].strftime("%d/%m/%y")
+                            zone2[-4] = zone2[-4].strftime("%d/%m/%y")
+                        except: 
+                            pass
                         break
                 for i in site:
                     #print(i)
