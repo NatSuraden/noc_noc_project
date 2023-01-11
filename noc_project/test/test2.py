@@ -1,6 +1,6 @@
 import pandas as pd
 import psycopg2
-data = pd.read_excel("upload/NOC Web parameter v3.xlsx",sheet_name='Project')
+data = pd.read_excel("noc_project/upload/NOC Web parameter v3.xlsx",sheet_name='Project')
 data.fillna('', inplace=True)
 #print(data)
 #print(list(data))
@@ -23,5 +23,9 @@ data = data.values.tolist()
 #print(data)
 for i in data:
     print(i)
-print((data[0][2]).strftime("%d/%m/%y"))    
+print((data[0][2]).strftime("%d/%m/%y"))  
+
+test_str = "ABCDE\Gnadasdasdas"
+if "\n" in test_str:
+    print(True)
     

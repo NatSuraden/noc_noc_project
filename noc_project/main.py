@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session,Markup
 from werkzeug.utils import secure_filename
 from flask_sqlalchemy import SQLAlchemy
 import psycopg2
@@ -25,7 +25,7 @@ def login():
     msg = ''
     user_id = 0
     role = ""
-    #newpass =""
+    newpass =""
     if request.method == 'POST' and 'username' in request.form and 'password' in request.form:
         username = request.form['username']
         password = request.form['password']
@@ -49,6 +49,24 @@ def login():
             session['password'] = newpass
             session['username'] = username
             session['role'] = role
+            cursor.execute('SELECT * FROM circuit')
+            circuit = cursor.fetchall()
+            session['circuit'] = circuit
+            cursor.execute('SELECT * FROM equipment')
+            equipment = cursor.fetchall()
+            session['equipment'] = equipment
+            cursor.execute('SELECT * FROM interface')
+            interface = cursor.fetchall()
+            session['interface'] = interface
+            cursor.execute('SELECT * FROM project')
+            project = cursor.fetchall()
+            session['project'] = project
+            cursor.execute('SELECT * FROM contract')
+            contrat = cursor.fetchall()
+            session['contrat'] = contrat
+            cursor.execute('SELECT * FROM site')
+            site = cursor.fetchall()
+            session['site'] = site
             return redirect(url_for('home'))
         else:
             msg = 'Incorrect username/password!'
@@ -174,16 +192,12 @@ def home():
                 msg = "We Found"
             return render_template('home.html', text=msg ,data = data)
         if request.method == "POST" and 'data' in request.form:
-            connection = psycopg2.connect(user="postgres",password="pplus1234",host="127.0.0.1",port="5432",database="python2565")
-            cursor = connection.cursor()
-            cursor.execute('SELECT * FROM circuit')
-            circuit = cursor.fetchall()
-            cursor.execute('SELECT * FROM equipment')
-            equipment = cursor.fetchall()
-            cursor.execute('SELECT * FROM interface')
-            interface = cursor.fetchall()
-            cursor.execute('SELECT * FROM site')
-            site = cursor.fetchall()
+            circuit = session['circuit']
+            equipment = session['equipment']
+            interface = session['interface']
+            site = session['site']
+            project = session['project']
+            contrat = session['contrat']
             msg = request.form['data']
             a = request.form['data']
             #print(a)
@@ -229,17 +243,66 @@ def home():
                     zone5 = ['null']
                         #print(zone4[-1])
                 return render_template('circuit_detial.html',zone1 = zone1,zone2 = zone2,zone3 = zone3,zone4 = zone4,zone5 = zone5)
+            elif index == 1:
+                zone1 = [res[1],res[0][0],res[0][3]] #Project Name , circuit_Id ,Serial_number 
+                zone2 = [] #project detials
+                zone3 = [] #contrat
+                for i in project:
+                    i = list(i)
+                    if i[0] == res[1]:
+                        i[2] = i[2].strftime("%d/%m/%y")
+                        i[3] = i[3].strftime("%d/%m/%y")
+                        i[4] = i[4].strftime("%d/%m/%y")
+                        i[5] = i[5].strftime("%d/%m/%y")
+                        for a in i:
+                            a = str(a).replace("\n"," <br/> ")
+                            a = Markup(a)
+                            zone2.append(a)
+                            #print(zone2)
+                        break
+                #print(zone2)
+                for i in contrat:
+                    if i[1] == res[1]:
+                        conlist = []
+                        for a in i:
+                            a = str(a).replace("\n"," <br/> ")
+                            a = Markup(a)   
+                            conlist.append(a)
+                        zone3.append(conlist)
+
+                #print(zone3)
+                #zone4 = zone3[-1]
+                # zone4 = str(zone3[0]).replace("\n"," <br/> ")
+                # zone4 = Markup(zone4)
+                
+                return render_template('project_detial.html',zone1 = zone1,zone2 = zone2,zone3 = zone3)
+            elif index == 2:
+                zone1 = [res[0][1],res[0][0],res[0][3]] #Project Name , circuit_Id ,Serial_number
+                zone2 = [] #site detials
+                for i in site:
+                    if i[1] == zone1[0] and i[2] == res[1]:
+                        for a in i:
+                            a = str(a).replace("\n"," <br/> ")
+                            a = Markup(a)
+                            zone2.append(a) 
+                        break
+                return render_template('site_detial.html',zone1 = zone1,zone2 = zone2)
+
             elif index == 3: #Serial_number
                 zone1 = [res[0][1]] #Project Name
                 zone2 = [] #Detial Equipment
                 zone3 = [] #Site_name
                 zone4 = [] #Circuit_ID  list
                 for i in equipment:
+                    print(i[0],res[1])
                     if i[0] == res[1]:
                         zone2 = i
                         zone2 = list(zone2)
-                        zone2[-3] = zone2[-3].strftime("%d/%m/%y")
-                        zone2[-4] = zone2[-4].strftime("%d/%m/%y")
+                        try:
+                            zone2[-3] = zone2[-3].strftime("%d/%m/%y")
+                            zone2[-4] = zone2[-4].strftime("%d/%m/%y")
+                        except: 
+                            pass
                         break
                 for i in site:
                     #print(i)
