@@ -13,17 +13,17 @@
 
     <!-- Custom fonts for this template -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="../css/sb-admin-2.min.css" rel="stylesheet">
 
     <!-- Custom styles for this page -->
-    <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <link href="../vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
 </head>
 
@@ -166,7 +166,7 @@
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">Prakorn Chaikure</span>
                                 <img class="img-profile rounded-circle"
-                                    src="img/undraw_profile.svg">
+                                    src="../img/undraw_profile.svg">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -253,7 +253,6 @@
                                         </div> -->
                                     </div>
                                 </div>
-        
                                 <table id="filter" class="table">
                                     <thead>
                                         <tr>
@@ -265,36 +264,34 @@
                                             <th>E Serial number</th>
                                         </tr>
                                     </thead>
-                        
+                                
                                     <tbody>
-                                        <td>
-                                            <a class="dropdown-table" href="#" data-toggle="modal" data-target="#CircuitID">
-                                            V53802</a>
+                                    <form action="{{ url_for('home') }}" method="post">
+                                        {% for row in data %}
+                                            <td>
+                                                <a class="dropdown-table" href="#" data-toggle="modal" data-target="#CircuitID">
+                                                {{row[0]}}</a>
                                             </td>
-                                            <td>Makro</td>
-                                            <td>ลาดกระบัง</td>
-                                            <td>FGT60FTK20054815</td>
-                                            <td>10.11.220.8</td>
-                                            <td>10.99.178.18</td>
-                                        </tr>
-                                        <tr>
-                                            <td>U15480</td>
-                                            <td>Makro</td>
-                                            <td>ลาดกระบัง</td>
-                                            <td>FGT60FTK20036867</td>
-                                            <td>10.11.220.9</td>
-                                            <td>10.100.0.190</td>
-                                        </tr>
-                                        <tr>
-                                            <td>J12418</td>
-                                            <td>Makro</td>
-                                            <td>ลาดกระบัง</td>
-                                            <td>S108EN592004706</td>
-                                            <td>171.103.210.226</td>
-                                            <td>171.103.210.226</td>
-                                        </tr>
+                                            <td>
+                                                <a class="dropdown-table" href="#" data-toggle="modal" data-target="#CircuitID">
+                                                {{row[1]}}</a>
+                                            </td>
+                                            <td>
+                                                <a class="dropdown-table" href="#" data-toggle="modal" data-target="#CircuitID">
+                                                {{row[2]}}</a>
+                                            </td>
+                                            <td>
+                                                <a class="dropdown-table" href="#" data-toggle="modal" data-target="#CircuitID">
+                                                {{row[3]}}</a>
+                                            </td>
+                                            <td>{{row[4]}}</td>
+                                            <td>{{row[5]}}</td>
+                                        {% endfor %}
+                                    </form>
                                     </tbody>
+                                
                                 </table>
+                                
                             </div>
                         </div>
                     </div>
@@ -467,18 +464,18 @@
 
 
     <!-- Bootstrap core JavaScript-->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="../vendor/jquery/jquery.min.js"></script>
+    <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
     <!-- Core plugin JavaScript-->
-    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
 
     <!-- Custom scripts for all pages-->
-    <script src="js/sb-admin-2.min.js"></script>
+    <script src="../js/sb-admin-2.min.js"></script>
 
     <!-- Page level plugins -->
-    <script src="vendor/datatables/jquery.dataTables.min.js"></script>
-    <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <script src="../vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="../vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
     <!-- Page level custom scripts -->
     <!-- <script src="TableFilter.min.js" defer></script> -->
