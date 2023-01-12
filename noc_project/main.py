@@ -294,7 +294,7 @@ def home():
                 zone3 = [] #Site_name
                 zone4 = [] #Circuit_ID  list
                 for i in equipment:
-                    print(i[0],res[1])
+                    #print(i[0],res[1])
                     if i[0] == res[1]:
                         zone2 = i
                         zone2 = list(zone2)
