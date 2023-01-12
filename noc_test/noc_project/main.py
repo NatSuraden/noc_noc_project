@@ -13,7 +13,7 @@ import os
 import http.client
 import mimetypes
 
-app = Flask(__name__)
+app = Flask(__name__,)
 app.secret_key = 'how_to_be_got_A'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:pplus1234@127.0.0.1:5432/python2565'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
