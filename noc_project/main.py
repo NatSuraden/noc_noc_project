@@ -132,6 +132,7 @@ def search(inputdata):
                         data_in_process[-1] = x[3]  #IP_address_CE added
                         break
                 data.append(data_in_process)
+                break
         data_len = len(data)
         #search by serial_number
         for i in equipment:
