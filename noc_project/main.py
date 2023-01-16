@@ -82,19 +82,16 @@ def logout():
 
 
 def search(inputdata):
-    connection = psycopg2.connect(user="postgres",password="pplus1234",host="127.0.0.1",port="5432",database="python2565")
-    cursor = connection.cursor()
-    cursor.execute('SELECT * FROM circuit')
-    circuit = cursor.fetchall()
-    cursor.execute('SELECT * FROM equipment')
-    equipment = cursor.fetchall()
+    circuit = session['circuit']
+    equipment = session['equipment']
     data = []
     data_len = len(data)
     while data_len == 0:
         #search by circuit_id
         for i in circuit:
-            data_in_process = [inputdata] #circuit_id  added
-            if i[0] == data_in_process[0]:
+            data_in_process = [] 
+            if str(i[0]).upper() == str(inputdata).upper():
+                data_in_process.append(i[0]) #circuit_id  added
                 for a in equipment:
                     if i[1] == a[0]:
                         data_in_process.append(a[1]) #project_name added
@@ -108,8 +105,9 @@ def search(inputdata):
         #search by project_name
         data_len = len(data)
         for i in equipment:
-            data_in_process = ["",inputdata,"","","",""] #project_name added
-            if i[1] == inputdata:
+            data_in_process = ["","","","","",""] 
+            if str(i[1]).upper() == str(inputdata).upper():
+                data_in_process[1] = i[1] #project_name added
                 data_in_process[2] = i[2] #site_name added
                 data_in_process[3] = i[0] #serial_number added 
                 for a in circuit:
@@ -122,8 +120,9 @@ def search(inputdata):
         data_len = len(data)
         #search by site_name
         for a in equipment:
-            data_in_process = ["","",inputdata,"","",""] #site_name added
-            if a[2] == data_in_process[2]:
+            data_in_process = ["","","","","",""]
+            if str(a[2]).upper() == str(inputdata).upper():
+                data_in_process[2] = a[2] #site_name added
                 data_in_process[3] = a[0] #serial_number added 
                 data_in_process[1] = a[1] #project_name added
                 for x in circuit:
@@ -136,8 +135,9 @@ def search(inputdata):
         data_len = len(data)
         #search by serial_number
         for i in equipment:
-            data_in_process = ["","","",inputdata,"",""] #serial_number added
-            if i[0] == data_in_process[3]:
+            data_in_process = ["","","","","",""]
+            if str(i[0]).upper() == str(inputdata).upper():
+                data_in_process[3] = i[0] #serial_number added
                 data_in_process[2] = i[2] #site_name added
                 data_in_process[1] = i[1] #project_name added
                 for x in circuit:
@@ -176,9 +176,36 @@ def search(inputdata):
                 data.append(data_in_process)
         data_len = len(data)
         if data_len == 0:
-            #msg = 'Not Found data'
+            data = search2(inputdata)
             break
-    return(data)   
+    return(data) 
+
+def search2(inputdata):
+    inputdata = str(inputdata).upper()
+    circuit = session['circuit']
+    equipment = session['equipment']
+    data = []
+    for i in circuit:
+        data_in_process = []
+        data_in_process.append(i[0])     #circuit_id  added
+        for a in equipment:
+            if i[1] == a[0]:
+                data_in_process.append(a[1]) #project_name added
+                data_in_process.append(a[2]) #site_name added
+                data_in_process.append(a[0]) #serial_number added
+                break
+        data_in_process.append(i[5])     #Equipment_Loopback  added
+        data_in_process.append(i[3])   #IP_address_CE  added
+        data.append(data_in_process)
+    data2 = []
+    for i in data:
+        for a in i:
+            if inputdata in a or inputdata.lower() in a:
+                data2.append(i)
+                break
+    return(data2)
+
+
 @app.route('/noc_project/home', methods=['GET', 'POST'])
 def home():
     if 'loggedin' in session:
