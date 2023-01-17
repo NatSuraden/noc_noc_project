@@ -92,95 +92,174 @@ for i in range(19):
                         else:
                             site_search.append(data_in_process)
     elif i == 8:
-        for n in equipment:
-            data_in_process = ["","","","","",""] 
-            if str(n[0]).upper() == str(inputdata[8]).upper():
-                data_in_process[3] = n[0] #serial_number added
-                data_in_process[2] = n[2] #site_name added
-                data_in_process[1] = n[1] #project_name added
-                for x in circuit:
-                    if x[1] == data_in_process[3]:
-                        data_in_process[0] = x[0]   #circuit_id  added
-                        data_in_process[-2] = x[5]  #Equipment_Loopback  added
-                        data_in_process[-1] = x[3]  #IP_address_CE added
-                        break
-                if data_in_process in equipment_search:
-                    pass
-                else:
+        if inputdata[8] != '':
+            print('do',i)
+            for n in equipment:
+                data_in_process = ["","","","","",""] 
+                if str(n[0]).upper() == str(inputdata[8]).upper():
+                    data_in_process[3] = n[0] #serial_number added
+                    data_in_process[2] = n[2] #site_name added
+                    data_in_process[1] = n[1] #project_name added
+                    for x in circuit:
+                        if x[1] == data_in_process[3]:
+                            data_in_process[0] = x[0]   #circuit_id  added
+                            data_in_process[-2] = x[5]  #Equipment_Loopback  added
+                            data_in_process[-1] = x[3]  #IP_address_CE added
+                            break
                     equipment_search.append(data_in_process)
-                    break
+            
     elif i == 9:
-        for n in equipment:
-            data_in_process = ["","","","","",""] 
-            if str(n[3]).upper() == str(inputdata[9]).upper():
-                data_in_process[3] = n[0] #serial_number added
-                data_in_process[2] = n[2] #site_name added
-                data_in_process[1] = n[1] #project_name added
-                for x in circuit:
-                    if x[1] == data_in_process[3]:
-                        data_in_process[0] = x[0]   #circuit_id  added
-                        data_in_process[-2] = x[5]  #Equipment_Loopback  added
-                        data_in_process[-1] = x[3]  #IP_address_CE added
-                        break
-                if data_in_process in equipment_search:
-                    pass
-                else:
-                    equipment_search.append(data_in_process)
+        if inputdata[9] != '':
+            print('do',i)
+            if inputdata[8] == '':
+                for n in equipment:
+                    data_in_process = ["","","","","",""] 
+                    if str(n[3]).upper() == str(inputdata[9]).upper():
+                        data_in_process[3] = n[0] #serial_number added
+                        data_in_process[2] = n[2] #site_name added
+                        data_in_process[1] = n[1] #project_name added
+                        for x in circuit:
+                            if x[1] == data_in_process[3]:
+                                data_in_process[0] = x[0]   #circuit_id  added
+                                data_in_process[-2] = x[5]  #Equipment_Loopback  added
+                                data_in_process[-1] = x[3]  #IP_address_CE added
+                                break
+                        if data_in_process in equipment_search:
+                            pass
+                        else:
+                            equipment_search.append(data_in_process)
+            else:
+                for n in equipment:
+                    data_in_process = ["","","","","",""] 
+                    if str(n[3]).upper() == str(inputdata[9]).upper() and str(n[0]).upper() == str(inputdata[8]).upper():
+                        data_in_process[3] = n[0] #serial_number added
+                        data_in_process[2] = n[2] #site_name added
+                        data_in_process[1] = n[1] #project_name added
+                        for x in circuit:
+                            if x[1] == data_in_process[3]:
+                                data_in_process[0] = x[0]   #circuit_id  added
+                                data_in_process[-2] = x[5]  #Equipment_Loopback  added
+                                data_in_process[-1] = x[3]  #IP_address_CE added
+                                break
+                        if data_in_process in equipment_search:
+                            pass
+                        else:
+                            equipment_search.append(data_in_process)
     elif i == 10:
-        for n in equipment:
-            data_in_process = ["","","","","",""] 
-            if str(n[4]).upper() == str(inputdata[10]).upper():
-                data_in_process[3] = n[0] #serial_number added
-                data_in_process[2] = n[2] #site_name added
-                data_in_process[1] = n[1] #project_name added
-                for x in circuit:
-                    if x[1] == data_in_process[3]:
-                        data_in_process[0] = x[0]   #circuit_id  added
-                        data_in_process[-2] = x[5]  #Equipment_Loopback  added
-                        data_in_process[-1] = x[3]  #IP_address_CE added
-                        break
-                if data_in_process in equipment_search:
-                    pass
-                else:
-                    equipment_search.append(data_in_process)
+        if inputdata[10] != '':
+            print('do',i)
+            if inputdata[8] == '':
+                for n in equipment:
+                    data_in_process = ["","","","","",""] 
+                    if str(n[4]).upper() == str(inputdata[10]).upper():
+                        data_in_process[3] = n[0] #serial_number added
+                        data_in_process[2] = n[2] #site_name added
+                        data_in_process[1] = n[1] #project_name added
+                        for x in circuit:
+                            if x[1] == data_in_process[3]:
+                                data_in_process[0] = x[0]   #circuit_id  added
+                                data_in_process[-2] = x[5]  #Equipment_Loopback  added
+                                data_in_process[-1] = x[3]  #IP_address_CE added
+                                break
+                        if data_in_process in equipment_search:
+                            pass
+                        else:
+                            equipment_search.append(data_in_process)
+            else:
+                for n in equipment:
+                    data_in_process = ["","","","","",""] 
+                    if str(n[4]).upper() == str(inputdata[10]).upper() and str(n[0]).upper() == str(inputdata[8]).upper():
+                        data_in_process[3] = n[0] #serial_number added
+                        data_in_process[2] = n[2] #site_name added
+                        data_in_process[1] = n[1] #project_name added
+                        for x in circuit:
+                            if x[1] == data_in_process[3]:
+                                data_in_process[0] = x[0]   #circuit_id  added
+                                data_in_process[-2] = x[5]  #Equipment_Loopback  added
+                                data_in_process[-1] = x[3]  #IP_address_CE added
+                                break
+                        if data_in_process in equipment_search:
+                            pass
+                        else:
+                            equipment_search.append(data_in_process)
     elif i == 11:
-        for n in equipment:
-            data_in_process = ["","","","","",""] 
-            if str(n[5]).upper() == str(inputdata[11]).upper():
-                data_in_process[3] = n[0] #serial_number added
-                data_in_process[2] = n[2] #site_name added
-                data_in_process[1] = n[1] #project_name added
-                for x in circuit:
-                    if x[1] == data_in_process[3]:
-                        data_in_process[0] = x[0]   #circuit_id  added
-                        data_in_process[-2] = x[5]  #Equipment_Loopback  added
-                        data_in_process[-1] = x[3]  #IP_address_CE added
-                        break
-                if data_in_process in equipment_search:
-                    pass
-                else:
-                    equipment_search.append(data_in_process)
+        if inputdata[11] != '':
+            print('do',i)
+            if inputdata[8] == '':
+                for n in equipment:
+                    data_in_process = ["","","","","",""] 
+                    if str(n[5]).upper() == str(inputdata[11]).upper():
+                        data_in_process[3] = n[0] #serial_number added
+                        data_in_process[2] = n[2] #site_name added
+                        data_in_process[1] = n[1] #project_name added
+                        for x in circuit:
+                            if x[1] == data_in_process[3]:
+                                data_in_process[0] = x[0]   #circuit_id  added
+                                data_in_process[-2] = x[5]  #Equipment_Loopback  added
+                                data_in_process[-1] = x[3]  #IP_address_CE added
+                                break
+                        if data_in_process in equipment_search:
+                            pass
+                        else:
+                            equipment_search.append(data_in_process)
+            else:
+                for n in equipment:
+                    data_in_process = ["","","","","",""] 
+                    if str(n[5]).upper() == str(inputdata[11]).upper() and str(n[0]).upper() == str(inputdata[8]).upper():
+                        data_in_process[3] = n[0] #serial_number added
+                        data_in_process[2] = n[2] #site_name added
+                        data_in_process[1] = n[1] #project_name added
+                        for x in circuit:
+                            if x[1] == data_in_process[3]:
+                                data_in_process[0] = x[0]   #circuit_id  added
+                                data_in_process[-2] = x[5]  #Equipment_Loopback  added
+                                data_in_process[-1] = x[3]  #IP_address_CE added
+                                break
+                        if data_in_process in equipment_search:
+                            pass
+                        else:
+                            equipment_search.append(data_in_process)
     elif i == 12:
         pass
     elif i == 13:
         pass
     elif i == 14:
-        for n in equipment:
-            data_in_process = ["","","","","",""] 
-            if str(n[-2]).upper() == str(inputdata[14]).upper():
-                data_in_process[3] = n[0] #serial_number added
-                data_in_process[2] = n[2] #site_name added
-                data_in_process[1] = n[1] #project_name added
-                for x in circuit:
-                    if x[1] == data_in_process[3]:
-                        data_in_process[0] = x[0]   #circuit_id  added
-                        data_in_process[-2] = x[5]  #Equipment_Loopback  added
-                        data_in_process[-1] = x[3]  #IP_address_CE added
-                        break
-                if data_in_process in equipment_search:
-                    pass
-                else:
-                    equipment_search.append(data_in_process)
+        if inputdata[14] != '':
+            print('do',i)
+            if inputdata[8] == '':
+                for n in equipment:
+                    data_in_process = ["","","","","",""] 
+                    if str(n[-2]).upper() == str(inputdata[14]).upper():
+                        data_in_process[3] = n[0] #serial_number added
+                        data_in_process[2] = n[2] #site_name added
+                        data_in_process[1] = n[1] #project_name added
+                        for x in circuit:
+                            if x[1] == data_in_process[3]:
+                                data_in_process[0] = x[0]   #circuit_id  added
+                                data_in_process[-2] = x[5]  #Equipment_Loopback  added
+                                data_in_process[-1] = x[3]  #IP_address_CE added
+                                break
+                        if data_in_process in equipment_search:
+                            pass
+                        else:
+                            equipment_search.append(data_in_process)
+            else:
+                for n in equipment:
+                    data_in_process = ["","","","","",""] 
+                    if str(n[-2]).upper() == str(inputdata[14]).upper() and str(n[0]).upper() == str(inputdata[8]).upper():
+                        data_in_process[3] = n[0] #serial_number added
+                        data_in_process[2] = n[2] #site_name added
+                        data_in_process[1] = n[1] #project_name added
+                        for x in circuit:
+                            if x[1] == data_in_process[3]:
+                                data_in_process[0] = x[0]   #circuit_id  added
+                                data_in_process[-2] = x[5]  #Equipment_Loopback  added
+                                data_in_process[-1] = x[3]  #IP_address_CE added
+                                break
+                        if data_in_process in equipment_search:
+                            pass
+                        else:
+                            equipment_search.append(data_in_process)
     elif i == 15:
         for n in circuit:
             data_in_process = []
@@ -253,15 +332,23 @@ for i in range(19):
                     pass
                 else:
                     circuit_search.append(data_in_process)
+# print("xxxxxxxxxxxxxxxxxxx")
+# print('project box')
+# for i in project_search:
+#     print(i)
+# print("xxxxxxxxxxxxxxxxxxx")
+# print('site box')
+# for i in site_search:
+#     print(i)
+
 print("xxxxxxxxxxxxxxxxxxx")
-for i in project_search:
-    print(i)
-print("xxxxxxxxxxxxxxxxxxx")
-for i in site_search:
-    print(i)
-print("xxxxxxxxxxxxxxxxxxx")
-for i in circuit_search:
-    print(i)
-print("xxxxxxxxxxxxxxxxxxx")
+print('equipment box')
 for i in equipment_search:
     print(i)
+
+# print("xxxxxxxxxxxxxxxxxxx")
+# print('circuit box')
+# for i in circuit_search:
+#     print(i)
+
+
