@@ -13,24 +13,18 @@
 
     <!-- Custom fonts for this template -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link href="../static/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="../static/css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="css/sb-admin-2.min.css" rel="stylesheet">
 
     <!-- Custom styles for this page -->
-    <link href="./static/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
-
-
-
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </head>
 
 <body id="page-top">
@@ -43,7 +37,7 @@
 
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-                    <img src="../static/img/logo3(white).png" style="width: 136px;height:32px;"></img>
+                    <img src="../startbootstrap-sb-admin-2-gh-pages/img/logo3(white).png" style="width: 136px;height:32px;"></img>
                 <!-- <div class="sidebar-brand-text mx-3">PPlus Visions<sup></sup></div> -->
             </a>
 
@@ -55,6 +49,12 @@
                 <a class="nav-link" href="index.html">
                     <i class="bi bi-house-fill"></i>
                     <span>Home</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="index.html">
+                    <!-- <i class="bi bi-activity"></i> -->
+                    <i class="bi bi-list-columns-reverse"></i>
+                    <span>Activity Log</span></a>
             </li>
 
             <!-- Divider -->
@@ -126,20 +126,35 @@
                     <!-- Topbar Search -->
                     <form
                         class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                        <div class="input-group">
-                            <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="bi-funnel"></i></button>
-                            <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
-                                aria-label="Search" aria-describedby="basic-addon2">
-                            <div class="input-group-append">
-                                <button class="btn btn-primary" type="button">
-                                    <i class="fas fa-search fa-sm"></i>
-                                </button>
-                            </div>
-                        </div>
+                        HOMEPAGE
                     </form>
 
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
+
+                        <!-- Nav Item - Search Dropdown (Visible Only XS) -->
+                        <li class="nav-item dropdown no-arrow d-sm-none">
+                            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-search fa-fw"></i>
+                            </a>
+                            <!-- Dropdown - Messages -->
+                            <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
+                                aria-labelledby="searchDropdown">
+                                <form class="form-inline mr-auto w-100 navbar-search">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control bg-light border-0 small"
+                                            placeholder="Search for..." aria-label="Search"
+                                            aria-describedby="basic-addon2">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-primary" type="button">
+                                                <i class="fas fa-search fa-sm"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </li>
                         <div class="topbar-divider d-none d-sm-block"></div>
 
                         <!-- Nav Item - User Information -->
@@ -148,12 +163,12 @@
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">Prakorn Chaikure</span>
                                 <img class="img-profile rounded-circle"
-                                    src="../static/img/undraw_profile.svg">
+                                    src="img/undraw_profile.svg">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#ProfileID">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Profile
                                 </a>
@@ -161,10 +176,10 @@
                                     <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Settings
                                 </a> -->
-                                <a class="dropdown-item" href="#">
+                                <!-- <a class="dropdown-item" href="#">
                                     <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Activity Log
-                                </a>
+                                </a> -->
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
@@ -191,7 +206,7 @@
                     <!-- <h1 class="h3 mb-2 text-gray-800">Tables</h1> -->
                     
                     <!-- DataTales Example -->
-                    <form action="{{ url_for('home') }}" method="post"></form>
+
                     <div class="card shadow mb-4">
                         <div class="card-body">
                             <div class="table-responsive">
@@ -234,10 +249,7 @@
                                         </div> -->
                                     </div>
                                 </div>
-                                <form action="{{ url_for('home') }}" method="post">
-                                    <p>search <input type="text" name="data_search" placeholder="search" required>
-                                        <input type = "submit"/></p>
-                                      </form>
+        
                                 <table id="filter" class="table">
                                     <thead>
                                         <tr>
@@ -249,34 +261,36 @@
                                             <th>E Serial number</th>
                                         </tr>
                                     </thead>
-                                    <form>
+                        
                                     <tbody>
-                                        {% for row in data %}
-                                        <tr>
-                                            <td>
-                                                <button value={{row,row[0]}} sclass="dropdown-table"  href="#" data-toggle="modal" data-target="#CircuitID" name="data">
-                                                {{row[0]}}</button>
+                                        <td>
+                                            <a class="dropdown-table" href="#" data-toggle="modal" data-target="#CircuitID">
+                                            V53802</a>
                                             </td>
-                                            <td>
-                                                <button class="dropdown-table" href="#" data-toggle="modal" data-target="#CircuitID" value="{{row,row[1]}}" name="data">
-                                                {{row[1]}}</button>
-                                            </td>
-                                            <td>
-                                                <a class="dropdown-table" href="#" data-toggle="modal" data-target="#CircuitID">
-                                                {{row[2]}}</a>
-                                            </td>
-                                            <td>
-                                                <a class="dropdown-table" href="#" data-toggle="modal" data-target="#CircuitID">
-                                                {{row[3]}}</a>
-                                            </td>
-                                            <td>{{row[4]}}</td>
-                                            <td>{{row[5]}}</td>
+                                            <td>Makro</td>
+                                            <td>ลาดกระบัง</td>
+                                            <td>FGT60FTK20054815</td>
+                                            <td>10.11.220.8</td>
+                                            <td>10.99.178.18</td>
                                         </tr>
-                                        {% endfor %}
+                                        <tr>
+                                            <td>U15480</td>
+                                            <td>Makro</td>
+                                            <td>ลาดกระบัง</td>
+                                            <td>FGT60FTK20036867</td>
+                                            <td>10.11.220.9</td>
+                                            <td>10.100.0.190</td>
+                                        </tr>
+                                        <tr>
+                                            <td>J12418</td>
+                                            <td>Makro</td>
+                                            <td>ลาดกระบัง</td>
+                                            <td>S108EN592004706</td>
+                                            <td>171.103.210.226</td>
+                                            <td>171.103.210.226</td>
+                                        </tr>
                                     </tbody>
-                                </form>
                                 </table>
-                                
                             </div>
                         </div>
                     </div>
@@ -294,30 +308,6 @@
     <!-- End of Page Wrapper -->
 
     <!-- Scroll to Top Button-->
-    <!-- <script>
-        function Circuit_id(test){
-            $.ajax({
-                type:"POST",
-                url: "{{ url_for('home') }}",
-                data: {data:$(test).val()}
-        })
-        }
-    </script> -->
-    <!-- <script src =
-    "https://ajax.googleapis.com/ajax/libs/jQuery/3.4.0/jQuery.min.js">
-    </script>
-    <script>
-        $(document).ready(function(){
-        $('btn_id').click(function(event){
-            $.ajax({
-                type:"POST",
-                url: "{{ url_for('home') }}",
-                data: {data:$(btn_id).val()}
-        })
-        });
-        });
-        </script> -->
-
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
@@ -336,7 +326,39 @@
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="{{ url_for('logout') }}">Logout</a>
+                    <a class="btn btn-primary" href="login.html">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="ProfileID" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">PROFILE</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body ">
+                    <div class="col-md-4 border-right">
+                        <div class="d-flex flex-column align-items-center text-center"><img class="rounded-circle" src="https://media4.giphy.com/media/eePSFNBFv2W9owZ4Sh/giphy.gif?cid=ecf05e47qctng9140e7a7r88jrad9j1pk8slri3upfe8vvyg&rid=giphy.gif&ct=g" width="128" height="128"><span class="font-weight-bold">John</span><span class="text-black-50">john_doe12@bbb.com</span></div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="row mt-2">
+                            <div class="col-md-6">Username : Prakorn Chaikure</div>
+                            <div class="col-md-6">Email : prakorn.chaikure@gmail.com</div>
+                            <div class="col-md-6">Role : NOC</div>
+                            <div class="col-md-6">Permissions : User</div>
+                            <div class="col-md-6">Contact : 0997830734</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Edit</button>
+                    <a class="btn btn-primary" href="login.html">Logout</a>
                 </div>
             </div>
         </div>
@@ -345,11 +367,7 @@
     
 
 
-    
-
-
-
-    <div class="modal fade" id="CircuitID2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    <div class="modal fade" id="CircuitID" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -395,27 +413,24 @@
 
 
 
-
     <!-- Bootstrap core JavaScript-->
-    <script src="../static/vendor/jquery/jquery.min.js"></script>
-    <script src="../static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
     <!-- Core plugin JavaScript-->
-    <script src="../static/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
 
     <!-- Custom scripts for all pages-->
-    <script src="../static/js/sb-admin-2.min.js"></script>
+    <script src="js/sb-admin-2.min.js"></script>
 
     <!-- Page level plugins -->
-    <script src="../static/vendor/datatables/jquery.dataTables.min.js"></script>
-    <script src="../static/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <script src="vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
     <!-- Page level custom scripts -->
     <!-- <script src="TableFilter.min.js" defer></script> -->
     <!-- <script src="js/demo/datatables-demo.js"></script> -->
 
 </body>
-
 
 </html>
