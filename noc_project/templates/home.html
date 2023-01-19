@@ -3,6 +3,9 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <style>
     table, th, td {
       border: 1px solid black;
@@ -25,10 +28,9 @@
               </tr>
           </thead>
           <tbody> 
-            <form action="{{ url_for('home') }}" method="post">
             {% for row in data %}
               <tr> 
-                <td>{{row[0]}}<button type = "submit" value="{{row,row[0]}}" name="data">+</button></td>
+                <td>{{row[0]}}<button  data-id ='{{row,row[0]}}' class="userinfo btn btn-success">+</button></td>
                 <td>{{row[1]}}<button type = "submit" value="{{row,row[1]}}" name="data">+</button></td>
                 <td>{{row[2]}}<button type = "submit" value="{{row,row[2]}}" name="data">+</button></td>
                 <td>{{row[3]}}<button type = "submit" value="{{row,row[3]}}" name="data">+</button></td>
@@ -36,5 +38,36 @@
                 <td>{{row[5]}}</td>
               </tr> 
             {% endfor %}
-          </form>
+
+            <div class="modal fade" id="empModal" role="dialog">
+              <div class="modal-dialog">
+                  <div class="modal-content">
+                      <div class="modal-header">
+                          <h4 class="modal-title">User Info</h4>
+                        <button type="button" class="close" data-dismiss="modal">×</button>
+                      </div>
+                      <div class="modal-body"></div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                      </div>
+                  </div>
+              </div>
+      </div>
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('.userinfo').click(function(){
+      var circuit_data = $(this).data('id');
+      $.ajax({
+        url: '/ajaxfile',
+        type: 'post',
+        data: {circuit_data:circuit_data},
+        success: function(data){
+          $('.modal-body').html(data);
+          $('.modal-body').append(data.htmlcircuit_detial);
+          $('#empModal').modal('show');
+        }
+      });
+    });
+  });
+</script>
 {% endblock %}

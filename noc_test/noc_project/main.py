@@ -181,8 +181,17 @@ def search(inputdata):
             #msg = 'Not Found data'
             break
     return(data)   
+
+@app.route('/noc_project/home/', methods=['GET', 'POST'])
+def circuit():
+    return render_template('circuit_detial.html')
 @app.route('/noc_project/home', methods=['GET', 'POST'])
 def home():
+    zone1 = []
+    zone2 = []
+    zone3 = []
+    zone4 = []
+    zone5 = []
     if 'loggedin' in session:
         data = []
         if request.method == "POST" and 'data_search' in request.form:
@@ -192,7 +201,7 @@ def home():
                 msg = "Not Found"
             else:
                 msg = "We Found"
-            return render_template('home.html', text=msg ,data = data)
+            return render_template('home.html', text=msg ,data = data,zone1 = zone1,zone2 = zone2,zone3 = zone3,zone4 = zone4,zone5 = zone5)
         if request.method == "POST" and 'data' in request.form:
             circuit = session['circuit']
             equipment = session['equipment']
@@ -207,6 +216,8 @@ def home():
             data = []
             data.append(res[0])
             index = res[0].index(res[1])
+            print(data)
+            print(res)
             # printing final result and its type
             if index == 0: #circuit_ID
                 zone1 = [res[0][1]] #Project Name
@@ -244,6 +255,7 @@ def home():
                 else:
                     zone5 = ['null']
                         #print(zone4[-1])
+                #print(zone1)
                 return render_template('circuit_detial.html',zone1 = zone1,zone2 = zone2,zone3 = zone3,zone4 = zone4,zone5 = zone5)
             elif index == 1:
                 zone1 = [res[1],res[0][0],res[0][3]] #Project Name , circuit_Id ,Serial_number 
@@ -316,7 +328,7 @@ def home():
                         zone4.append(i[0])
                 return render_template('serial_number_detial.html',zone1 = zone1,zone2 = zone2,zone3 = zone3,zone4 = zone4)
             return render_template('home.html', text=msg ,data = data)
-        return render_template('home.html', text='Hello '+str(session['role']),data = data)
+        return render_template('home.html', text='Hello '+str(session['role']),data = data,zone1 = zone1,zone2 = zone2,zone3 = zone3,zone4 = zone4,zone5 = zone5)
     return redirect(url_for('login'))
 
 

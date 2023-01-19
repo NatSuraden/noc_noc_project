@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, session,Markup
+from flask import Flask, render_template, request, redirect, url_for, session,Markup,jsonify
 from werkzeug.utils import secure_filename
 from flask_sqlalchemy import SQLAlchemy
 import psycopg2
@@ -71,6 +71,58 @@ def login():
         else:
             msg = 'Incorrect username/password!'
     return render_template('index.html', msg=msg)
+
+@app.route("/ajaxfile",methods=["POST","GET"])
+def ajaxfile():
+    if request.method == 'POST':
+        #circuit_data = request.get_json()
+        circuit_data = request.form['circuit_data']
+        print(circuit_data)
+        circuit = session['circuit']
+        equipment = session['equipment']
+        interface = session['interface']
+        #msg = request.form['data']
+        #circuit_data = request.form['circuit_data']
+        #print(a)
+        res = ast.literal_eval(circuit_data)
+        data = []
+        data.append(res[0])
+        index = res[0].index(res[1])
+        # printing final result and its type
+        if index == 0: #circuit_ID
+            zone1 = [res[0][1]] #Project Name
+            zone2 = [] #Detial circuit ทั้งหมด
+            zone3 = ["null","null","null"] #Equipment Model ,Equipment Brand ,Serial_numbe
+            zone4 = ["null","null"] #Physical Interface , VLAN_ID , Tunnel Interface Name
+            for i in circuit:
+                if i[0] == res[1]:
+                    zone2 = i
+                    zone3[-1] = i[1]
+                    break
+            for i in equipment:
+                if i[0] == zone3[-1]:
+                    zone3[0] = i[4]
+                    zone3[1] = i[3]
+                    break
+            for i in interface:
+                if i[1] == res[1]:
+                    zone4[0] = i[-3]
+                    zone4[1] = i[-2]
+                    zone4.append(i[-1])
+                    break
+            if len(zone4) == 0:
+                zone5 = ['null']
+            elif '\n' in zone4[-1]:
+                zone4[-1] = zone4[-1].split("\n")
+                zone5 = zone4[-1]
+            elif '\n' not in zone4[-1]:
+                zone5 = []
+                zone5.append(zone4[-1])
+            else:
+                zone5 = ['null']
+    #return jsonify(circuit_data)
+    return jsonify({'htmlcircuit_detial': render_template('circuit_detial.html',zone1 = zone1,zone2 = zone2,zone3 = zone3,zone4 = zone4,zone5 = zone5)})
+
 
 
 @app.route('/noc_project/logout')

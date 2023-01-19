@@ -93,7 +93,7 @@ for i in range(19):
                             site_search.append(data_in_process)
     elif i == 8:
         if inputdata[8] != '':
-            print('do',i)
+            # print('do',i)
             for n in equipment:
                 data_in_process = ["","","","","",""] 
                 if str(n[0]).upper() == str(inputdata[8]).upper():
@@ -395,14 +395,14 @@ for i in range(19):
                             pass
                         else:
                             circuit_search.append(data_in_process)
-# print("xxxxxxxxxxxxxxxxxxx")
-# print('project box')
-# for i in project_search:
-#     print(i)
-# print("xxxxxxxxxxxxxxxxxxx")
-# print('site box')
-# for i in site_search:
-#     print(i)
+print("xxxxxxxxxxxxxxxxxxx")
+print('project box')
+for i in project_search:
+    print(i)
+print("xxxxxxxxxxxxxxxxxxx")
+print('site box')
+for i in site_search:
+    print(i)
 
 print("xxxxxxxxxxxxxxxxxxx")
 print('equipment box')
