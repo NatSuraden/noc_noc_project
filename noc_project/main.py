@@ -77,20 +77,18 @@ def ajaxfile():
     if request.method == 'POST':
         #circuit_data = request.get_json()
         circuit_data = request.form['circuit_data']
-        print(circuit_data)
+        #print(circuit_data)
         circuit = session['circuit']
         equipment = session['equipment']
         interface = session['interface']
-        #msg = request.form['data']
-        #circuit_data = request.form['circuit_data']
-        #print(a)
+        site = session['site']
+        project = session['project']
+        contrat = session['contrat']
         res = ast.literal_eval(circuit_data)
-        data = []
-        data.append(res[0])
-        index = res[0].index(res[1])
         # printing final result and its type
-        if index == 0: #circuit_ID
-            zone1 = [res[0][1]] #Project Name
+        # print(res)
+        if len(res[0]) == 1:
+            zone1 = [res[0][0]] #Project Name
             zone2 = [] #Detial circuit ทั้งหมด
             zone3 = ["null","null","null"] #Equipment Model ,Equipment Brand ,Serial_numbe
             zone4 = ["null","null"] #Physical Interface , VLAN_ID , Tunnel Interface Name
@@ -109,6 +107,10 @@ def ajaxfile():
                     zone4[0] = i[-3]
                     zone4[1] = i[-2]
                     zone4.append(i[-1])
+                            # if '\n' in zone4[-1]:
+                            #     zone4[-1] = str(zone4[-1]).replace("\n"," <br /> ")
+                            # else:
+                            #     pass
                     break
             if len(zone4) == 0:
                 zone5 = ['null']
@@ -120,9 +122,112 @@ def ajaxfile():
                 zone5.append(zone4[-1])
             else:
                 zone5 = ['null']
-    #return jsonify(circuit_data)
-    return jsonify({'htmlcircuit_detial': render_template('circuit_detial.html',zone1 = zone1,zone2 = zone2,zone3 = zone3,zone4 = zone4,zone5 = zone5)})
+            return jsonify({'htmlcircuit_detial': render_template('circuit_detial.html',zone1 = zone1,zone2 = zone2,zone3 = zone3,zone4 = zone4,zone5 = zone5)})
+        else:
+            data = []
+            data.append(res[0])
+            index = res[0].index(res[1])
+            if index == 0: #circuit_ID
+                zone1 = [res[0][1]] #Project Name
+                zone2 = [] #Detial circuit ทั้งหมด
+                zone3 = ["null","null","null"] #Equipment Model ,Equipment Brand ,Serial_numbe
+                zone4 = ["null","null"] #Physical Interface , VLAN_ID , Tunnel Interface Name
+                for i in circuit:
+                    if i[0] == res[1]:
+                        zone2 = i
+                        zone3[-1] = i[1]
+                        break
+                for i in equipment:
+                    if i[0] == zone3[-1]:
+                        zone3[0] = i[4]
+                        zone3[1] = i[3]
+                        break
+                for i in interface:
+                    if i[1] == res[1]:
+                        zone4[0] = i[-3]
+                        zone4[1] = i[-2]
+                        zone4.append(i[-1])
+                        break
+                if len(zone4) == 0:
+                    zone5 = ['null']
+                elif '\n' in zone4[-1]:
+                    zone4[-1] = zone4[-1].split("\n")
+                    zone5 = zone4[-1]
+                elif '\n' not in zone4[-1]:
+                    zone5 = []
+                    zone5.append(zone4[-1])
+                else:
+                    zone5 = ['null']
+                return jsonify({'htmlcircuit_detial': render_template('circuit_detial.html',zone1 = zone1,zone2 = zone2,zone3 = zone3,zone4 = zone4,zone5 = zone5)})
+            elif index == 1:
+                    zone1 = [res[1],res[0][0],res[0][3]] #Project Name , circuit_Id ,Serial_number 
+                    zone2 = [] #project detials
+                    zone3 = [] #contrat
+                    for i in project:
+                        i = list(i)
+                        if i[0] == res[1]:
+                            i[2] = i[2].strftime("%d/%m/%y")
+                            i[3] = i[3].strftime("%d/%m/%y")
+                            i[4] = i[4].strftime("%d/%m/%y")
+                            i[5] = i[5].strftime("%d/%m/%y")
+                            for a in i:
+                                a = str(a).replace("\n"," <br/> ")
+                                a = Markup(a)
+                                zone2.append(a)
+                                #print(zone2)
+                            break
+                        #print(zone2)
+                    for i in contrat:
+                        if i[1] == res[1]:
+                            conlist = []
+                            for a in i:
+                                a = str(a).replace("\n"," <br/> ")
+                                a = Markup(a)   
+                                conlist.append(a)
+                            zone3.append(conlist)
 
+                        #print(zone3)
+                        #zone4 = zone3[-1]
+                        # zone4 = str(zone3[0]).replace("\n"," <br/> ")
+                        # zone4 = Markup(zone4)
+                        
+                    return jsonify({'htmlproject_detial': render_template('project_detial.html',zone1 = zone1,zone2 = zone2,zone3 = zone3)})
+            elif index == 2:
+                    zone1 = [res[0][1],res[0][0],res[0][3]] #Project Name , circuit_Id ,Serial_number
+                    zone2 = [] #site detials
+                    for i in site:
+                        if i[1] == zone1[0] and i[2] == res[1]:
+                            for a in i:
+                                a = str(a).replace("\n"," <br/> ")
+                                a = Markup(a)
+                                zone2.append(a) 
+                            break
+                    return jsonify({'htmlsite_detial': render_template('site_detial.html',zone1 = zone1,zone2 = zone2)})
+            elif index == 3: #Serial_number
+                    zone1 = [res[0][1]] #Project Name
+                    zone2 = [] #Detial Equipment
+                    zone3 = [] #Site_name
+                    zone4 = [] #Circuit_ID  list
+                    for i in equipment:
+                        #print(i[0],res[1])
+                        if i[0] == res[1]:
+                            zone2 = i
+                            zone2 = list(zone2)
+                            try:
+                                zone2[-3] = zone2[-3].strftime("%d/%m/%y")
+                                zone2[-4] = zone2[-4].strftime("%d/%m/%y")
+                            except: 
+                                pass
+                            break
+                    for i in site:
+                            #print(i)
+                        if i[1] == zone2[1] and i[2] == zone2[2]:
+                            zone3 = i
+                            break
+                    for i in circuit:
+                        if i[1] == res[1]:
+                            zone4.append(i[0])
+                    return jsonify({'htmlserial_number_detial': render_template('serial_number_detial.html',zone1 = zone1,zone2 = zone2,zone3 = zone3,zone4 = zone4)})
 
 
 @app.route('/noc_project/logout')
@@ -269,129 +374,6 @@ def home():
                 msg = "Not Found"
             else:
                 msg = "We Found"
-            return render_template('home.html', text=msg ,data = data)
-        if request.method == "POST" and 'data' in request.form:
-            circuit = session['circuit']
-            equipment = session['equipment']
-            interface = session['interface']
-            site = session['site']
-            project = session['project']
-            contrat = session['contrat']
-            msg = request.form['data']
-            a = request.form['data']
-            #print(a)
-            res = ast.literal_eval(a)
-            data = []
-            data.append(res[0])
-            index = res[0].index(res[1])
-            # printing final result and its type
-            if index == 0: #circuit_ID
-                zone1 = [res[0][1]] #Project Name
-                zone2 = [] #Detial circuit ทั้งหมด
-                zone3 = ["null","null","null"] #Equipment Model ,Equipment Brand ,Serial_numbe
-                zone4 = ["null","null"] #Physical Interface , VLAN_ID , Tunnel Interface Name
-                for i in circuit:
-                    if i[0] == res[1]:
-                        zone2 = i
-                        zone3[-1] = i[1]
-                        break
-                for i in equipment:
-                    if i[0] == zone3[-1]:
-                        zone3[0] = i[4]
-                        zone3[1] = i[3]
-                        break
-                for i in interface:
-                    if i[1] == res[1]:
-                        zone4[0] = i[-3]
-                        zone4[1] = i[-2]
-                        zone4.append(i[-1])
-                        # if '\n' in zone4[-1]:
-                        #     zone4[-1] = str(zone4[-1]).replace("\n"," <br /> ")
-                        # else:
-                        #     pass
-                        break
-                if len(zone4) == 0:
-                    zone5 = ['null']
-                elif '\n' in zone4[-1]:
-                    zone4[-1] = zone4[-1].split("\n")
-                    zone5 = zone4[-1]
-                elif '\n' not in zone4[-1]:
-                    zone5 = []
-                    zone5.append(zone4[-1])
-                else:
-                    zone5 = ['null']
-                        #print(zone4[-1])
-                return render_template('circuit_detial.html',zone1 = zone1,zone2 = zone2,zone3 = zone3,zone4 = zone4,zone5 = zone5)
-            elif index == 1:
-                zone1 = [res[1],res[0][0],res[0][3]] #Project Name , circuit_Id ,Serial_number 
-                zone2 = [] #project detials
-                zone3 = [] #contrat
-                for i in project:
-                    i = list(i)
-                    if i[0] == res[1]:
-                        i[2] = i[2].strftime("%d/%m/%y")
-                        i[3] = i[3].strftime("%d/%m/%y")
-                        i[4] = i[4].strftime("%d/%m/%y")
-                        i[5] = i[5].strftime("%d/%m/%y")
-                        for a in i:
-                            a = str(a).replace("\n"," <br/> ")
-                            a = Markup(a)
-                            zone2.append(a)
-                            #print(zone2)
-                        break
-                #print(zone2)
-                for i in contrat:
-                    if i[1] == res[1]:
-                        conlist = []
-                        for a in i:
-                            a = str(a).replace("\n"," <br/> ")
-                            a = Markup(a)   
-                            conlist.append(a)
-                        zone3.append(conlist)
-
-                #print(zone3)
-                #zone4 = zone3[-1]
-                # zone4 = str(zone3[0]).replace("\n"," <br/> ")
-                # zone4 = Markup(zone4)
-                
-                return render_template('project_detial.html',zone1 = zone1,zone2 = zone2,zone3 = zone3)
-            elif index == 2:
-                zone1 = [res[0][1],res[0][0],res[0][3]] #Project Name , circuit_Id ,Serial_number
-                zone2 = [] #site detials
-                for i in site:
-                    if i[1] == zone1[0] and i[2] == res[1]:
-                        for a in i:
-                            a = str(a).replace("\n"," <br/> ")
-                            a = Markup(a)
-                            zone2.append(a) 
-                        break
-                return render_template('site_detial.html',zone1 = zone1,zone2 = zone2)
-
-            elif index == 3: #Serial_number
-                zone1 = [res[0][1]] #Project Name
-                zone2 = [] #Detial Equipment
-                zone3 = [] #Site_name
-                zone4 = [] #Circuit_ID  list
-                for i in equipment:
-                    #print(i[0],res[1])
-                    if i[0] == res[1]:
-                        zone2 = i
-                        zone2 = list(zone2)
-                        try:
-                            zone2[-3] = zone2[-3].strftime("%d/%m/%y")
-                            zone2[-4] = zone2[-4].strftime("%d/%m/%y")
-                        except: 
-                            pass
-                        break
-                for i in site:
-                    #print(i)
-                    if i[1] == zone2[1] and i[2] == zone2[2]:
-                        zone3 = i
-                        break
-                for i in circuit:
-                    if i[1] == res[1]:
-                        zone4.append(i[0])
-                return render_template('serial_number_detial.html',zone1 = zone1,zone2 = zone2,zone3 = zone3,zone4 = zone4)
             return render_template('home.html', text=msg ,data = data)
         return render_template('home.html', text='Hello '+str(session['role']),data = data)
     return redirect(url_for('login'))

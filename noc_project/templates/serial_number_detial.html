@@ -1,9 +1,6 @@
-{% extends 'layout.html' %}
-
-{% block title %}Serial_number_detial{% endblock %}
-
-{% block content %}
-<h2>Detials Serial_number Page</h2>
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <div>
     <p>Your {{zone2[0]}} details are below:</p>
     <table>
@@ -96,15 +93,48 @@
     </table>
     <p>---------------------------------------------------------------</p>
     <table>
-        <form action="{{ url_for('serial_number_detial') }}" method="post">
+        <form action="{{ url_for('ajaxfile') }}" method="post">
         <tr><td>Circuit_ID list</td></tr>
         {% for row in zone4 %}
         <tr><td>###</td>
-            <td >{{row}} <button type = "submit" value="{{ [zone1[0]],row }}" name="data">+</button></td>
+            <td><button  data-id ='{{ [zone1[0]],row }}' class="userinfo btn btn-success">{{row}}</button></td>
             {% endfor %}
         </tr>
     </form>
     </table>
-    <h3>Thank you</h3>
 </div>
-{% endblock %}
+
+<div class="modal fade" id="empModal" role="dialog">
+              <div class="modal-dialog">
+                  <div class="modal-content">
+                      <div class="modal-header">
+                          <h4 class="modal-title">Details</h4>
+                        <button type="button" class="close" data-dismiss="modal">×</button>
+                      </div>
+                      <div class="modal-body"></div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                      </div>
+                  </div>
+              </div>
+      </div>
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('.userinfo').click(function(){
+      var circuit_data = $(this).data('id');
+      $.ajax({
+        url: '/ajaxfile',
+        type: 'post',
+        data: {circuit_data:circuit_data},
+        success: function(data){
+          $('.modal-body').html(data);
+          $('.modal-body').append(data.htmlcircuit_detial);
+          $('.modal-body').append(data.htmlproject_detial);
+          $('.modal-body').append(data.htmlsite_detial); 
+          $('.modal-body').append(data.htmlserial_number_detial); 
+          $('#empModal').modal('show');
+        }
+      });
+    });
+  });
+</script>

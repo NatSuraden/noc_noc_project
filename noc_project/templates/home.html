@@ -30,10 +30,10 @@
           <tbody> 
             {% for row in data %}
               <tr> 
-                <td data-id ='{{row,row[0]}}' class="userinfo btn btn-success">{{row[0]}}</td>
-                <td>{{row[1]}}<button type = "submit" value="{{row,row[1]}}" name="data">+</button></td>
-                <td>{{row[2]}}<button type = "submit" value="{{row,row[2]}}" name="data">+</button></td>
-                <td>{{row[3]}}<button type = "submit" value="{{row,row[3]}}" name="data">+</button></td>
+                <td><button  data-id ='{{row,row[0]}}' class="userinfo btn btn-success">{{row[0]}}</button></td>
+                <td><button  data-id ='{{row,row[1]}}' class="userinfo btn btn-success">{{row[1]}}</button></td>
+                <td><button  data-id ='{{row,row[2]}}' class="userinfo btn btn-success">{{row[2]}}</button></td>
+                <td><button  data-id ='{{row,row[3]}}' class="userinfo btn btn-success">{{row[3]}}</button></td>
                 <td>{{row[4]}}</td>
                 <td>{{row[5]}}</td>
               </tr> 
@@ -64,6 +64,9 @@
         success: function(data){
           $('.modal-body').html(data);
           $('.modal-body').append(data.htmlcircuit_detial);
+          $('.modal-body').append(data.htmlproject_detial);
+          $('.modal-body').append(data.htmlsite_detial); 
+          $('.modal-body').append(data.htmlserial_number_detial); 
           $('#empModal').modal('show');
         }
       });
