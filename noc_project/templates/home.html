@@ -30,7 +30,7 @@
           <tbody> 
             {% for row in data %}
               <tr> 
-                <td>{{row[0]}}<button  data-id ='{{row,row[0]}}' class="userinfo btn btn-success">+</button></td>
+                <td data-id ='{{row,row[0]}}' class="userinfo btn btn-success">{{row[0]}}</td>
                 <td>{{row[1]}}<button type = "submit" value="{{row,row[1]}}" name="data">+</button></td>
                 <td>{{row[2]}}<button type = "submit" value="{{row,row[2]}}" name="data">+</button></td>
                 <td>{{row[3]}}<button type = "submit" value="{{row,row[3]}}" name="data">+</button></td>
@@ -43,7 +43,7 @@
               <div class="modal-dialog">
                   <div class="modal-content">
                       <div class="modal-header">
-                          <h4 class="modal-title">User Info</h4>
+                          <h4 class="modal-title">Details</h4>
                         <button type="button" class="close" data-dismiss="modal">×</button>
                       </div>
                       <div class="modal-body"></div>
