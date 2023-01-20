@@ -414,4 +414,27 @@ print('circuit box')
 for i in circuit_search:
     print(i)
 
+best = []
+for i in range(4):
+    if i == 0:
+        for x in equipment_search:
+            best.append(x)
+    elif i == 1:
+        for x in circuit_search:
+            if x not in best:
+                best.append(x)
+    elif i == 2:
+        for x in site_search:
+            if x not in best:
+                best.append(x)
+    elif i == 4:
+        for x in project_search:
+            if x not in project_search:
+                best.append(x)
+print("xxxxxxxxxxxxxxxxxxx")
+print('best math box')
+for i in best:
+    print(i)
+
+
 
