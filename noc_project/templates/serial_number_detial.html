@@ -95,9 +95,9 @@
     <table>
         <form action="{{ url_for('ajaxfile') }}" method="post">
         <tr><td>Circuit_ID list</td></tr>
-        {% for row in zone4 %}
-        <tr><td>###</td>
-            <td><button  data-id ='{{ [zone1[0]],row }}' class="userinfo btn btn-success">{{row}}</button></td>
+        {% for row in range(zone4_num) %}
+        <tr><td>{{row}}</td>
+            <td><button  data-id ='{{ [zone1[0]],zone4[row] }}' class="userinfo btn btn-success">{{zone4[row]}}</button></td>
             {% endfor %}
         </tr>
     </form>

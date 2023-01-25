@@ -122,7 +122,8 @@ def ajaxfile():
                 zone5.append(zone4[-1])
             else:
                 zone5 = ['null']
-            return jsonify({'htmlcircuit_detial': render_template('circuit_detial.html',zone1 = zone1,zone2 = zone2,zone3 = zone3,zone4 = zone4,zone5 = zone5)})
+            zone5_num = len(zone5)
+            return jsonify({'htmlcircuit_detial': render_template('circuit_detial.html',zone1 = zone1,zone2 = zone2,zone3 = zone3,zone4 = zone4,zone5 = zone5,zone5_num = zone5_num)})
         else:
             data = []
             data.append(res[0])
@@ -158,7 +159,8 @@ def ajaxfile():
                     zone5.append(zone4[-1])
                 else:
                     zone5 = ['null']
-                return jsonify({'htmlcircuit_detial': render_template('circuit_detial.html',zone1 = zone1,zone2 = zone2,zone3 = zone3,zone4 = zone4,zone5 = zone5)})
+                zone5_num = len(zone5)
+                return jsonify({'htmlcircuit_detial': render_template('circuit_detial.html',zone1 = zone1,zone2 = zone2,zone3 = zone3,zone4 = zone4,zone5 = zone5,zone5_num = zone5_num)})
             elif index == 1:
                     zone1 = [res[1],res[0][0],res[0][3]] #Project Name , circuit_Id ,Serial_number 
                     zone2 = [] #project detials
@@ -227,7 +229,8 @@ def ajaxfile():
                     for i in circuit:
                         if i[1] == res[1]:
                             zone4.append(i[0])
-                    return jsonify({'htmlserial_number_detial': render_template('serial_number_detial.html',zone1 = zone1,zone2 = zone2,zone3 = zone3,zone4 = zone4)})
+                    zone4_num = len(zone4)
+                    return jsonify({'htmlserial_number_detial': render_template('serial_number_detial.html',zone1 = zone1,zone2 = zone2,zone3 = zone3,zone4 = zone4,zone4_num=zone4_num)})
 
 
 @app.route('/noc_project/logout')
@@ -369,6 +372,9 @@ def home():
         data = []
         if request.method == "POST" and 'data_search' in request.form:
             search_data = request.form['data_search']
+            data_time = request.form['data_time']
+            print(data_time)
+            print(type(data_time))
             data = search(search_data)
             if len(data) == 0:
                 msg = "Not Found"
