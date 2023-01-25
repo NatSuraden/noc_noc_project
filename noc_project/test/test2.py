@@ -1,5 +1,13 @@
 import pandas as pd
 import psycopg2
+import time
+import datetime
+from datetime import datetime
+
+connection = psycopg2.connect(user="postgres",password="pplus1234",host="127.0.0.1",port="5432",database="python2565")
+cursor = connection.cursor()
+cursor.execute('SELECT * FROM project')
+project = cursor.fetchall()
 # data = pd.read_excel("noc_project/upload/NOC Web parameter v3.xlsx",sheet_name='Project')
 # data.fillna('', inplace=True)
 # #print(data)
@@ -28,12 +36,26 @@ import psycopg2
 # test_str = "ABCDE\Gnadasdasdas"
 # if "\n" in test_str:
 #     print(True)
-a = ['J12418', 'Makro', 'ลาดกระบัง', 'J108EN5920004706', '10.11.220.10', '171.103.210.226']
-b = "a"
+# from datetime import datetime
 
-for i in a:
-    if b in i:
-        print(i)
+datetime_str1 = ['09/09/22','10/09/22','11/09/22','01/01/19']
+datetime_str12 = []
+for i in datetime_str1:
+    datetime_object = datetime.strptime(i, '%d/%m/%y')
+    datetime_str12.append(datetime_object)
+
+a = datetime_str12[-1]
+print(a)
+# for i in datetime_str12:
+#     if i < a:
+#         print(i)
+
+for i in project:
+    #print(i[2])
+    if i[2] > a:
+        print(i[2],"True")
+    
+
 
 
     

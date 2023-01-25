@@ -90,7 +90,7 @@ def ajaxfile():
         if len(res[0]) == 1:
             zone1 = [res[0][0]] #Project Name
             zone2 = [] #Detial circuit ทั้งหมด
-            zone3 = ["null","null","null"] #Equipment Model ,Equipment Brand ,Serial_numbe
+            zone3 = ["null","null","null"] #Equipment Model ,Equipment Brand ,Serial_number
             zone4 = ["null","null"] #Physical Interface , VLAN_ID , Tunnel Interface Name
             for i in circuit:
                 if i[0] == res[1]:
@@ -131,7 +131,7 @@ def ajaxfile():
             if index == 0: #circuit_ID
                 zone1 = [res[0][1]] #Project Name
                 zone2 = [] #Detial circuit ทั้งหมด
-                zone3 = ["null","null","null"] #Equipment Model ,Equipment Brand ,Serial_numbe
+                zone3 = ["null","null","null"] #Equipment Model ,Equipment Brand ,Serial_number
                 zone4 = ["null","null"] #Physical Interface , VLAN_ID , Tunnel Interface Name
                 for i in circuit:
                     if i[0] == res[1]:
