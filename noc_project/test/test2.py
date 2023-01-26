@@ -38,7 +38,7 @@ project = cursor.fetchall()
 #     print(True)
 # from datetime import datetime
 
-datetime_str1 = ['09/09/22','10/09/22','11/09/22','01/01/19']
+datetime_str1 = ['09/09/22','10/09/22','11/09/22','12/09/22']
 datetime_str12 = []
 for i in datetime_str1:
     datetime_object = datetime.strptime(i, '%d/%m/%y')
@@ -55,6 +55,13 @@ for i in project:
     if i[2] > a:
         print(i[2],"True")
     
+
+
+date_str = '2023-01-26'
+
+date_object = datetime.strptime(date_str, '%Y-%m-%d')
+print(type(date_object))
+print(date_object)  # printed in default format
 
 
 
