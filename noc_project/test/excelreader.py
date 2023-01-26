@@ -2,29 +2,29 @@ import pandas as pd
 import psycopg2
 
 # Table circuit                DONE
-# data = pd.read_excel("noc_project/upload/NOC Web parameter v3.xlsx",sheet_name='Circuit')
-# #print(data)
-# #print(list(data))
-# data = data.values.tolist()
-# connection = psycopg2.connect(user="postgres",password="pplus1234",host="127.0.0.1",port="5432",database="python2565")
-# for i in data:
-#     i[-3] = str(i[-3]).upper()
-#     i[-2] = str(i[-2]).upper()
-#     cursor = connection.cursor()
-#     #cursor.execute('SELECT * FROM circuit WHERE equipment_ref = %s AND owner_isp = %s', (a, b,))
-#     cursor.execute('SELECT * FROM circuit WHERE circuit_id = %s AND equipment_ref = %s AND ip_address_pe = %s',(i[1],i[0],i[2],))
-#     data_in_base = cursor.fetchall()
-#     if data_in_base:
-#         print("ERROR")
-#     else:
-#         postgres_insert_query = """ INSERT INTO circuit (circuit_id, equipment_ref, ip_address_pe,ip_address_ce,subnet,loopback,circuit_type,
-#         link_number,original_isp,owner_isp,isp_contact_tel) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
-#         cursor.execute(postgres_insert_query,(i[1],i[0],i[2],i[3],i[4],i[5],i[6],
-#         i[7],i[8],i[9],i[10]))
-#         connection.commit()
-#         print("successfully in PostgreSOL ")
-# cursor.close()
-# connection.close()
+data = pd.read_excel("noc_project/upload/NOC Web parameter v3.xlsx",sheet_name='Circuit')
+#print(data)
+#print(list(data))
+data = data.values.tolist()
+connection = psycopg2.connect(user="postgres",password="pplus1234",host="127.0.0.1",port="5432",database="python2565")
+for i in data:
+    i[-3] = str(i[-3]).upper()
+    i[-2] = str(i[-2]).upper()
+    cursor = connection.cursor()
+    #cursor.execute('SELECT * FROM circuit WHERE equipment_ref = %s AND owner_isp = %s', (a, b,))
+    cursor.execute('SELECT * FROM circuit WHERE circuit_id = %s AND equipment_ref = %s AND ip_address_pe = %s',(i[1],i[0],i[2],))
+    data_in_base = cursor.fetchall()
+    if data_in_base:
+        print("ERROR")
+    else:
+        postgres_insert_query = """ INSERT INTO circuit (circuit_id, equipment_ref, ip_address_pe,ip_address_ce,subnet,loopback,circuit_type,
+        link_number,original_isp,owner_isp,isp_contact_tel) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
+        cursor.execute(postgres_insert_query,(i[1],i[0],i[2],i[3],i[4],i[5],i[6],
+        i[7],i[8],i[9],i[10]))
+        connection.commit()
+        print("successfully in PostgreSOL ")
+cursor.close()
+connection.close()
 
 # ##Table equipment       DONE
 # connection = psycopg2.connect(user="postgres",password="pplus1234",host="127.0.0.1",port="5432",database="python2565")
@@ -46,29 +46,29 @@ import psycopg2
 #         connection.commit()
 #         print("successfully in PostgreSOL ")
 
-# Table project      DONE 0.5 
-connection = psycopg2.connect(user="postgres",password="pplus1234",host="127.0.0.1",port="5432",database="python2565")
-cursor = connection.cursor()
-data = pd.read_excel("noc_project/upload/NOC Web parameter v3.xlsx",sheet_name='Project')
-data.fillna('', inplace=True)
+# # Table project      DONE 0.5 
+# connection = psycopg2.connect(user="postgres",password="pplus1234",host="127.0.0.1",port="5432",database="python2565")
+# cursor = connection.cursor()
+# data = pd.read_excel("noc_project/upload/NOC Web parameter v3.xlsx",sheet_name='Project')
+# data.fillna('', inplace=True)
 
-data = data.values.tolist()
+# data = data.values.tolist()
 
-data = data[:-1]
-for i in data:
-    #print(type(i[2]))
-    cursor.execute('SELECT * FROM project WHERE project_name = %s AND s_o = %s AND customer_start_of_contract = %s',(i[0],i[1],i[2],))
-    #cursor.execute('SELECT * FROM project WHERE project_name = %s AND s_o = %s AND customer_start_of_contract = %s',(i[0],i[1],i[2],))
-    data_in_base = cursor.fetchall()
-    if data_in_base:
-        print("ERROR")
-    else:
-        postgres_insert_query = """ INSERT INTO project (project_name,s_o,customer_start_of_contract,customer_end_of_contract,
-        disty_start_of_contract,disty_end_of_contract,vpn_detail,Important_Detail,
-        Addition_Detail,Remark) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
-        cursor.execute(postgres_insert_query,(i[0],i[1],i[2],i[3],i[4],i[5],i[6],i[7],i[8],i[9]))
-        connection.commit()
-        print("successfully in PostgreSOL ")
+# data = data[:-1]
+# for i in data:
+#     #print(type(i[2]))
+#     cursor.execute('SELECT * FROM project WHERE project_name = %s AND s_o = %s AND customer_start_of_contract = %s',(i[0],i[1],i[2],))
+#     #cursor.execute('SELECT * FROM project WHERE project_name = %s AND s_o = %s AND customer_start_of_contract = %s',(i[0],i[1],i[2],))
+#     data_in_base = cursor.fetchall()
+#     if data_in_base:
+#         print("ERROR")
+#     else:
+#         postgres_insert_query = """ INSERT INTO project (project_name,s_o,customer_start_of_contract,customer_end_of_contract,
+#         disty_start_of_contract,disty_end_of_contract,vpn_detail,Important_Detail,
+#         Addition_Detail,Remark) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
+#         cursor.execute(postgres_insert_query,(i[0],i[1],i[2],i[3],i[4],i[5],i[6],i[7],i[8],i[9]))
+#         connection.commit()
+#         print("successfully in PostgreSOL ")
  
 #TABLE site DONE
 # connection = psycopg2.connect(user="postgres",password="pplus1234",host="127.0.0.1",port="5432",database="python2565")
