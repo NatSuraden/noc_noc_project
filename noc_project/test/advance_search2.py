@@ -4,7 +4,7 @@ connection = psycopg2.connect(user="postgres",password="pplus1234",host="127.0.0
 cursor = connection.cursor()
 #circuit = 'J12418' "SELECT * FROM circuit WHERE circuit_id ='J12418'"
 inputdata = ['Makro','SO200162','','','','','ลาดกระบัง','LKB-S129',
-'','FortinetG','FG-60F','SiS Distribution (Thailand) PCL.','2022-10-02','','Yes','V53802','10.99.178.18','10.11.220.8','TRUE']
+'','Fortinet','FG-60F','SiS Distribution (Thailand) PCL.','2022-10-02','','Yes','V53802','10.99.178.18','10.11.220.8','TRUE']
 def W_chack(sql):
     sql_str = sql
     sql_list = sql.split(' ')
@@ -16,19 +16,28 @@ def W_chack(sql):
         return(sql_str)
 
 
-sql = "SELECT * FROM circuit"
-if inputdata[-4] != '':
+sql = "SELECT * FROM equipment"
+if inputdata[8] != '':
     sql = W_chack(sql)
-    sql = sql+" circuit_id = '{}' ".format(inputdata[-4])
-if inputdata[-3] != '':
+    sql = sql+" serial_number = '{}' ".format(inputdata[8])
+if inputdata[9] != '':
     sql = W_chack(sql)
-    sql = sql+" ip_address_ce = '{}' ".format(inputdata[-3])
-if inputdata[-2] != '':
+    sql = sql+" brand = '{}' ".format(inputdata[9])
+if inputdata[10] != '':
     sql = W_chack(sql)
-    sql = sql+" Loopback = '{}' ".format(inputdata[-2])
-if inputdata[-1] != '':
+    sql = sql+" model = '{}' ".format(inputdata[10])
+if inputdata[11] != '':
     sql = W_chack(sql)
-    sql = sql+" owner_isp = '{}' ".format(inputdata[-1])
+    sql = sql+" disty_name = '{}' ".format(inputdata[11])
+if inputdata[12] != '':
+    sql = W_chack(sql)
+    sql = sql+" start_of_warranty >= '{}' ".format(inputdata[12])
+if inputdata[13] != '':
+    sql = W_chack(sql)
+    sql = sql+" end_of_warranty <= '{}' ".format(inputdata[13])
+if inputdata[13] != '':
+    sql = W_chack(sql)
+    sql = sql+" ha_status = '{}' ".format(inputdata[14])
 print(sql)
 cursor.execute(sql)
 equipment = cursor.fetchall()
