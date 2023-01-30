@@ -4,14 +4,53 @@ connection = psycopg2.connect(user="postgres",password="pplus1234",host="127.0.0
 cursor = connection.cursor()
 #circuit = 'J12418' "SELECT * FROM circuit WHERE circuit_id ='J12418'"
 inputdata = ['Makro','SO200162','','','','','ลาดกระบัง','LKB-S129',
-'','FortinetG','FG-60F','SiS Distribution (Thailand) PCL.','2022-10-02','','Yes','V53802','10.99.178.18','222','TRUE']
+'','FortinetG','FG-60F','SiS Distribution (Thailand) PCL.','2022-10-02','','Yes','V53802','10.99.178.18','10.11.220.8','TRUE']
+def W_chack(sql):
+    sql_str = sql
+    sql_list = sql.split(' ')
+    if "Where" not in sql_list:
+        sql_str = sql_str+" Where"
+        return(sql_str)
+    else:
+        sql_str = sql_str+" and"
+        return(sql_str)
+
 
 sql = "SELECT * FROM circuit"
-#sql += "WHERE circuit_id ='J12418'"
 if inputdata[-4] != '':
-    sql = sql+" WHere circuit_id = '{}' ".format(inputdata[-4])
+    sql = W_chack(sql)
+    sql = sql+" circuit_id = '{}' ".format(inputdata[-4])
 if inputdata[-3] != '':
-    sql = sql+"and ip_address_ce = '{}'".format(inputdata[-3])
+    sql = W_chack(sql)
+    sql = sql+" ip_address_ce = '{}' ".format(inputdata[-3])
+if inputdata[-2] != '':
+    sql = W_chack(sql)
+    sql = sql+" Loopback = '{}' ".format(inputdata[-2])
+if inputdata[-1] != '':
+    sql = W_chack(sql)
+    sql = sql+" owner_isp = '{}' ".format(inputdata[-1])
+print(sql)
+cursor.execute(sql)
+equipment = cursor.fetchall()
+print(equipment)
+
+
+
+
+sql = "SELECT * FROM circuit"
+if inputdata[-4] != '':
+    sql = W_chack(sql)
+    sql = sql+" circuit_id = '{}' ".format(inputdata[-4])
+if inputdata[-3] != '':
+    sql = W_chack(sql)
+    sql = sql+" ip_address_ce = '{}' ".format(inputdata[-3])
+if inputdata[-2] != '':
+    sql = W_chack(sql)
+    sql = sql+" Loopback = '{}' ".format(inputdata[-2])
+if inputdata[-1] != '':
+    sql = W_chack(sql)
+    sql = sql+" owner_isp = '{}' ".format(inputdata[-1])
+print(sql)
 cursor.execute(sql)
 circuit = cursor.fetchall()
 print(circuit)
