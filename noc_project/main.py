@@ -372,9 +372,9 @@ def home():
         data = []
         if request.method == "POST" and 'data_search' in request.form:
             search_data = request.form['data_search']
-            data_time = request.form['data_time']
-            print(data_time)
-            print(type(data_time))
+            #data_time = request.form['data_time']
+            # print(data_time)
+            # print(type(data_time))
             data = search(search_data)
             if len(data) == 0:
                 msg = "Not Found"
@@ -384,6 +384,12 @@ def home():
         return render_template('home.html', text='Hello '+str(session['role']),data = data)
     return redirect(url_for('login'))
 
+@app.route('/noc_project/advance_search', methods=['GET', 'POST'])
+def advanced_search():
+    data = []
+    if request.method == "POST":
+        pass
+    return render_template('advanced_search.html', text='Hello '+str(session['role']),data = data)
 
 @app.route('/noc_project/serial_number_detial', methods=['GET', 'POST'])
 def serial_number_detial():

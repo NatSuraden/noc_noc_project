@@ -1,6 +1,6 @@
 {% extends 'layout.html' %}
 
-{% block title %}Home{% endblock %}
+{% block title %}Advanced{% endblock %}
 
 {% block content %}
 <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
@@ -13,12 +13,8 @@
     }
     </style>
 <p>{{ text }}!</p>
-<form action="{{ url_for('home') }}" method="post">
-<p>search <input type="text" name="data_search" placeholder="search" required>
- <input type = "submit"/></p>
-  </form>
-<p><a href="{{ url_for('advanced_search') }}">advanced search</a></p>
     <table style="width:100%">
+        <caption>Main Table</caption>
             <tr>
                 <th>circuit_id</th>
                 <th>project_name</th>
