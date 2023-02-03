@@ -387,9 +387,43 @@ def home():
 @app.route('/noc_project/advance_search', methods=['GET', 'POST'])
 def advanced_search():
     data = []
+    project = session['project']
+    equipment = session['equipment']
+    site = session['site']
+    site2 = [[],[]]
+    circuit = session['circuit']
+    circuit2 = []
+    equipment2 = [[],[],[],[]]
+    for i in site:
+        if i[2] not in site2[0]:
+            site2[0].append(i[2])
+        if i[-1] not in site2[-1]:
+            site2[-1].append(i[-1])
+    for i in circuit:
+        if i[-2] not in circuit2:
+            circuit2.append(i[-2])
+    for i in equipment:
+        if i[3] not in equipment2[0]:
+            equipment2[0].append(i[3])
+        if i[4] not in equipment2[1]:
+            equipment2[1].append(i[4])
+        if i[5] not in equipment2[2]:
+            equipment2[2].append(i[5])
+        if i[-2] not in equipment2[3]:
+            equipment2[3].append(i[-2])
     if request.method == "POST":
-        pass
-    return render_template('advanced_search.html', text='Hello '+str(session['role']),data = data)
+        inputdata = [request.form['project_name'],request.form['s_o'],request.form['customer_start_contract'],
+        request.form['customer_end_contract'],request.form['disty_Start_contract'],request.form['disty_End_contract'],
+
+        request.form['site_name'],request.form['site_type'],
+
+        request.form['serial_number'],request.form['equipment_brand'],request.form['equipment_model'],
+        request.form['disty_name'],request.form['start_of_warranty'],request.form['end_of_warranty'],request.form['ha_status'],
+
+        request.form['circuit_id'],request.form['ip_address_ce'],request.form['ip_loopback'],request.form['owner_isp'],]
+        print(inputdata)
+    return render_template('advanced_search.html', text='Hello '+str(session['role']),data = data,project=project,
+    equipment = equipment,equipment2=equipment2,circuit=circuit,circuit2=circuit2,site2 = site2)
 
 @app.route('/noc_project/serial_number_detial', methods=['GET', 'POST'])
 def serial_number_detial():

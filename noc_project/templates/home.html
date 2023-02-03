@@ -31,10 +31,10 @@
           <tbody> 
             {% for row in data %}
               <tr> 
-                <td><button  data-id ='{{row,row[0]}}' class="userinfo btn btn-success">{{row[0]}}</button></td>
-                <td><button  data-id ='{{row,row[1]}}' class="userinfo btn btn-success">{{row[1]}}</button></td>
-                <td><button  data-id ='{{row,row[2]}}' class="userinfo btn btn-success">{{row[2]}}</button></td>
-                <td><button  data-id ='{{row,row[3]}}' class="userinfo btn btn-success">{{row[3]}}</button></td>
+                <td><button  data-id ='{{row,row[0]}}' class="details_data btn btn-success">{{row[0]}}</button></td>
+                <td><button  data-id ='{{row,row[1]}}' class="details_data btn btn-success">{{row[1]}}</button></td>
+                <td><button  data-id ='{{row,row[2]}}' class="details_data btn btn-success">{{row[2]}}</button></td>
+                <td><button  data-id ='{{row,row[3]}}' class="details_data btn btn-success">{{row[3]}}</button></td>
                 <td>{{row[4]}}</td>
                 <td>{{row[5]}}</td>
               </tr> 
@@ -57,7 +57,7 @@
 
 <script type="text/javascript">
   $(document).ready(function(){
-    $('.userinfo').click(function(){
+    $('.details_data').click(function(){
       var circuit_data = $(this).data('id');
       $.ajax({
         url: '/ajaxfile',

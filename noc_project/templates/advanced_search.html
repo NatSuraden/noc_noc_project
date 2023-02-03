@@ -12,7 +12,106 @@
       border-collapse: collapse;
     }
     </style>
+<datalist id="projectname">
+    {% for PN in project %}
+    <option>{{PN[0]}}</option>
+    {% endfor %}
+  </datalist>
+
+  <datalist id="S_O">
+    {% for SO in project %}
+    <option>{{SO[1]}}</option>
+    {% endfor %}
+  </datalist>
+
+  <datalist id="s_n">
+    {% for sn in equipment %}
+    <option>{{sn[0]}}</option>
+    {% endfor %}
+  </datalist>
+
+  <datalist id="e_b">
+    {% for eb in equipment2[0] %}
+    <option>{{eb}}</option>
+    {% endfor %}
+  </datalist>
+
+  <datalist id="e_m">
+    {% for em in equipment2[1] %}
+    <option>{{em}}</option>
+    {% endfor %}
+  </datalist>
+
+  <datalist id="d_n">
+    {% for dn in equipment2[2] %}
+    <option>{{dn}}</option>
+    {% endfor %}
+  </datalist>
+
+  <datalist id="ha">
+    {% for ha in equipment2[-1] %}
+    <option>{{ha}}</option>
+    {% endfor %}
+  </datalist>
+
+  <datalist id="c_i">
+    {% for ci in circuit %}
+    <option>{{ci[0]}}</option>
+    {% endfor %}
+  </datalist>
+
+  <datalist id="ip_ce">
+    {% for ip_ce in circuit %}
+    <option>{{ip_ce[3]}}</option>
+    {% endfor %}
+  </datalist>
+
+  <datalist id="ip_lb">
+    {% for ip_lb in circuit %}
+    <option>{{ip_lb[5]}}</option>
+    {% endfor %}
+  </datalist>
+
+  <datalist id="o_i">
+    {% for oi in circuit2 %}
+    <option>{{oi}}</option>
+    {% endfor %}
+  </datalist>
+
+  <datalist id="s_name">
+    {% for oi in site2[0] %}
+    <option>{{oi}}</option>
+    {% endfor %}
+  </datalist>
+
+  <datalist id="s_type">
+    {% for oi in site2[-1] %}
+    <option>{{oi}}</option>
+    {% endfor %}
+  </datalist>
+
 <p>{{ text }}!</p>
+<form action="{{ url_for('advanced_search') }}" method="post">
+<p>Project Name <input type="text" list="projectname" name="project_name"/> 
+S/O <input type="text" list="S_O" name="s_o"/></p>
+<p>PPLUS-Customer Start Contract <input type="date" name="customer_start_contract"> 
+PPLUS-Customer End Contract <input type="date" name="customer_end_contract">
+<p> PPLUS-Vendor Start Contract <input type="date" name="disty_Start_contract">
+PPLUS-Vendor END Contract <input type="date" name="disty_End_contract"></p>
+<p>*</p>
+<p> Site name <input type="text" list="s_name" name="site_name">
+    Site Type <input type="text" list="s_type" name="site_type"></p>
+<p>*</p>
+<p>Serial number <input type="text" list="s_n" name="serial_number"/> Equipment Brand <input type="text" list="e_b" name="equipment_brand"/></p>
+<p>Equipment Model <input type="text" list="e_m" name="equipment_model"/> Disty-name <input type="text" list="d_n" name="disty_name"/></p>
+<p> Equipment Start of warranty <input type="date" name="start_of_warranty">
+    Equipment End of warranty <input type="date" name="end_of_warranty"></p>
+<p>HA Status <input type="text" list="ha" name="ha_status"/></p>
+<p>*</p>
+<p>Circuit ID <input type="text" list="c_i" name="circuit_id"/> IP address CE <input type="text" list="ip_ce" name="ip_address_ce"/></p>
+<p>IP Loopback <input type="text" list="ip_lb" name="ip_loopback"/> Owner ISP <input type="text" list="o_i" name="owner_isp"/></p>
+
+<p><input type = "submit"/></p></form>
     <table style="width:100%">
         <caption>Main Table</caption>
             <tr>
