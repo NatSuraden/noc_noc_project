@@ -394,6 +394,10 @@ def advanced_search():
     circuit = session['circuit']
     circuit2 = []
     equipment2 = [[],[],[],[]]
+    circuit_table = []
+    equipment_table = []
+    project_table = []
+    site_table = []
     for i in site:
         if i[2] not in site2[0]:
             site2[0].append(i[2])
@@ -421,9 +425,16 @@ def advanced_search():
         request.form['disty_name'],request.form['start_of_warranty'],request.form['end_of_warranty'],request.form['ha_status'],
 
         request.form['circuit_id'],request.form['ip_address_ce'],request.form['ip_loopback'],request.form['owner_isp']]
-        main_table = adv_search(inputdata)
+        table_data = adv_search(inputdata)
+        main_table = table_data[0]
+        circuit_table = table_data[1]
+        equipment_table = table_data[2]
+        project_table = table_data[3]
+        site_table = table_data[4]
+
     return render_template('advanced_search.html', text='Hello '+str(session['role']),main_table = main_table,project=project,
-    equipment = equipment,equipment2=equipment2,circuit=circuit,circuit2=circuit2,site2 = site2)
+    equipment = equipment,equipment2=equipment2,circuit=circuit,circuit2=circuit2,site2 = site2 ,project_table = project_table,
+    site_table = site_table,equipment_table = equipment_table,circuit_table= circuit_table)
 
 @app.route('/noc_project/serial_number_detial', methods=['GET', 'POST'])
 def serial_number_detial():
@@ -786,7 +797,7 @@ def adv_search(inputdata):
         for i in equipment_all:
             data_in_process = ["","","","","",""] #serial_number added
             #print(i[1])
-            if str(i[1]).upper() == str(n[1]).upper():
+            if str(i[2]).upper() == str(n[2]).upper():
                 data_in_process[3] = i[0]
                 data_in_process[2] = i[2] #site_name added
                 data_in_process[1] = i[1] #project_name added
@@ -909,8 +920,11 @@ def adv_search(inputdata):
                     table_main_data.append(i)
         except:
             pass
-    print(equipment_table)
-    return table_main_data
+
+    table_list = [table_main_data,circuit_table,equipment_table,project_table,site_table]
+    return table_list
+
+
 if __name__ == '__main__' :
     app.run(debug=True)
 

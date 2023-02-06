@@ -3,8 +3,8 @@ from datetime import datetime
 connection = psycopg2.connect(user="postgres",password="pplus1234",host="127.0.0.1",port="5432",database="python2565")
 cursor = connection.cursor()
 #circuit = 'J12418' "SELECT * FROM circuit WHERE circuit_id ='J12418'"
-inputdata = ['','','','','','','','',
-'','','','','','2024-09-02 00:00:00','','','','','']
+inputdata = ['','','','','','','HQ','',
+'','','','','','','','','','','']
 def W_chack(sql):
     sql_str = sql
     sql_list = sql.split(' ')
@@ -177,11 +177,12 @@ for i in equipment:
 
 site_table = []
 for n in site:
-    #print(n[1])
+    #print(n[2])
     for i in equipment_all:
         data_in_process = ["","","","","",""] #serial_number added
-        #print(i[1])
-        if str(i[1]).upper() == str(n[1]).upper():
+        #print(i[2])
+        if str(i[2]).upper() == str(n[2]).upper():
+            #print("True")
             data_in_process[3] = i[0]
             data_in_process[2] = i[2] #site_name added
             data_in_process[1] = i[1] #project_name added
@@ -192,7 +193,7 @@ for n in site:
                     data_in_process[-1] = x[3]  #IP_address_CE added
                     break
             site_table.append(data_in_process)
-#print(site_table)
+print(site_table)
 
 project_table = []
 for n in project:

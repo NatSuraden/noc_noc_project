@@ -135,6 +135,108 @@ PPLUS-Vendor END Contract <input type="date" name="disty_End_contract"></p>
               </tr> 
             {% endfor %}
 
+            <table style="width:100%">
+              <caption>Project Table</caption>
+                  <tr>
+                      <th>circuit_id</th>
+                      <th>project_name</th>
+                      <th>site_name</th>
+                      <th>serial_number</th>
+                      <th>Equipment_Loopback</th>
+                      <th>IP_address_CE</th>
+                    </tr>
+                </thead>
+                <tbody> 
+                  {% for row in project_table %}
+                    <tr> 
+                      <td><button  data-id ='{{row,row[0]}}' class="userinfo btn btn-success">{{row[0]}}</button></td>
+                      <td><button  data-id ='{{row,row[1]}}' class="userinfo btn btn-success">{{row[1]}}</button></td>
+                      <td><button  data-id ='{{row,row[2]}}' class="userinfo btn btn-success">{{row[2]}}</button></td>
+                      <td><button  data-id ='{{row,row[3]}}' class="userinfo btn btn-success">{{row[3]}}</button></td>
+                      <td>{{row[4]}}</td>
+                      <td>{{row[5]}}</td>
+                    </tr> 
+                  {% endfor %}
+
+              <table style="width:100%">
+              <caption>Site Table</caption>
+                  <tr>
+                      <th>circuit_id</th>
+                      <th>project_name</th>
+                      <th>site_name</th>
+                      <th>serial_number</th>
+                      <th>Equipment_Loopback</th>
+                      <th>IP_address_CE</th>
+                    </tr>
+                </thead>
+                <tbody> 
+                  {% for row in site_table %}
+                    <tr> 
+                      <td><button  data-id ='{{row,row[0]}}' class="userinfo btn btn-success">{{row[0]}}</button></td>
+                      <td><button  data-id ='{{row,row[1]}}' class="userinfo btn btn-success">{{row[1]}}</button></td>
+                      <td><button  data-id ='{{row,row[2]}}' class="userinfo btn btn-success">{{row[2]}}</button></td>
+                      <td><button  data-id ='{{row,row[3]}}' class="userinfo btn btn-success">{{row[3]}}</button></td>
+                      <td>{{row[4]}}</td>
+                      <td>{{row[5]}}</td>
+                    </tr> 
+                  {% endfor %}
+
+
+            <table style="width:100%">
+              <caption>Equipment Table</caption>
+                  <tr>
+                      <th>circuit_id</th>
+                      <th>project_name</th>
+                      <th>site_name</th>
+                      <th>serial_number</th>
+                      <th>Equipment_Loopback</th>
+                      <th>IP_address_CE</th>
+                    </tr>
+                </thead>
+                <tbody> 
+                  {% for row in equipment_table %}
+                    <tr> 
+                      <td><button  data-id ='{{row,row[0]}}' class="userinfo btn btn-success">{{row[0]}}</button></td>
+                      <td><button  data-id ='{{row,row[1]}}' class="userinfo btn btn-success">{{row[1]}}</button></td>
+                      <td><button  data-id ='{{row,row[2]}}' class="userinfo btn btn-success">{{row[2]}}</button></td>
+                      <td><button  data-id ='{{row,row[3]}}' class="userinfo btn btn-success">{{row[3]}}</button></td>
+                      <td>{{row[4]}}</td>
+                      <td>{{row[5]}}</td>
+                    </tr> 
+                  {% endfor %}
+      
+            
+
+            <table style="width:100%">
+              <caption>Circuit Table</caption>
+                  <tr>
+                      <th>circuit_id</th>
+                      <th>project_name</th>
+                      <th>site_name</th>
+                      <th>serial_number</th>
+                      <th>Equipment_Loopback</th>
+                      <th>IP_address_CE</th>
+                    </tr>
+                </thead>
+                <tbody> 
+                  {% for row in circuit_table %}
+                    <tr> 
+                      <td><button  data-id ='{{row,row[0]}}' class="userinfo btn btn-success">{{row[0]}}</button></td>
+                      <td><button  data-id ='{{row,row[1]}}' class="userinfo btn btn-success">{{row[1]}}</button></td>
+                      <td><button  data-id ='{{row,row[2]}}' class="userinfo btn btn-success">{{row[2]}}</button></td>
+                      <td><button  data-id ='{{row,row[3]}}' class="userinfo btn btn-success">{{row[3]}}</button></td>
+                      <td>{{row[4]}}</td>
+                      <td>{{row[5]}}</td>
+                    </tr> 
+                  {% endfor %}
+
+
+
+
+
+
+
+
             <div class="modal fade" id="empModal" role="dialog">
               <div class="modal-dialog">
                   <div class="modal-content">
