@@ -17,7 +17,7 @@ app = Flask(__name__)
 app.secret_key = 'how_to_be_got_A'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:pplus1234@127.0.0.1:5432/python2565'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config["UPLOAD_FOLDER"] = "upload/"
+app.config["UPLOAD_FOLDER"] = "noc_project/upload/"
 db = SQLAlchemy(app)
 
 @app.route('/', methods=['GET', 'POST'])
@@ -600,8 +600,9 @@ class BaseDataTables:
 def upload_file():
     if request.method == 'POST':
         f = request.files['file']
-        filename = secure_filename(f.filename)
-        print(filename)
+        filename = 'data_up_load.xlsx'
+        #filename = secure_filename(f.filename)
+        #print(filename)
         f.save(app.config['UPLOAD_FOLDER'] + filename)
 
         #file = open(app.config['UPLOAD_FOLDER'] + filename,"r")
