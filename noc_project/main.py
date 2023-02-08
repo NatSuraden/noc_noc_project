@@ -77,11 +77,19 @@ def login():
             msg = 'Incorrect username/password!'
     return render_template('index.html', msg=msg)
 
+@app.route('/check_test',methods=["POST","GET"])
+def check_test():
+    if request.method == 'POST':
+        msg_data = request.form
+        print(msg_data)
+    return render_template('upload.html')
+
 @app.route('/check_cell',methods=["POST","GET"])
 def check_cell():
     msg = 'test'
     if request.method == 'POST':
-        pass
+        msg_data = request.form
+        print(msg_data)
         # f = request.files['file']
         # #filename = 'data_up_load.xlsx'
         # filename = secure_filename(f.filename)
@@ -632,7 +640,7 @@ def upload_file():
     
 		if file and allowed_file(file.filename):
             
-			filename = secure_filename(file.filename)
+			filename = 'data_up_load.xlsx'
             
 			file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 			success = True
