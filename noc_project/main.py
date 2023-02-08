@@ -20,6 +20,11 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config["UPLOAD_FOLDER"] = "noc_project/upload/"
 db = SQLAlchemy(app)
 
+ALLOWED_EXTENSIONS = set(['xlsx'])
+
+def allowed_file(filename):
+	return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
 @app.route('/', methods=['GET', 'POST'])
 def login():
     msg = ''
@@ -71,6 +76,17 @@ def login():
         else:
             msg = 'Incorrect username/password!'
     return render_template('index.html', msg=msg)
+
+@app.route('/check_cell',methods=["POST","GET"])
+def check_cell():
+    msg = 'test'
+    if request.method == 'POST':
+        pass
+        # f = request.files['file']
+        # #filename = 'data_up_load.xlsx'
+        # filename = secure_filename(f.filename)
+        # print(filename)
+    return jsonify({'htmlcheck_cell': render_template('check_cell.html',msg = msg)})
 
 @app.route("/ajaxfile",methods=["POST","GET"])
 def ajaxfile():
@@ -596,19 +612,47 @@ class BaseDataTables:
             namefile.append(path) """
     #return render_template('index.html' ,namefile = namefile)
 
-@app.route('/noc_project/upload_file', methods = ['GET', 'POST'])
-def upload_file():
-    if request.method == 'POST':
-        f = request.files['file']
-        filename = 'data_up_load.xlsx'
-        #filename = secure_filename(f.filename)
-        #print(filename)
-        f.save(app.config['UPLOAD_FOLDER'] + filename)
-
-        #file = open(app.config['UPLOAD_FOLDER'] + filename,"r")
-        #content = file.read()   
-        return render_template('home.html',text='upload {} successfully'.format(filename)) 
+@app.route('/noc_project/page_upload', methods = ['GET', 'POST'])
+def page_upload():
     return render_template('upload.html') 
+
+@app.route('/python-flask-files-upload', methods=['POST'])
+def upload_file():
+	# check if the post request has the file part
+	if 'files[]' not in request.files:
+		resp = jsonify({'message' : 'No file part in the request'})
+		resp.status_code = 400
+		return resp
+	
+	files = request.files.getlist('files[]')
+	
+	errors = {}
+	success = False
+	for file in files:
+    
+		if file and allowed_file(file.filename):
+            
+			filename = secure_filename(file.filename)
+            
+			file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+			success = True
+		else:
+			errors[file.filename] = 'File type is not allowed'
+	if success and errors:
+		errors['message'] = 'File(s) successfully uploaded'
+		resp = jsonify(errors)
+		resp.status_code = 206
+		return resp
+	if success:
+		resp = jsonify({'message' : 'Files successfully uploaded'})
+		resp.status_code = 201
+		return resp
+	else:
+		resp = jsonify(errors)
+		resp.status_code = 400
+		return resp
+
+
 
 @app.route('/noc_project/profile')
 def profile():
