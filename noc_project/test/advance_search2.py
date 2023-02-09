@@ -193,7 +193,7 @@ for n in site:
                     data_in_process[-1] = x[3]  #IP_address_CE added
                     break
             site_table.append(data_in_process)
-print(site_table)
+#print(site_table)
 
 project_table = []
 for n in project:

@@ -48,9 +48,9 @@
     {% endfor %}
   </datalist>
 
-  <datalist id="ha">
-    {% for ha in equipment2[-1] %}
-    <option>{{ha}}</option>
+  <datalist id="ha_status">
+    {% for ha_s in equipment2[3] %}
+    <option>{{ha_s}}</option>
     {% endfor %}
   </datalist>
 
@@ -106,7 +106,7 @@ PPLUS-Vendor END Contract <input type="date" name="disty_End_contract"></p>
 <p>Equipment Model <input type="text" list="e_m" name="equipment_model"/> Disty-name <input type="text" list="d_n" name="disty_name"/></p>
 <p> Equipment Start of warranty <input type="date" name="start_of_warranty">
     Equipment End of warranty <input type="date" name="end_of_warranty"></p>
-<p>HA Status <input type="text" list="ha" name="ha_status"/></p>
+<p>HA Status <input type="text" list="ha_status" name="ha_status"/></p>
 <p>*</p>
 <p>Circuit ID <input type="text" list="c_i" name="circuit_id"/> IP address CE <input type="text" list="ip_ce" name="ip_address_ce"/></p>
 <p>IP Loopback <input type="text" list="ip_lb" name="ip_loopback"/> Owner ISP <input type="text" list="o_i" name="owner_isp"/></p>

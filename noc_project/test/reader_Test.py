@@ -17,7 +17,7 @@ site = cursor.fetchall()
 
 ex_name_sheet = ['Project','Contract','Site','Equipment','Circuit','Interface']
 for i in ex_name_sheet:
-    data = pd.read_excel("noc_project/upload/NOC Web parameter v3.xlsx",sheet_name=i)
+    data = pd.read_excel("noc_project/upload/data_up_load.xlsx",sheet_name=i)
     data = data.values.tolist()
     if i == 'Project':
         project_data = data
