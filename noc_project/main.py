@@ -81,9 +81,16 @@ def login():
 @app.route('/check_test',methods=["POST","GET"])
 def check_test():
     if request.method == 'POST':
-        msg_data = request.form
-        print(msg_data)
+        submit_request = request.form['test']
+        # print(msg_data)
+        if submit_request == 'submit_done':
+            #print(len(session['project_update']))
+            if len(session['project_update']) != 0:
+                project_table_update(session['project_update'])
     return render_template('upload.html')
+
+def project_table_update(data_update_project):
+    print(data_update_project)
 
 @app.route('/check_cell',methods=["POST","GET"])
 def check_cell():
@@ -135,6 +142,7 @@ def check_data():
     msg_old = ["","","","","",""]
     msg_project_old = ''
     msg_project_update = ''
+    project_update = []
     # project table check
     for i in project_data:
         p_new = i[0]
@@ -147,12 +155,15 @@ def check_data():
                     msg_project_old += p_new+' already in database\n'
                 else:
                     msg_project_update += p_new+' will update\n'
+                    project_update.append(i)
                 break
         if count == 0:
             msg_project_update += p_new+' new data\n'
 
     if len(msg_project_update) != 0:
         msg_project_update = msg_project_update[:-1]
+    if len(project_update) != 0:
+        session['project_update'] = project_update
     if len(msg_project_old) != 0:
         msg_project_old = msg_project_old[:-1]
     msg_project_old = str(msg_project_old).replace("\n"," <br/> ")
@@ -360,8 +371,8 @@ def check_data():
     msg_interface_update = str(msg_interface_update).replace("\n"," <br/> ")
     msg_interface_old = Markup(msg_interface_old)
     msg_interface_update = Markup(msg_interface_update)
-    msg_new[4] = msg_interface_update
-    msg_old[4] = msg_interface_old
+    msg_new[5] = msg_interface_update
+    msg_old[5] = msg_interface_old
     msg_list = [msg_new,msg_old]
     return msg_list
 
