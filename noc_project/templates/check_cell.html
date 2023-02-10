@@ -1,14 +1,65 @@
-<p>new</p>
-<p>{{ (msg[0])[0] }}</p>
-<p>{{ (msg[0])[1] }}</p>
-<p>{{ (msg[0])[2] }}</p>
-<p>{{ (msg[0])[3] }}</p>
-<p>{{ (msg[0])[4] }}</p>
-<p>{{ (msg[0])[5] }}</p>
-<p>old</p>
-<p>{{ (msg[1])[0] }}</p>
-<p>{{ (msg[1])[1] }}</p>
-<p>{{ (msg[1])[2] }}</p>
-<p>{{ (msg[1])[3] }}</p>
-<p>{{ (msg[1])[4] }}</p>
-<p>{{ (msg[1])[5] }}</p>
+<style>
+    table, th, td {
+      border: 1px solid black;
+      border-collapse: collapse;
+    }
+    </style>
+<div>
+    <table>
+        <caption>new data Table</caption>
+        <tr>
+            <td>Project:</td>
+            <td>{{ (msg[0])[0] }}</td>
+        </tr>
+        <tr>
+            <td>Contract:</td>
+            <td>{{ (msg[0])[1] }}</td>
+        </tr>
+        <tr>
+            <td>SIte:</td>
+            <td>{{ (msg[0])[2] }}</td>
+        </tr>
+        <tr>
+            <td>Equipment:</td>
+            <td>{{ (msg[0])[3] }}</td>
+        </tr>
+        <tr>
+            <td>Circuit:</td>
+            <td>{{ (msg[0])[4] }}</td>
+        </tr>
+        <tr>
+            <td>Interface:</td>
+            <td>{{ (msg[0])[5] }}</td>
+        </tr>
+    </table>
+</div>
+
+<div>
+    <table>
+        <caption>old data Table</caption>
+        <tr>
+            <td>Project:</td>
+            <td>{{ (msg[1])[0] }}</td>
+        </tr>
+        <tr>
+            <td>Contract:</td>
+            <td>{{ (msg[1])[1] }}</td>
+        </tr>
+        <tr>
+            <td>SIte:</td>
+            <td>{{ (msg[1])[2] }}</td>
+        </tr>
+        <tr>
+            <td>Equipment:</td>
+            <td>{{ (msg[1])[3] }}</td>
+        </tr>
+        <tr>
+            <td>Circuit:</td>
+            <td>{{ (msg[1])[4] }}</td>
+        </tr>
+        <tr>
+            <td>Interface:</td>
+            <td>{{ (msg[1])[5] }}</td>
+        </tr>
+    </table>
+</div>

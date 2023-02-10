@@ -241,19 +241,19 @@ def check_data():
             e_old = x[0]
             if e_old == e_new:
                 count += 1
-                print(i[0],x[2])
-                print(i[1],x[0])
-                print(i[2],x[3])
-                print(i[3],x[4])
-                print(i[4],x[5])
-                print(i[5],x[6])
-                print(i[6],x[7])
-                print(i[7],x[8])
-                print(i[8],x[9])
-                print(i[9],x[11])
-                print(i[10],x[-2])
-                print(i[11],x[1])
-                print("***")
+                # print(i[0],x[2])
+                # print(i[1],x[0])
+                # print(i[2],x[3])
+                # print(i[3],x[4])
+                # print(i[4],x[5])
+                # print(i[5],x[6])
+                # print(i[6],x[7])
+                # print(i[7],x[8])
+                # print(i[8],x[9])
+                # print(i[9],x[11])
+                # print(i[10],x[-2])
+                # print(i[11],x[1])
+                # print("***")
                 if i[0] == x[2] and i[1] == x[0] and i[2] == x[3] and i[3] == x[4] and i[4] == x[5] and i[5] == x[6] and i[6] == x[7] and i[7] == x[8] and i[8] == x[9] and i[9] == x[11] and i[10] == x[-2] and i[11] == x[1]:
                     msg_equipment_old += e_new+' already in database\n'
                     break
@@ -273,6 +273,7 @@ def check_data():
     msg_old[3] = msg_equipment_old
 
 
+    # อาจมีอัปเดจ
     msg_circuit_old = ''
     msg_circuit_update = ''
     # equipment table check
@@ -283,9 +284,34 @@ def check_data():
             cir_old = x[0]
             if cir_new == cir_old:
                 count += 1
-                # print(i)
-                # print(x)
-                if i[0] == x[1] and i[1] == x[0] and i[2] == x[2] and i[3] == x[3] and i[4] == x[4] and i[5] == x[5] and i[6] == x[6] and i[7] == x[7] and i[8] == x[8] and i[9] == x[9] and i[10] == x[10] and i[11] == x[11]: 
+                i[7] = str(i[7])
+                if str(i[9]) == "True":
+                    i[9] = 'TRUE'
+                if str(i[8]) == "True":
+                    i[8] = 'TRUE'
+                # if i[0] != x[1]:
+                #     print(i[0],x[1])
+                # if i[1] != x[0]:
+                #     print(i[1],x[0])
+                # if i[2] != x[2]:
+                #     print(i[2],x[2])
+                # if i[3] != x[3]:
+                #     print(i[3],x[3])
+                # if i[4] != x[4]:
+                #     print(i[4],x[4])
+                # if i[5] != x[5]:
+                #     print(i[5],x[5])
+                # if i[6] != x[6]:
+                #     print(i[6],x[6])
+                # if i[7] != x[7]:
+                #     print(i[7],x[7])
+                # if i[8] != x[8]:
+                #     print(i[8],x[8])
+                # if i[9] != x[9]:
+                #     print(i[9],x[9])
+                # if i[10] != x[10]:
+                #     print(i[10],x[10])
+                if i[0] == x[1] and i[1] == x[0] and i[2] == x[2] and i[3] == x[3] and i[4] == x[4] and i[5] == x[5] and i[6] == x[6] and i[7] == x[7] and i[8] == x[8] and i[9] == x[9] and i[10] == x[10]: 
                     msg_circuit_old += cir_new+' already in database\n'
                 else:
                     msg_circuit_update += cir_new+' will update\n'
@@ -305,20 +331,37 @@ def check_data():
 
 
 
-    msg_interface = ''
+    msg_interface_old = ''
+    msg_interface_update = ''
     # project table check
     for i in interface_data:
         inter_new = ['','']
         inter_new[0] = i[0]
         inter_new[1] = i[1]
+        count = 0
         for x in interface:
             inter_old = ['','']
             inter_old[0] = x[1]
             inter_old[1] = x[2]
-            if inter_new == inter_old:
-                msg_interface += inter_new[0]+","+inter_new[1]+' already in database\n'
+            if inter_new[0] == inter_old[0] and inter_new[1] == inter_old[1]:
+                count += 1
+                if i[0] == x[1] and i[1] == x[2] and i[2] == x[3] and i[3] == x[4] and i[4] == x[5] and i[5] == x[6] and i[6] == x[7]:
+                    msg_interface_old += inter_new[0]+","+inter_new[1]+' already in database\n'
+                else:
+                    msg_interface_update += inter_new[0]+","+inter_new[1]+' will update\n'
                 break
-    #print(msg_interface[:-1])
+        if count == 0:
+            msg_interface_update += inter_new[0]+","+inter_new[1]+' new data\n'
+    if len(msg_interface_update) != 0:
+        msg_interface_update = msg_interface_update[:-1]
+    if len(msg_interface_old) != 0:
+        msg_interface_old = msg_interface_old[:-1]
+    msg_interface_old = str(msg_interface_old).replace("\n"," <br/> ")
+    msg_interface_update = str(msg_interface_update).replace("\n"," <br/> ")
+    msg_interface_old = Markup(msg_interface_old)
+    msg_interface_update = Markup(msg_interface_update)
+    msg_new[4] = msg_interface_update
+    msg_old[4] = msg_interface_old
     msg_list = [msg_new,msg_old]
     return msg_list
 
