@@ -87,13 +87,16 @@ def check_test():
         if submit_request == 'submit_done':
             if 'project_update' in session:
                 project_table_update(session['project_update'])
+                session.pop('project_update', None)
             if 'project_new' in session:
                 project_table_new_data(session['project_new'])
-                #print(session['project_new'])
+                session.pop('project_new', None)
             if 'contract_update' in session:
                 contract_table_update(session['contract_update'])
+                session.pop('contract_update', None)
             if 'contract_new' in session:
                 contract_table_new_data(session['contract_new'])
+                session.pop('contract_new', None)
     return render_template('upload.html')
 
 def project_table_new_data(data):
