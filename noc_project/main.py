@@ -4,7 +4,9 @@ from flask_sqlalchemy import SQLAlchemy
 import psycopg2
 import random
 from datetime import date
+from datetime import datetime
 import datetime
+import numpy as np
 from sqlalchemy import Column,Integer,String,Date 
 import re
 import json
@@ -82,15 +84,61 @@ def login():
 def check_test():
     if request.method == 'POST':
         submit_request = request.form['test']
-        # print(msg_data)
         if submit_request == 'submit_done':
-            #print(len(session['project_update']))
             if len(session['project_update']) != 0:
                 project_table_update(session['project_update'])
     return render_template('upload.html')
 
-def project_table_update(data_update_project):
-    print(data_update_project)
+def project_table_update(data):
+    connection = psycopg2.connect(user="postgres",password="pplus1234",host="127.0.0.1",port="5432",database="python2565")
+    cursor = connection.cursor()
+    for data_update_project in data:
+        if data_update_project[1] != "":
+            sql_update_query = """Update project set s_o = %s where project_name = %s"""
+            cursor.execute(sql_update_query, (data_update_project[1], data_update_project[0]))
+            connection.commit()
+        if data_update_project[2] != "":
+            data_update_project[2] = data_update_project[2].strftime('%Y/%m/%d')
+            date_2 = datetime.datetime.strptime(data_update_project[2], '%Y/%m/%d')
+            sql_update_query = """Update project set customer_start_of_contract = %s where project_name = %s"""
+            cursor.execute(sql_update_query, (date_2, data_update_project[0]))
+            connection.commit()
+        if data_update_project[3] != "":
+            data_update_project[3] = data_update_project[3].strftime('%Y/%m/%d')
+            date_3 = datetime.datetime.strptime(data_update_project[3], '%Y/%m/%d')
+            sql_update_query = """Update project set customer_end_of_contract = %s where project_name = %s"""
+            cursor.execute(sql_update_query, (date_3, data_update_project[0]))
+            connection.commit()
+        if data_update_project[4] != "":
+            data_update_project[4] = data_update_project[4].strftime('%Y/%m/%d')
+            date_4 = datetime.datetime.strptime(data_update_project[4], '%Y/%m/%d')
+            #print(date_4)
+            sql_update_query = """Update project set disty_start_of_contract = %s where project_name = %s"""
+            cursor.execute(sql_update_query, (date_4, data_update_project[0]))
+            connection.commit()
+        if data_update_project[5] != "":
+            data_update_project[5] = data_update_project[5].strftime('%Y/%m/%d')
+            date_5 = datetime.datetime.strptime(data_update_project[5], '%Y/%m/%d')
+            sql_update_query = """Update project set disty_end_of_contract = %s where project_name = %s"""
+            cursor.execute(sql_update_query, (date_5, data_update_project[0]))
+            connection.commit()
+        if data_update_project[6] != "":
+            sql_update_query = """Update project set vpn_detail = %s where project_name = %s"""
+            cursor.execute(sql_update_query, (data_update_project[6], data_update_project[0]))
+            connection.commit()
+        if data_update_project[7] != "":
+            sql_update_query = """Update project set important_detail = %s where project_name = %s"""
+            cursor.execute(sql_update_query, (data_update_project[7], data_update_project[0]))
+            connection.commit()
+        if data_update_project[8] != "":
+            sql_update_query = """Update project set addition_detail = %s where project_name = %s"""
+            cursor.execute(sql_update_query, (data_update_project[8], data_update_project[0]))
+            connection.commit()
+        if data_update_project[9] != "":
+            sql_update_query = """Update project set remark = %s where project_name = %s"""
+            cursor.execute(sql_update_query, (data_update_project[9], data_update_project[0]))
+            connection.commit()
+    # print(data_update_project)
 
 @app.route('/check_cell',methods=["POST","GET"])
 def check_cell():
@@ -120,6 +168,7 @@ def check_data():
     ex_name_sheet = ['Project','Contract','Site','Equipment','Circuit','Interface']
     for i in ex_name_sheet:
         data = pd.read_excel("noc_project/upload/data_up_load.xlsx",sheet_name=i)
+        data = data.replace(np.nan, '', regex=True)
         data = data.values.tolist()
         if i == 'Project':
             project_data = data
@@ -145,6 +194,7 @@ def check_data():
     project_update = []
     # project table check
     for i in project_data:
+        #print(i[4])
         p_new = i[0]
         count = 0
         for x in project:
@@ -155,6 +205,7 @@ def check_data():
                     msg_project_old += p_new+' already in database\n'
                 else:
                     msg_project_update += p_new+' will update\n'
+                    #print(i[4])
                     project_update.append(i)
                 break
         if count == 0:
