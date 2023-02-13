@@ -63,9 +63,12 @@ from datetime import datetime
 # print(type(date_object))
 # print(date_object)  # printed in default format
 
-a = ["1","2"]
-b = ['A','B']
-c = [a,b]
-print(c)
+# a = ["1","2"]
+# b = ['A','B']
+# c = [a,b]
+# print(c)
+
+a = []
+print(len(a))
 
     

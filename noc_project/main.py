@@ -85,60 +85,143 @@ def check_test():
     if request.method == 'POST':
         submit_request = request.form['test']
         if submit_request == 'submit_done':
-            if len(session['project_update']) != 0:
+            if 'project_update' in session:
                 project_table_update(session['project_update'])
+            if 'project_new' in session:
+                project_table_new_data(session['project_new'])
+                #print(session['project_new'])
+            if 'contract_update' in session:
+                contract_table_update(session['contract_update'])
+            if 'contract_new' in session:
+                contract_table_new_data(session['contract_new'])
     return render_template('upload.html')
+
+def project_table_new_data(data):
+    connection = psycopg2.connect(user="postgres",password="pplus1234",host="127.0.0.1",port="5432",database="python2565")
+    cursor = connection.cursor()
+    for i in data:
+        if i[2] != "-":
+            i[2] = i[2].strftime('%Y/%m/%d')
+            i[2] = datetime.datetime.strptime(i[2], '%Y/%m/%d')
+        if i[3] != "-":
+            i[3] = i[3].strftime('%Y/%m/%d')
+            i[3] = datetime.datetime.strptime(i[3], '%Y/%m/%d')
+        if i[4] != "-":
+            i[4] = i[4].strftime('%Y/%m/%d')
+            i[4] = datetime.datetime.strptime(i[4], '%Y/%m/%d')
+        if i[5] != "-":
+            i[5] = i[5].strftime('%Y/%m/%d')
+            i[5] = datetime.datetime.strptime(i[5], '%Y/%m/%d')
+
+        if i[2] == "-":
+            d = "2001/2/16"
+            i[2] = d
+            i[2] = datetime.datetime.strptime(i[2], '%Y/%m/%d')
+        if i[3] == "-":
+            d = "2002/2/16"
+            i[3] = d
+            i[3] = datetime.datetime.strptime(i[3], '%Y/%m/%d')
+        if i[4] == "-":
+            d = "2001/2/16"
+            i[4] = d
+            i[4] = datetime.datetime.strptime(i[4], '%Y/%m/%d')
+        if i[5] == "-":
+            d = "2002/2/16"
+            i[5] = d
+            i[5] = datetime.datetime.strptime(i[5], '%Y/%m/%d')
+        postgres_insert_query = """ INSERT INTO project (project_name,s_o,customer_start_of_contract,customer_end_of_contract,
+        disty_start_of_contract,disty_end_of_contract,vpn_detail,Important_Detail,
+        Addition_Detail,Remark) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
+        cursor.execute(postgres_insert_query,(i[0],i[1],i[2],i[3],i[4],i[5],i[6],i[7],i[8],i[9]))
+        connection.commit()
 
 def project_table_update(data):
     connection = psycopg2.connect(user="postgres",password="pplus1234",host="127.0.0.1",port="5432",database="python2565")
     cursor = connection.cursor()
     for data_update_project in data:
-        if data_update_project[1] != "":
+        if data_update_project[1] != "-":
             sql_update_query = """Update project set s_o = %s where project_name = %s"""
             cursor.execute(sql_update_query, (data_update_project[1], data_update_project[0]))
             connection.commit()
-        if data_update_project[2] != "":
+        if data_update_project[2] != "-":
             data_update_project[2] = data_update_project[2].strftime('%Y/%m/%d')
             date_2 = datetime.datetime.strptime(data_update_project[2], '%Y/%m/%d')
             sql_update_query = """Update project set customer_start_of_contract = %s where project_name = %s"""
             cursor.execute(sql_update_query, (date_2, data_update_project[0]))
             connection.commit()
-        if data_update_project[3] != "":
+        if data_update_project[3] != "-":
             data_update_project[3] = data_update_project[3].strftime('%Y/%m/%d')
             date_3 = datetime.datetime.strptime(data_update_project[3], '%Y/%m/%d')
             sql_update_query = """Update project set customer_end_of_contract = %s where project_name = %s"""
             cursor.execute(sql_update_query, (date_3, data_update_project[0]))
             connection.commit()
-        if data_update_project[4] != "":
+        if data_update_project[4] != "-":
             data_update_project[4] = data_update_project[4].strftime('%Y/%m/%d')
             date_4 = datetime.datetime.strptime(data_update_project[4], '%Y/%m/%d')
             #print(date_4)
             sql_update_query = """Update project set disty_start_of_contract = %s where project_name = %s"""
             cursor.execute(sql_update_query, (date_4, data_update_project[0]))
             connection.commit()
-        if data_update_project[5] != "":
+        if data_update_project[5] != "-":
             data_update_project[5] = data_update_project[5].strftime('%Y/%m/%d')
             date_5 = datetime.datetime.strptime(data_update_project[5], '%Y/%m/%d')
             sql_update_query = """Update project set disty_end_of_contract = %s where project_name = %s"""
             cursor.execute(sql_update_query, (date_5, data_update_project[0]))
             connection.commit()
-        if data_update_project[6] != "":
+        if data_update_project[6] != "-":
             sql_update_query = """Update project set vpn_detail = %s where project_name = %s"""
             cursor.execute(sql_update_query, (data_update_project[6], data_update_project[0]))
             connection.commit()
-        if data_update_project[7] != "":
+        if data_update_project[7] != "-":
             sql_update_query = """Update project set important_detail = %s where project_name = %s"""
             cursor.execute(sql_update_query, (data_update_project[7], data_update_project[0]))
             connection.commit()
-        if data_update_project[8] != "":
+        if data_update_project[8] != "-":
             sql_update_query = """Update project set addition_detail = %s where project_name = %s"""
             cursor.execute(sql_update_query, (data_update_project[8], data_update_project[0]))
             connection.commit()
-        if data_update_project[9] != "":
+        if data_update_project[9] != "-":
             sql_update_query = """Update project set remark = %s where project_name = %s"""
             cursor.execute(sql_update_query, (data_update_project[9], data_update_project[0]))
             connection.commit()
     # print(data_update_project)
+
+def contract_table_new_data(data):
+    connection = psycopg2.connect(user="postgres",password="pplus1234",host="127.0.0.1",port="5432",database="python2565")
+    cursor = connection.cursor()
+    # for i in data:
+    #     postgres_insert_query = """ INSERT INTO contract (project_name,role,name,tel,
+    #     additional_detail) VALUES (%s,%s,%s,%s,%s)"""
+    #     cursor.execute(postgres_insert_query,(i[0],i[1],i[2],i[3],i[4]))
+    #     connection.commit()
+    for i in data:
+        cursor.execute('SELECT * FROM contract WHERE project_name = %s AND role = %s AND name = %s',(i[0],i[1],i[2],))
+        data_in_base = cursor.fetchall()
+        if data_in_base:
+            print("ERROR_contract")
+        else:
+            postgres_insert_query = """ INSERT INTO contract (project_name,role,name,tel,
+            additional_detail) VALUES (%s,%s,%s,%s,%s)"""
+            cursor.execute(postgres_insert_query,(i[0],i[1],i[2],i[3],i[4]))
+            connection.commit()
+
+
+def contract_table_update(data):
+    connection = psycopg2.connect(user="postgres",password="pplus1234",host="127.0.0.1",port="5432",database="python2565")
+    cursor = connection.cursor()
+    for data_update_contract in data:
+        if data_update_contract[2] != "-":
+            sql_update_query = """Update contract set name = %s where contrat_id = %s"""
+            cursor.execute(sql_update_query, (data_update_contract[2], data_update_contract[-1]))
+            connection.commit()
+        if data_update_contract[3] != "-":
+            sql_update_query = """Update contract set tel = %s where contrat_id = %s"""
+            cursor.execute(sql_update_query, (data_update_contract[3], data_update_contract[-1]))
+            connection.commit()
+        if data_update_contract[4] != "-":
+            sql_update_query = """Update contract set additional_detail = %s where contrat_id = %s"""
+            cursor.execute(sql_update_query, (data_update_contract[4], data_update_contract[-1]))
+            connection.commit()
 
 @app.route('/check_cell',methods=["POST","GET"])
 def check_cell():
@@ -168,7 +251,9 @@ def check_data():
     ex_name_sheet = ['Project','Contract','Site','Equipment','Circuit','Interface']
     for i in ex_name_sheet:
         data = pd.read_excel("noc_project/upload/data_up_load.xlsx",sheet_name=i)
-        data = data.replace(np.nan, '', regex=True)
+        data = data.replace(np.nan, '-', regex=True)
+        data = data.replace('', '-', regex=True)
+        data = data.replace('NaT', '-', regex=True)
         data = data.values.tolist()
         if i == 'Project':
             project_data = data
@@ -192,6 +277,7 @@ def check_data():
     msg_project_old = ''
     msg_project_update = ''
     project_update = []
+    project_new = []
     # project table check
     for i in project_data:
         #print(i[4])
@@ -203,18 +289,26 @@ def check_data():
                 count += 1
                 if i[0] == x[0] and i[1] == x[1] and i[2] == x[2] and i[3] == x[3] and i[4] == x[4] and i[5] == x[5] and i[6] == x[6] and i[7] == x[7] and i[8] == x[8] and i[9] == x[9]:
                     msg_project_old += p_new+' already in database\n'
+                    
                 else:
                     msg_project_update += p_new+' will update\n'
-                    #print(i[4])
+                    
                     project_update.append(i)
                 break
         if count == 0:
+            project_new.append(i)
+            #print(i)
             msg_project_update += p_new+' new data\n'
 
     if len(msg_project_update) != 0:
         msg_project_update = msg_project_update[:-1]
+
     if len(project_update) != 0:
         session['project_update'] = project_update
+
+    if len(project_new) != 0:
+        session['project_new'] = project_new
+
     if len(msg_project_old) != 0:
         msg_project_old = msg_project_old[:-1]
     msg_project_old = str(msg_project_old).replace("\n"," <br/> ")
@@ -226,6 +320,8 @@ def check_data():
 
     msg_contract_old = ''
     msg_contract_update = ''
+    contract_update = []
+    contract_new = []
     # project table check
     for i in contract_data:
         #print(i)
@@ -243,14 +339,25 @@ def check_data():
                     msg_contract_old += con_new[0]+","+con_new[1]+' already in database\n'
                 else:
                     msg_contract_update += con_new[0]+","+con_new[1]+' will update\n'
+                    i.append(x[0])
+                    contract_update.append(i)
                 break
         if count == 0:
             msg_contract_update += con_new[0]+","+con_new[1]+' new data\n'
-            
+            contract_new.append(i)
+
     if len(msg_contract_update) != 0:
         msg_contract_update = msg_contract_update[:-1]
+
+    if len(contract_update) != 0:
+        session['contract_update'] = contract_update
+
+    if len(contract_new) != 0:
+        session['contract_new'] = contract_new
+
     if len(msg_contract_old) != 0:
         msg_contract_old = msg_contract_old[:-1]
+
     msg_contract_old = str(msg_contract_old).replace("\n"," <br/> ")
     msg_contract_update = str(msg_contract_update).replace("\n"," <br/> ")
     msg_contract_old = Markup(msg_contract_old)
