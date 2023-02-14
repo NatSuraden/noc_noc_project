@@ -121,6 +121,28 @@ def check_test():
             if 'interface_new' in session:
                 interface_table_new_data(session['interface_new'])
                 session.pop('interface_new', None)
+            connection = psycopg2.connect(user="postgres",password="pplus1234",host="127.0.0.1",port="5432",database="python2565")
+            cursor = connection.cursor()
+            cursor.execute('SELECT * FROM circuit')
+            circuit = cursor.fetchall()
+            session['circuit'] = circuit
+            cursor.execute('SELECT * FROM equipment')
+            equipment = cursor.fetchall()
+            session['equipment'] = equipment
+            cursor.execute('SELECT * FROM interface')
+            interface = cursor.fetchall()
+            session['interface'] = interface
+            cursor.execute('SELECT * FROM project')
+            project = cursor.fetchall()
+            session['project'] = project
+            cursor.execute('SELECT * FROM contract')
+            contrat = cursor.fetchall()
+            session['contrat'] = contrat
+            cursor.execute('SELECT * FROM site')
+            site = cursor.fetchall()
+            session['site'] = site
+            cursor.close()
+            connection.close()
     return render_template('upload.html')
 
 def project_table_new_data(data):
@@ -161,6 +183,8 @@ def project_table_new_data(data):
         Addition_Detail,Remark) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
         cursor.execute(postgres_insert_query,(i[0],i[1],i[2],i[3],i[4],i[5],i[6],i[7],i[8],i[9]))
         connection.commit()
+        cursor.close()
+        connection.close()
 
 def project_table_update(data):
     connection = psycopg2.connect(user="postgres",password="pplus1234",host="127.0.0.1",port="5432",database="python2565")
@@ -211,7 +235,8 @@ def project_table_update(data):
             sql_update_query = """Update project set remark = %s where project_name = %s"""
             cursor.execute(sql_update_query, (data_update_project[9], data_update_project[0]))
             connection.commit()
-    # print(data_update_project)
+    cursor.close()
+    connection.close()
 
 def contract_table_new_data(data):
     connection = psycopg2.connect(user="postgres",password="pplus1234",host="127.0.0.1",port="5432",database="python2565")
@@ -231,7 +256,8 @@ def contract_table_new_data(data):
             additional_detail) VALUES (%s,%s,%s,%s,%s)"""
             cursor.execute(postgres_insert_query,(i[0],i[1],i[2],i[3],i[4]))
             connection.commit()
-
+    cursor.close()
+    connection.close()
 
 def contract_table_update(data):
     connection = psycopg2.connect(user="postgres",password="pplus1234",host="127.0.0.1",port="5432",database="python2565")
@@ -249,6 +275,8 @@ def contract_table_update(data):
             sql_update_query = """Update contract set additional_detail = %s where contrat_id = %s"""
             cursor.execute(sql_update_query, (data_update_contract[4], data_update_contract[-1]))
             connection.commit()
+    cursor.close()
+    connection.close()
 
 def site_table_new_data(data):
     connection = psycopg2.connect(user="postgres",password="pplus1234",host="127.0.0.1",port="5432",database="python2565")
@@ -263,6 +291,8 @@ def site_table_new_data(data):
             contact_owner_site,contact,type) VALUES (%s,%s,%s,%s,%s,%s,%s)"""
             cursor.execute(postgres_insert_query,(i[0],i[1],i[2],i[3],i[4],i[5],i[6]))
             connection.commit()
+    cursor.close()
+    connection.close()
 
 def site_table_update(data):
     connection = psycopg2.connect(user="postgres",password="pplus1234",host="127.0.0.1",port="5432",database="python2565")
@@ -288,7 +318,8 @@ def site_table_update(data):
             sql_update_query = """Update site set type = %s where site_id = %s"""
             cursor.execute(sql_update_query, (data_update_site[6], data_update_site[-1]))
             connection.commit()
-        
+    cursor.close()
+    connection.close()       
 
 def equipment_table_new_data(data):
     connection = psycopg2.connect(user="postgres",password="pplus1234",host="127.0.0.1",port="5432",database="python2565")
@@ -318,6 +349,8 @@ def equipment_table_new_data(data):
             open_case_contact,start_of_warranty,end_of_warranty,ha_status,ha) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
             cursor.execute(postgres_insert_query,(i[1],i[-1],i[0],i[2],i[3],i[4],i[5],i[6],i[7],i[8],i[9],i[10]))
             connection.commit()
+    cursor.close()
+    connection.close()
 
 def equipment_table_update(data):
     connection = psycopg2.connect(user="postgres",password="pplus1234",host="127.0.0.1",port="5432",database="python2565")
@@ -379,6 +412,8 @@ def equipment_table_update(data):
             sql_update_query = """Update equipment set project_name = %s where serial_number = %s"""
             cursor.execute(sql_update_query, (data_update_equipment[11], data_update_equipment[1]))
             connection.commit()
+    cursor.close()
+    connection.close()
 
 def circuit_table_new_data(data):
     connection = psycopg2.connect(user="postgres",password="pplus1234",host="127.0.0.1",port="5432",database="python2565")
@@ -398,6 +433,8 @@ def circuit_table_new_data(data):
             cursor.execute(postgres_insert_query,(i[1],i[0],i[2],i[3],i[4],i[5],i[6],
             i[7],i[8],i[9],i[10]))
             connection.commit()
+    cursor.close()
+    connection.close()
 
 def circuit_table_update(data):
     connection = psycopg2.connect(user="postgres",password="pplus1234",host="127.0.0.1",port="5432",database="python2565")
@@ -443,6 +480,8 @@ def circuit_table_update(data):
             sql_update_query = """Update circuit set isp_contact_tel = %s where circuit_id = %s"""
             cursor.execute(sql_update_query, (data_update_circuit[10], data_update_circuit[1]))
             connection.commit()
+    cursor.close()
+    connection.close()
 
 def interface_table_new_data(data):
     connection = psycopg2.connect(user="postgres",password="pplus1234",host="127.0.0.1",port="5432",database="python2565")
@@ -457,7 +496,9 @@ def interface_table_new_data(data):
             equipment_model,physical_interface,vlan_id,tunnel_interface_name) VALUES (%s,%s,%s,%s,%s,%s,%s)"""
             cursor.execute(postgres_insert_query,(i[0],i[1],i[2],i[3],i[4],i[5],i[6]))
             connection.commit()
-            
+    cursor.close()
+    connection.close()
+
 def interface_table_update(data):
     connection = psycopg2.connect(user="postgres",password="pplus1234",host="127.0.0.1",port="5432",database="python2565")
     cursor = connection.cursor()
@@ -482,7 +523,9 @@ def interface_table_update(data):
             sql_update_query = """Update interface set tunnel_interface_name = %s where interface_id = %s"""
             cursor.execute(sql_update_query, (data_update_interface[6], data_update_interface[-1]))
             connection.commit()
-
+    cursor.close()
+    connection.close()
+    
 @app.route('/check_cell',methods=["POST","GET"])
 def check_cell():
     msg = 'test'
