@@ -97,6 +97,30 @@ def check_test():
             if 'contract_new' in session:
                 contract_table_new_data(session['contract_new'])
                 session.pop('contract_new', None)
+            if 'site_update' in session:
+                site_table_update(session['site_update'])
+                session.pop('contract_update', None)
+            if 'site_new' in session:
+                site_table_new_data(session['site_new'])
+                session.pop('site_new', None)
+            if 'equipment_update' in session:
+                equipment_table_update(session['equipment_update'])
+                session.pop('equipment_update', None)
+            if 'equipment_new' in session:
+                equipment_table_new_data(session['equipment_new'])
+                session.pop('equipment_new', None)
+            if 'circuit_update' in session:
+                circuit_table_update(session['circuit_update'])
+                session.pop('circuit_update', None)
+            if 'circuit_new' in session:
+                circuit_table_new_data(session['circuit_new'])
+                session.pop('circuit_new', None)
+            if 'interface_update' in session:
+                interface_table_update(session['interface_update'])
+                session.pop('circuit_update', None)
+            if 'interface_new' in session:
+                interface_table_new_data(session['interface_new'])
+                session.pop('interface_new', None)
     return render_template('upload.html')
 
 def project_table_new_data(data):
@@ -226,6 +250,239 @@ def contract_table_update(data):
             cursor.execute(sql_update_query, (data_update_contract[4], data_update_contract[-1]))
             connection.commit()
 
+def site_table_new_data(data):
+    connection = psycopg2.connect(user="postgres",password="pplus1234",host="127.0.0.1",port="5432",database="python2565")
+    cursor = connection.cursor()
+    for i in data:
+        cursor.execute('SELECT * FROM site WHERE project_name = %s AND site_name = %s AND location = %s',(i[0],i[1],i[2],))
+        data_in_base = cursor.fetchall()
+        if data_in_base:
+            print("ERROR_site")
+        else:
+            postgres_insert_query = """ INSERT INTO site (project_name,site_name,location,site_short_name,
+            contact_owner_site,contact,type) VALUES (%s,%s,%s,%s,%s,%s,%s)"""
+            cursor.execute(postgres_insert_query,(i[0],i[1],i[2],i[3],i[4],i[5],i[6]))
+            connection.commit()
+
+def site_table_update(data):
+    connection = psycopg2.connect(user="postgres",password="pplus1234",host="127.0.0.1",port="5432",database="python2565")
+    cursor = connection.cursor()
+    for data_update_site in data:
+        if data_update_site[2] != "-":
+            sql_update_query = """Update site set location = %s where site_id = %s"""
+            cursor.execute(sql_update_query, (data_update_site[2], data_update_site[-1]))
+            connection.commit()
+        if data_update_site[3] != "-":
+            sql_update_query = """Update site set site_short_name = %s where site_id = %s"""
+            cursor.execute(sql_update_query, (data_update_site[3], data_update_site[-1]))
+            connection.commit()
+        if data_update_site[4] != "-":
+            sql_update_query = """Update site set contact_owner_site = %s where site_id = %s"""
+            cursor.execute(sql_update_query, (data_update_site[4], data_update_site[-1]))
+            connection.commit()
+        if data_update_site[5] != "-":
+            sql_update_query = """Update site set contact = %s where site_id = %s"""
+            cursor.execute(sql_update_query, (data_update_site[5], data_update_site[-1]))
+            connection.commit()
+        if data_update_site[6] != "-":
+            sql_update_query = """Update site set type = %s where site_id = %s"""
+            cursor.execute(sql_update_query, (data_update_site[6], data_update_site[-1]))
+            connection.commit()
+        
+
+def equipment_table_new_data(data):
+    connection = psycopg2.connect(user="postgres",password="pplus1234",host="127.0.0.1",port="5432",database="python2565")
+    cursor = connection.cursor()
+    for i in data:
+        if i[7] != "-":
+            i[7] = i[7].strftime('%Y/%m/%d')
+            i[7] = datetime.datetime.strptime(i[7], '%Y/%m/%d')
+        if i[8] != "-":
+            i[8] = i[-4].strftime('%Y/%m/%d')
+            i[8] = datetime.datetime.strptime(i[8], '%Y/%m/%d')
+
+        if i[7] == "-":
+            d = "2001/2/16"
+            i[7] = d
+            i[7] = datetime.datetime.strptime(i[7], '%Y/%m/%d')
+        if i[8] == "-":
+            d = "2002/2/16"
+            i[8] = d
+            i[8] = datetime.datetime.strptime(i[8], '%Y/%m/%d')
+        cursor.execute('SELECT * FROM equipment WHERE serial_number = %s AND site_name = %s AND project_name = %s',(i[1],i[0],i[-1],))
+        data_in_base = cursor.fetchall()
+        if data_in_base:
+            print("ERROR_equipment")
+        else:
+            postgres_insert_query = """ INSERT INTO equipment (serial_number, project_name,site_name, brand,model,disty_name,disty_contact,
+            open_case_contact,start_of_warranty,end_of_warranty,ha_status,ha) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
+            cursor.execute(postgres_insert_query,(i[1],i[-1],i[0],i[2],i[3],i[4],i[5],i[6],i[7],i[8],i[9],i[10]))
+            connection.commit()
+
+def equipment_table_update(data):
+    connection = psycopg2.connect(user="postgres",password="pplus1234",host="127.0.0.1",port="5432",database="python2565")
+    cursor = connection.cursor()
+    for data_update_equipment in data:
+        if data_update_equipment[0] != "-":
+            sql_update_query = """Update equipment set site_name = %s where serial_number = %s"""
+            cursor.execute(sql_update_query, (data_update_equipment[0], data_update_equipment[1]))
+            connection.commit()
+        if data_update_equipment[2] != "-":
+            sql_update_query = """Update equipment set brand = %s where serial_number = %s"""
+            cursor.execute(sql_update_query, (data_update_equipment[2], data_update_equipment[1]))
+            connection.commit()
+        if data_update_equipment[3] != "-":
+            sql_update_query = """Update equipment set model = %s where serial_number = %s"""
+            cursor.execute(sql_update_query, (data_update_equipment[3], data_update_equipment[1]))
+            connection.commit()
+        if data_update_equipment[4] != "-":
+            sql_update_query = """Update equipment set disty_name = %s where serial_number = %s"""
+            cursor.execute(sql_update_query, (data_update_equipment[4], data_update_equipment[1]))
+            connection.commit()
+        if data_update_equipment[5] != "-":
+            sql_update_query = """Update equipment set disty_contact = %s where serial_number = %s"""
+            cursor.execute(sql_update_query, (data_update_equipment[5], data_update_equipment[1]))
+            connection.commit()
+        if data_update_equipment[6] != "-":
+            sql_update_query = """Update equipment set open_case_contact = %s where serial_number = %s"""
+            cursor.execute(sql_update_query, (data_update_equipment[6], data_update_equipment[1]))
+            connection.commit()
+
+
+        if data_update_equipment[7] != "-":
+            data_update_equipment[7] = data_update_equipment[7].strftime('%Y/%m/%d')
+            data_update_equipment[7] = datetime.datetime.strptime(data_update_equipment[7], '%Y/%m/%d')
+            sql_update_query = """Update equipment set start_of_warranty = %s where serial_number = %s"""
+            cursor.execute(sql_update_query, (data_update_equipment[7], data_update_equipment[1]))
+            connection.commit()
+
+
+        if data_update_equipment[8] != "-":
+            data_update_equipment[8] = data_update_equipment[8].strftime('%Y/%m/%d')
+            date_8 = datetime.datetime.strptime(data_update_equipment[8], '%Y/%m/%d')
+            sql_update_query = """Update equipment set end_of_warranty = %s where serial_number = %s"""
+            cursor.execute(sql_update_query, (date_8, data_update_equipment[1]))
+            connection.commit()
+
+
+        if data_update_equipment[9] != "-":
+            print(data_update_equipment[9],print(type(data_update_equipment[9])))
+            sql_update_query = """Update equipment set ha = %s where serial_number = %s"""
+            cursor.execute(sql_update_query, (data_update_equipment[9], data_update_equipment[1]))
+            connection.commit()
+        if data_update_equipment[10] != "-":
+            print(data_update_equipment[10])
+            sql_update_query = """Update equipment set ha_status = %s where serial_number = %s"""
+            cursor.execute(sql_update_query, (data_update_equipment[10], data_update_equipment[1]))
+            connection.commit()
+        if data_update_equipment[11] != "-":
+            sql_update_query = """Update equipment set project_name = %s where serial_number = %s"""
+            cursor.execute(sql_update_query, (data_update_equipment[11], data_update_equipment[1]))
+            connection.commit()
+
+def circuit_table_new_data(data):
+    connection = psycopg2.connect(user="postgres",password="pplus1234",host="127.0.0.1",port="5432",database="python2565")
+    for i in data:
+        i[-3] = str(i[-3]).upper()
+        i[-4] = str(i[-4]).upper()
+        #print(i)
+        cursor = connection.cursor()
+        #cursor.execute('SELECT * FROM circuit WHERE equipment_ref = %s AND owner_isp = %s', (a, b,))
+        cursor.execute('SELECT * FROM circuit WHERE circuit_id = %s AND equipment_ref = %s AND ip_address_pe = %s',(i[1],i[0],i[2],))
+        data_in_base = cursor.fetchall()
+        if data_in_base:
+            print("ERROR_circuit")
+        else:
+            postgres_insert_query = """ INSERT INTO circuit (circuit_id, equipment_ref, ip_address_pe,ip_address_ce,subnet,loopback,circuit_type,
+            link_number,original_isp,owner_isp,isp_contact_tel) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
+            cursor.execute(postgres_insert_query,(i[1],i[0],i[2],i[3],i[4],i[5],i[6],
+            i[7],i[8],i[9],i[10]))
+            connection.commit()
+
+def circuit_table_update(data):
+    connection = psycopg2.connect(user="postgres",password="pplus1234",host="127.0.0.1",port="5432",database="python2565")
+    cursor = connection.cursor()
+    for data_update_circuit in data:
+        if data_update_circuit[0] != "-":
+            sql_update_query = """Update circuit set equipment_ref = %s where circuit_id = %s"""
+            cursor.execute(sql_update_query, (data_update_circuit[0], data_update_circuit[1]))
+            connection.commit()
+        if data_update_circuit[2] != "-":
+            sql_update_query = """Update circuit set ip_address_pe = %s where circuit_id = %s"""
+            cursor.execute(sql_update_query, (data_update_circuit[2], data_update_circuit[1]))
+            connection.commit()
+        if data_update_circuit[3] != "-":
+            sql_update_query = """Update circuit set ip_address_ce = %s where circuit_id = %s"""
+            cursor.execute(sql_update_query, (data_update_circuit[3], data_update_circuit[1]))
+            connection.commit()
+        if data_update_circuit[4] != "-":
+            sql_update_query = """Update circuit set subnet = %s where circuit_id = %s"""
+            cursor.execute(sql_update_query, (data_update_circuit[4], data_update_circuit[1]))
+            connection.commit()
+        if data_update_circuit[5] != "-":
+            sql_update_query = """Update circuit set loopback = %s where circuit_id = %s"""
+            cursor.execute(sql_update_query, (data_update_circuit[5], data_update_circuit[1]))
+            connection.commit()
+        if data_update_circuit[6] != "-":
+            sql_update_query = """Update circuit set circuit_type = %s where circuit_id = %s"""
+            cursor.execute(sql_update_query, (data_update_circuit[6], data_update_circuit[1]))
+            connection.commit()
+        if data_update_circuit[7] != "-":
+            sql_update_query = """Update circuit set link_number = %s where circuit_id = %s"""
+            cursor.execute(sql_update_query, (data_update_circuit[7], data_update_circuit[1]))
+            connection.commit()
+        if data_update_circuit[8] != "-":
+            sql_update_query = """Update circuit set original_isp = %s where circuit_id = %s"""
+            cursor.execute(sql_update_query, (data_update_circuit[8], data_update_circuit[1]))
+            connection.commit()
+        if data_update_circuit[9] != "-":
+            sql_update_query = """Update circuit set owner_isp = %s where circuit_id = %s"""
+            cursor.execute(sql_update_query, (data_update_circuit[9], data_update_circuit[1]))
+            connection.commit()
+        if data_update_circuit[10] != "-":
+            sql_update_query = """Update circuit set isp_contact_tel = %s where circuit_id = %s"""
+            cursor.execute(sql_update_query, (data_update_circuit[10], data_update_circuit[1]))
+            connection.commit()
+
+def interface_table_new_data(data):
+    connection = psycopg2.connect(user="postgres",password="pplus1234",host="127.0.0.1",port="5432",database="python2565")
+    cursor = connection.cursor()
+    for i in data:
+        cursor.execute('SELECT * FROM interface WHERE circuit_id = %s AND equipment_serial = %s AND equipment_brand = %s',(i[0],i[1],i[2],))
+        data_in_base = cursor.fetchall()
+        if data_in_base:
+            print("ERROR_interface")
+        else:
+            postgres_insert_query = """ INSERT INTO interface (circuit_id,equipment_serial,equipment_brand,
+            equipment_model,physical_interface,vlan_id,tunnel_interface_name) VALUES (%s,%s,%s,%s,%s,%s,%s)"""
+            cursor.execute(postgres_insert_query,(i[0],i[1],i[2],i[3],i[4],i[5],i[6]))
+            connection.commit()
+            
+def interface_table_update(data):
+    connection = psycopg2.connect(user="postgres",password="pplus1234",host="127.0.0.1",port="5432",database="python2565")
+    cursor = connection.cursor()
+    for data_update_interface in data:
+        if data_update_interface[2] != "-":
+            sql_update_query = """Update interface set equipment_brand = %s where interface_id = %s"""
+            cursor.execute(sql_update_query, (data_update_interface[2], data_update_interface[-1]))
+            connection.commit()
+        if data_update_interface[3] != "-":
+            sql_update_query = """Update interface set equipment_model = %s where interface_id = %s"""
+            cursor.execute(sql_update_query, (data_update_interface[3], data_update_interface[-1]))
+            connection.commit()
+        if data_update_interface[4] != "-":
+            sql_update_query = """Update interface set physical_interface = %s where interface_id = %s"""
+            cursor.execute(sql_update_query, (data_update_interface[4], data_update_interface[-1]))
+            connection.commit()
+        if data_update_interface[5] != "-":
+            sql_update_query = """Update interface set vlan_id = %s where interface_id = %s"""
+            cursor.execute(sql_update_query, (data_update_interface[5], data_update_interface[-1]))
+            connection.commit()
+        if data_update_interface[6] != "-":
+            sql_update_query = """Update interface set tunnel_interface_name = %s where interface_id = %s"""
+            cursor.execute(sql_update_query, (data_update_interface[6], data_update_interface[-1]))
+            connection.commit()
+
 @app.route('/check_cell',methods=["POST","GET"])
 def check_cell():
     msg = 'test'
@@ -254,9 +511,11 @@ def check_data():
     ex_name_sheet = ['Project','Contract','Site','Equipment','Circuit','Interface']
     for i in ex_name_sheet:
         data = pd.read_excel("noc_project/upload/data_up_load.xlsx",sheet_name=i)
+        # print(data)
         data = data.replace(np.nan, '-', regex=True)
         data = data.replace('', '-', regex=True)
         data = data.replace('NaT', '-', regex=True)
+        data = data.replace('None', '-', regex=True)
         data = data.values.tolist()
         if i == 'Project':
             project_data = data
@@ -371,6 +630,8 @@ def check_data():
 
     msg_site_old = ''
     msg_site_update = ''
+    site_update = []
+    site_new = []
     # project table check
     for i in site_data:
         s_new = ['','']
@@ -382,18 +643,30 @@ def check_data():
             s_old[0] = x[1]
             s_old[1] = x[2]
             if s_new[0] == s_old[0] and s_new[1] == s_old[1]:
+                count += 1
                 if i[0] == x[1] and i[1] == x[2] and i[2] == x[3] and i[3] == x[4] and i[4] == x[5] and i[5] == x[6] and i[6] == x[7]:
                     msg_site_old += s_new[0]+","+s_new[1]+' already in database\n'
                 else:
                     msg_site_update += s_new[0]+","+s_new[1]+' will update\n'
+                    i.append(x[0])
+                    site_update.append(i)
                 break
         if count == 0:
             msg_site_update += s_new[0]+","+s_new[1]+' new data\n'
-    
+            site_new.append(i)
+
     if len(msg_site_update) != 0:
         msg_site_update = msg_site_update[:-1]
+
     if len(msg_site_old) != 0:
         msg_site_old = msg_site_old[:-1]
+
+    if len(site_update) != 0:
+        session['site_update'] = site_update
+
+    if len(site_new) != 0:
+        session['site_new'] = site_new
+
     msg_site_old = str(msg_site_old).replace("\n"," <br/> ")
     msg_site_update = str(msg_site_update).replace("\n"," <br/> ")
     msg_site_old = Markup(msg_site_old)
@@ -404,6 +677,8 @@ def check_data():
 
     msg_equipment_old = ''
     msg_equipment_update = ''
+    equipment_update = []
+    equipment_new = []
     # equipment table check
     for i in equipment_data:
         e_new = i[1]
@@ -413,30 +688,52 @@ def check_data():
             e_old = x[0]
             if e_old == e_new:
                 count += 1
-                # print(i[0],x[2])
-                # print(i[1],x[0])
-                # print(i[2],x[3])
-                # print(i[3],x[4])
-                # print(i[4],x[5])
-                # print(i[5],x[6])
-                # print(i[6],x[7])
-                # print(i[7],x[8])
-                # print(i[8],x[9])
-                # print(i[9],x[11])
-                # print(i[10],x[-2])
-                # print(i[11],x[1])
+                # if i[0] != x[2]:
+                #     print(i[0],x[2])
+                # if i[1] != x[0]:
+                #     print(i[1],x[0])
+                # if i[2] != x[3]:
+                #     print(i[2],x[3])
+                # if i[3] != x[4]:
+                #     print(i[3],x[4])
+                # if i[4] != x[5]:
+                #     print(i[4],x[5])
+                # if i[5] != x[6]:
+                #     print(i[5],x[6])
+                # if i[6] != x[7]:
+                #     print(i[6],x[7])
+                # if i[7] != x[8]:
+                #     print(i[7],x[8])
+                # if i[8] != x[9]:
+                #     print(i[8],x[9])
+                # if i[9] != x[11]:
+                #     print(i[9],x[11])
+                # if i[10] != x[-2]:
+                #     print(i[10],x[-2])
+                # if i[11] != x[1]:
+                #     print(i[11],x[1])
                 # print("***")
                 if i[0] == x[2] and i[1] == x[0] and i[2] == x[3] and i[3] == x[4] and i[4] == x[5] and i[5] == x[6] and i[6] == x[7] and i[7] == x[8] and i[8] == x[9] and i[9] == x[11] and i[10] == x[-2] and i[11] == x[1]:
                     msg_equipment_old += e_new+' already in database\n'
-                    break
                 else:
                     msg_equipment_update += e_new+' will update\n'
+                    equipment_update.append(i)
+                break
         if count == 0:
             msg_equipment_update += e_new+' new data\n'
+            equipment_new.append(i)
     if len(msg_equipment_update) != 0:
         msg_equipment_update = msg_equipment_update[:-1]
+
     if len(msg_equipment_old) != 0:
         msg_equipment_old = msg_equipment_old[:-1]
+    
+    if len(equipment_update) != 0:
+        session['equipment_update'] = equipment_update
+
+    if len(equipment_new) != 0:
+        session['equipment_new'] = equipment_new
+    
     msg_equipment_old = str(msg_equipment_old).replace("\n"," <br/> ")
     msg_equipment_update = str(msg_equipment_update).replace("\n"," <br/> ")
     msg_equipment_old = Markup(msg_equipment_old)
@@ -448,19 +745,26 @@ def check_data():
     # อาจมีอัปเดจ
     msg_circuit_old = ''
     msg_circuit_update = ''
+    circuit_update = []
+    circuit_new = []
     # equipment table check
     for i in circuit_data:
         cir_new = i[1]
         count = 0
+        #print(i)
         for x in circuit:
             cir_old = x[0]
             if cir_new == cir_old:
                 count += 1
                 i[7] = str(i[7])
-                if str(i[9]) == "True":
-                    i[9] = 'TRUE'
-                if str(i[8]) == "True":
-                    i[8] = 'TRUE'
+                i[8] = (str(i[8])).upper()
+                i[9] = (str(i[9])).upper()
+                # print(i[9])
+                # if str(i[9]) == "True":
+                #     i[9] = 'TRUE'
+                #     #print(i[9])
+                # if str(i[8]) == "True":
+                #     i[8] = 'TRUE'
                 # if i[0] != x[1]:
                 #     print(i[0],x[1])
                 # if i[1] != x[0]:
@@ -477,6 +781,7 @@ def check_data():
                 #     print(i[6],x[6])
                 # if i[7] != x[7]:
                 #     print(i[7],x[7])
+                #     print(type(i[7]),type(x[7]))
                 # if i[8] != x[8]:
                 #     print(i[8],x[8])
                 # if i[9] != x[9]:
@@ -487,13 +792,23 @@ def check_data():
                     msg_circuit_old += cir_new+' already in database\n'
                 else:
                     msg_circuit_update += cir_new+' will update\n'
+                    #print(i)
+                    circuit_update.append(i)
                 break
         if count == 0:
             msg_circuit_update += cir_new+' new data\n'
+            circuit_new.append(i)
     if len(msg_circuit_update) != 0:
         msg_circuit_update = msg_circuit_update[:-1]
     if len(msg_circuit_old) != 0:
         msg_circuit_old = msg_circuit_old[:-1]
+
+    if len(circuit_update) != 0:
+        session['circuit_update'] = circuit_update
+
+    if len(circuit_new) != 0:
+        session['circuit_new'] = circuit_new
+
     msg_circuit_old = str(msg_circuit_old).replace("\n"," <br/> ")
     msg_circuit_update = str(msg_circuit_update).replace("\n"," <br/> ")
     msg_circuit_old = Markup(msg_circuit_old)
@@ -506,6 +821,8 @@ def check_data():
     msg_interface_old = ''
     msg_interface_update = ''
     # project table check
+    interface_update = []
+    interface_new = []
     for i in interface_data:
         inter_new = ['','']
         inter_new[0] = i[0]
@@ -521,13 +838,23 @@ def check_data():
                     msg_interface_old += inter_new[0]+","+inter_new[1]+' already in database\n'
                 else:
                     msg_interface_update += inter_new[0]+","+inter_new[1]+' will update\n'
+                    i.append(x[0])
+                    interface_update.append(i)
                 break
         if count == 0:
             msg_interface_update += inter_new[0]+","+inter_new[1]+' new data\n'
+            interface_new.append(i)
     if len(msg_interface_update) != 0:
         msg_interface_update = msg_interface_update[:-1]
     if len(msg_interface_old) != 0:
         msg_interface_old = msg_interface_old[:-1]
+
+    if len(interface_update) != 0:
+        session['interface_update'] = interface_update
+
+    if len(interface_new) != 0:
+        session['interface_new'] = interface_new
+
     msg_interface_old = str(msg_interface_old).replace("\n"," <br/> ")
     msg_interface_update = str(msg_interface_update).replace("\n"," <br/> ")
     msg_interface_old = Markup(msg_interface_old)
