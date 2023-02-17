@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, session,Markup,jsonify
+from flask import Flask, render_template, request, redirect, url_for, session,Markup,jsonify,send_file
 from werkzeug.utils import secure_filename
 from flask_sqlalchemy import SQLAlchemy
 import psycopg2
@@ -21,6 +21,7 @@ app.secret_key = 'how_to_be_got_A'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:pplus1234@127.0.0.1:5432/python2565'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config["UPLOAD_FOLDER"] = "noc_project/upload/"
+app.config["DOWNLOAD_FOLDER"] = "noc_project/test/"
 db = SQLAlchemy(app)
 
 ALLOWED_EXTENSIONS = set(['xlsx'])
@@ -534,6 +535,13 @@ def check_cell():
     return jsonify({'htmlcheck_cell': render_template('check_cell.html',msg = msg)})
 
 
+@app.route('/download')
+def download():
+    d = (os.path.join(app.config['DOWNLOAD_FOLDER'], "output.xlsx"))
+    # data = pd.read_excel("noc_project/test/output.xlsx",sheet_name='Project')
+    # #data = pd.read_excel("noc_project/upload/data_up_load.xlsx",sheet_name='Project')
+    # print(data)
+    return send_file(d, as_attachment=True)
 
 def check_data():
     connection = psycopg2.connect(user="postgres",password="pplus1234",host="127.0.0.1",port="5432",database="python2565")
