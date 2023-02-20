@@ -15,36 +15,39 @@ cursor.execute('SELECT * FROM contract')
 contract = cursor.fetchall()
 cursor.execute('SELECT * FROM site')
 site = cursor.fetchall()
+msg = []
+try:
+    Project_Name = []
+    S_O = []
+    Customer_Start_of_contract = []
+    Customer_End_of_contract = []
+    Disty_Start_of_contract = []
+    Disty_End_of_contract = []
+    Vpn_Detail = []
+    Important_Detail = []
+    Addition_Detail = []
+    Remark = []
+    for i in project:
+        Project_Name.append(i[0])
+        S_O.append(i[1])
+        Customer_Start_of_contract.append(i[2].strftime("%d/%m/%Y"))
+        Customer_End_of_contract.append(i[3].strftime("%d/%m/%Y"))
+        Disty_Start_of_contract.append(i[4].strftime("%d/%m/%Y"))
+        Disty_End_of_contract.append(i[5].strftime("%d/%m/%Y"))
+        Vpn_Detail.append(i[6])
+        Important_Detail.append(i[7])
+        Addition_Detail.append(i[8])
+        Remark.append(i[9])
 
-Project_Name = []
-S_O = []
-Customer_Start_of_contract = []
-Customer_End_of_contract = []
-Disty_Start_of_contract = []
-Disty_End_of_contract = []
-Vpn_Detail = []
-Important_Detail = []
-Addition_Detail = []
-Remark = []
-for i in project:
-    Project_Name.append(i[0])
-    S_O.append(i[1])
-    Customer_Start_of_contract.append(i[2].strftime("%d/%m/%Y"))
-    Customer_End_of_contract.append(i[3].strftime("%d/%m/%Y"))
-    Disty_Start_of_contract.append(i[4].strftime("%d/%m/%Y"))
-    Disty_End_of_contract.append(i[5].strftime("%d/%m/%Y"))
-    Vpn_Detail.append(i[6])
-    Important_Detail.append(i[7])
-    Addition_Detail.append(i[8])
-    Remark.append(i[9])
-
-p_data = [Project_Name, S_O,Customer_Start_of_contract,Customer_End_of_contract,
-   Disty_Start_of_contract,Disty_End_of_contract,Vpn_Detail,Important_Detail,
-   Addition_Detail,Remark]
-columns =["Project Name", "S/O","Customer_Start_of_contract","Customer_End_of_contract",
-   "Disty_Start_of_contract","Disty_End_of_contract","Vpn Detail",
-   "Important_Detail","Addition_Detail","Remark"]
-df1 = pd.DataFrame(dict(zip(columns, p_data)))
+    p_data = [Project_Name, S_O,Customer_Start_of_contract,Customer_End_of_contract,
+    Disty_Start_of_contract,Disty_End_of_contract,Vpn_Detail,Important_Detail,
+    Addition_Detail,Remark]
+    columns =["Project Name", "S/O","Customer_Start_of_contract","Customer_End_of_contract",
+    "Disty_Start_of_contract","Disty_End_of_contract","Vpn Detail",
+    "Important_Detail","Addition_Detail","Remark"]
+    df1 = pd.DataFrame(dict(zip(columns, p_data)))
+except (Exception) as error:
+    msg.append(error)
 
 Project_Name_contract = []
 role = []
@@ -170,13 +173,16 @@ columns = ["Circuit_ID","Equipment Serial","Equipment Brand","Equipment Model","
 df6 = pd.DataFrame(dict(zip(columns, interface_data)))
 
 
-with pd.ExcelWriter('noc_project/test/output.xlsx') as writer:
-    df1.to_excel(writer, sheet_name='Project', index=False)
-    df2.to_excel(writer, sheet_name='Contract', index=False)
-    df3.to_excel(writer, sheet_name='Site', index=False)
-    df4.to_excel(writer, sheet_name='Equipment', index=False)
-    df5.to_excel(writer, sheet_name='Circuit', index=False)
-    df6.to_excel(writer, sheet_name='Interface', index=False)
-data = pd.read_excel("noc_project/test/output.xlsx",sheet_name='Project')
-#data = pd.read_excel("noc_project/upload/data_up_load.xlsx",sheet_name='Project')
-print(data)
+# with pd.ExcelWriter('noc_project/test/output.xlsx') as writer:
+#     df1.to_excel(writer, sheet_name='Project', index=False)
+#     df2.to_excel(writer, sheet_name='Contract', index=False)
+#     df3.to_excel(writer, sheet_name='Site', index=False)
+#     df4.to_excel(writer, sheet_name='Equipment', index=False)
+#     df5.to_excel(writer, sheet_name='Circuit', index=False)
+#     df6.to_excel(writer, sheet_name='Interface', index=False)
+# data = pd.read_excel("noc_project/test/output.xlsx",sheet_name='Project')
+# #data = pd.read_excel("noc_project/upload/data_up_load.xlsx",sheet_name='Project')
+# print(data)
+
+print(msg)
+print(df1)

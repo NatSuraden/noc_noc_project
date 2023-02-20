@@ -68,7 +68,10 @@ from datetime import datetime
 # c = [a,b]
 # print(c)
 
-a = []
-print(len(a))
+try:
+    x = [1,2]
+    print(x[7])
+except (Exception) as error:
+    print(error) 
 
     
