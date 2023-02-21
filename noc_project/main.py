@@ -1024,394 +1024,405 @@ def check_data():
     contract = cursor.fetchall()
     cursor.execute('SELECT * FROM site')
     site = cursor.fetchall()
-
-    ex_name_sheet = ['Project','Contract','Site','Equipment','Circuit','Interface']
-    for i in ex_name_sheet:
-        data = pd.read_excel("noc_project/upload/data_up_load.xlsx",sheet_name=i)
-        # print(data)
-        data = data.replace(np.nan, '-', regex=True)
-        data = data.replace('', '-', regex=True)
-        data = data.replace('NaT', '-', regex=True)
-        data = data.replace('None', '-', regex=True)
-        data = data.values.tolist()
-        if i == 'Project':
-            project_data = data
-        elif i == 'Contract':
-            contract_data = data
-        elif i == 'Site':
-            site_data = data
-        elif i == "Equipment":
-            equipment_data = data
-        elif i == 'Circuit':
-            circuit_data = data
-        elif i == 'Interface':
-            interface_data = data
-
-
-    #print(project_data[0])
-    #print(interface_data)
-
-    msg_new = ["","","","","",""]
-    msg_old = ["","","","","",""]
-    msg_project_old = ''
-    msg_project_update = ''
-    project_update = []
-    project_new = []
-    # project table check
-    for i in project_data:
-        #print(i[4])
-        p_new = i[0]
-        count = 0
+    try:
+        ex_name_sheet = ['Project','Contract','Site','Equipment','Circuit','Interface']
+        for i in ex_name_sheet:
+            data = pd.read_excel("noc_project/upload/data_up_load.xlsx",sheet_name=i)
+            # print(data)
+            data = data.replace(np.nan, '-', regex=True)
+            data = data.replace('', '-', regex=True)
+            data = data.replace('NaT', '-', regex=True)
+            data = data.replace('None', '-', regex=True)
+            data = data.values.tolist()
+            if i == 'Project':
+                project_data = data
+            elif i == 'Contract':
+                contract_data = data
+            elif i == 'Site':
+                site_data = data
+            elif i == "Equipment":
+                equipment_data = data
+            elif i == 'Circuit':
+                circuit_data = data
+            elif i == 'Interface':
+                interface_data = data
+        #print(project_data[0])
+        #print(interface_data)
         try:
-            if type(i[2]) == str:
-                i[2] = datetime.datetime.strptime(i[2], '%d/%m/%Y')
-        except (Exception) as error:
-                print("project",i[2],error)
-        try:
-            if type(i[3]) == str:
-                i[3] = datetime.datetime.strptime(i[3], '%d/%m/%Y')
-        except (Exception) as error:
-            print("project",i[3],error)
-        try:
-            if type(i[4]) == str:
-                i[4] = datetime.datetime.strptime(i[4], '%d/%m/%Y')
-        except (Exception) as error:
-            print("project",i[4],error)
-        try:
-            if type(i[5]) == str:
-                i[5] = datetime.datetime.strptime(i[5], '%d/%m/%Y')
-        except (Exception) as error:
-            print("project",i[5],error)
+            msg_new = ["","","","","",""]
+            msg_old = ["","","","","",""]
+            msg_project_old = ''
+            msg_project_update = ''
+            project_update = []
+            project_new = []
+            # project table check
+            for i in project_data:
+                #print(i[4])
+                p_new = i[0]
+                count = 0
+                try:
+                    if type(i[2]) == str:
+                        i[2] = datetime.datetime.strptime(i[2], '%d/%m/%Y')
+                except (Exception) as error:
+                        print("project",i[2],error)
+                try:
+                    if type(i[3]) == str:
+                        i[3] = datetime.datetime.strptime(i[3], '%d/%m/%Y')
+                except (Exception) as error:
+                    print("project",i[3],error)
+                try:
+                    if type(i[4]) == str:
+                        i[4] = datetime.datetime.strptime(i[4], '%d/%m/%Y')
+                except (Exception) as error:
+                    print("project",i[4],error)
+                try:
+                    if type(i[5]) == str:
+                        i[5] = datetime.datetime.strptime(i[5], '%d/%m/%Y')
+                except (Exception) as error:
+                    print("project",i[5],error)
 
-        # print(i[2],type(i[2])) 
-        # print(i[3],type(i[3])) 
-        # print(i[4],type(i[4]))
-        # print(i[5],type(i[5]))
-        for x in project:
-            p_old = x[0]
-            if p_new == p_old:
-                count += 1
-                if i[0] == x[0] and i[1] == x[1] and i[2] == x[2] and i[3] == x[3] and i[4] == x[4] and i[5] == x[5] and i[6] == x[6] and i[7] == x[7] and i[8] == x[8] and i[9] == x[9]:
-                    msg_project_old += p_new+' already in database\n'
-                    
-                else:
-                    msg_project_update += p_new+' will update\n'
-                    
-                    project_update.append(i)
-                break
-        if count == 0:
-            project_new.append(i)
-            #print(i)
-            msg_project_update += p_new+' new data\n'
-
-    if len(msg_project_update) != 0:
-        msg_project_update = msg_project_update[:-1]
-
-    if len(project_update) != 0:
-        session['project_update'] = project_update
-
-    if len(project_new) != 0:
-        session['project_new'] = project_new
-
-    if len(msg_project_old) != 0:
-        msg_project_old = msg_project_old[:-1]
-    msg_project_old = str(msg_project_old).replace("\n"," <br/> ")
-    msg_project_update = str(msg_project_update).replace("\n"," <br/> ")
-    msg_project_old = Markup(msg_project_old)
-    msg_project_update = Markup(msg_project_update)
-    msg_new[0] = msg_project_update
-    msg_old[0] = msg_project_old
-
-    msg_contract_old = ''
-    msg_contract_update = ''
-    contract_update = []
-    contract_new = []
-    # project table check
-    for i in contract_data:
-        #print(i)
-        con_new = ['','']
-        con_new[0] = i[0]
-        con_new[1] = i[1]
-        count = 0
-        for x in contract:
-            con_old = ['','']
-            con_old[0] = x[1]
-            con_old[1] = x[2]
-            if con_new[0] == con_old[0] and con_new[1] == con_old[1]:
-                count += 1
-                if i[0] == x[1] and i[1] == x[2] and i[2] == x[3] and i[3] == x[4] and i[4] == x[5]:
-                    msg_contract_old += con_new[0]+","+con_new[1]+' already in database\n'
-                else:
-                    msg_contract_update += con_new[0]+","+con_new[1]+' will update\n'
-                    i.append(x[0])
-                    contract_update.append(i)
-                break
-        if count == 0:
-            msg_contract_update += con_new[0]+","+con_new[1]+' new data\n'
-            contract_new.append(i)
-
-    if len(msg_contract_update) != 0:
-        msg_contract_update = msg_contract_update[:-1]
-
-    if len(contract_update) != 0:
-        session['contract_update'] = contract_update
-
-    if len(contract_new) != 0:
-        session['contract_new'] = contract_new
-
-    if len(msg_contract_old) != 0:
-        msg_contract_old = msg_contract_old[:-1]
-
-    msg_contract_old = str(msg_contract_old).replace("\n"," <br/> ")
-    msg_contract_update = str(msg_contract_update).replace("\n"," <br/> ")
-    msg_contract_old = Markup(msg_contract_old)
-    msg_contract_update = Markup(msg_contract_update)
-    msg_new[1] = msg_contract_update
-    msg_old[1] = msg_contract_old
-
-
-    msg_site_old = ''
-    msg_site_update = ''
-    site_update = []
-    site_new = []
-    # project table check
-    for i in site_data:
-        s_new = ['','']
-        s_new[0] = i[0]
-        s_new[1] = i[1]
-        count = 0
-        for x in site:
-            s_old = ['','']
-            s_old[0] = x[1]
-            s_old[1] = x[2]
-            if s_new[0] == s_old[0] and s_new[1] == s_old[1]:
-                count += 1
-                if i[0] == x[1] and i[1] == x[2] and i[2] == x[3] and i[3] == x[4] and i[4] == x[5] and i[5] == x[6] and i[6] == x[7]:
-                    msg_site_old += s_new[0]+","+s_new[1]+' already in database\n'
-                else:
-                    msg_site_update += s_new[0]+","+s_new[1]+' will update\n'
-                    i.append(x[0])
-                    site_update.append(i)
-                break
-        if count == 0:
-            msg_site_update += s_new[0]+","+s_new[1]+' new data\n'
-            site_new.append(i)
-
-    if len(msg_site_update) != 0:
-        msg_site_update = msg_site_update[:-1]
-
-    if len(msg_site_old) != 0:
-        msg_site_old = msg_site_old[:-1]
-
-    if len(site_update) != 0:
-        session['site_update'] = site_update
-
-    if len(site_new) != 0:
-        session['site_new'] = site_new
-
-    msg_site_old = str(msg_site_old).replace("\n"," <br/> ")
-    msg_site_update = str(msg_site_update).replace("\n"," <br/> ")
-    msg_site_old = Markup(msg_site_old)
-    msg_site_update = Markup(msg_site_update)
-    msg_new[2] = msg_site_update
-    msg_old[2] = msg_site_old
-
-
-    msg_equipment_old = ''
-    msg_equipment_update = ''
-    equipment_update = []
-    equipment_new = []
-    # equipment table check
-    for i in equipment_data:
-        e_new = i[1]
-        #print(e_new)
-        count = 0
-        try:
-            if type(i[7]) == str:
-                i[7] = datetime.datetime.strptime(i[7], '%d/%m/%Y')
-            if type(i[8]) == str:
-                i[8] = datetime.datetime.strptime(i[8], '%d/%m/%Y')
-        except (Exception) as error:
-            print("project",error)
-        for x in equipment:
-            e_old = x[0]
-            if e_old == e_new:
-                count += 1
-                # if i[0] != x[2]:
-                #     print(i[0],x[2])
-                # if i[1] != x[0]:
-                #     print(i[1],x[0])
-                # if i[2] != x[3]:
-                #     print(i[2],x[3])
-                # if i[3] != x[4]:
-                #     print(i[3],x[4])
-                # if i[4] != x[5]:
-                #     print(i[4],x[5])
-                # if i[5] != x[6]:
-                #     print(i[5],x[6])
-                # if i[6] != x[7]:
-                #     print(i[6],x[7])
-                # if i[7] != x[8]:
-                #     print(i[7],x[8])
-                # if i[8] != x[9]:
-                #     print(i[8],x[9])
-                # if i[9] != x[11]:
-                #     print(i[9],x[11])
-                # if i[10] != x[-2]:
-                #     print(i[10],x[-2])
-                # if i[11] != x[1]:
-                #     print(i[11],x[1])
-                # print("***")
-                if i[0] == x[2] and i[1] == x[0] and i[2] == x[3] and i[3] == x[4] and i[4] == x[5] and i[5] == x[6] and i[6] == x[7] and i[7] == x[8] and i[8] == x[9] and i[9] == x[11] and i[10] == x[-2] and i[11] == x[1]:
-                    msg_equipment_old += e_new+' already in database\n'
-                else:
-                    msg_equipment_update += e_new+' will update\n'
-                    equipment_update.append(i)
-                break
-        if count == 0:
-            msg_equipment_update += e_new+' new data\n'
-            equipment_new.append(i)
-    if len(msg_equipment_update) != 0:
-        msg_equipment_update = msg_equipment_update[:-1]
-
-    if len(msg_equipment_old) != 0:
-        msg_equipment_old = msg_equipment_old[:-1]
-    
-    if len(equipment_update) != 0:
-        session['equipment_update'] = equipment_update
-
-    if len(equipment_new) != 0:
-        session['equipment_new'] = equipment_new
-    
-    msg_equipment_old = str(msg_equipment_old).replace("\n"," <br/> ")
-    msg_equipment_update = str(msg_equipment_update).replace("\n"," <br/> ")
-    msg_equipment_old = Markup(msg_equipment_old)
-    msg_equipment_update = Markup(msg_equipment_update)
-    msg_new[3] = msg_equipment_update
-    msg_old[3] = msg_equipment_old
-
-
-    # อาจมีอัปเดจ
-    msg_circuit_old = ''
-    msg_circuit_update = ''
-    circuit_update = []
-    circuit_new = []
-    # equipment table check
-    for i in circuit_data:
-        cir_new = i[1]
-        count = 0
-        #print(i)
-        for x in circuit:
-            cir_old = x[0]
-            if cir_new == cir_old:
-                count += 1
-                i[7] = str(i[7])
-                i[8] = (str(i[8])).upper()
-                i[9] = (str(i[9])).upper()
-                # print(i[9])
-                # if str(i[9]) == "True":
-                #     i[9] = 'TRUE'
-                #     #print(i[9])
-                # if str(i[8]) == "True":
-                #     i[8] = 'TRUE'
-                # if i[0] != x[1]:
-                #     print(i[0],x[1])
-                # if i[1] != x[0]:
-                #     print(i[1],x[0])
-                # if i[2] != x[2]:
-                #     print(i[2],x[2])
-                # if i[3] != x[3]:
-                #     print(i[3],x[3])
-                # if i[4] != x[4]:
-                #     print(i[4],x[4])
-                # if i[5] != x[5]:
-                #     print(i[5],x[5])
-                # if i[6] != x[6]:
-                #     print(i[6],x[6])
-                # if i[7] != x[7]:
-                #     print(i[7],x[7])
-                #     print(type(i[7]),type(x[7]))
-                # if i[8] != x[8]:
-                #     print(i[8],x[8])
-                # if i[9] != x[9]:
-                #     print(i[9],x[9])
-                # if i[10] != x[10]:
-                #     print(i[10],x[10])
-                if i[0] == x[1] and i[1] == x[0] and i[2] == x[2] and i[3] == x[3] and i[4] == x[4] and i[5] == x[5] and i[6] == x[6] and i[7] == x[7] and i[8] == x[8] and i[9] == x[9] and i[10] == x[10]: 
-                    msg_circuit_old += cir_new+' already in database\n'
-                else:
-                    msg_circuit_update += cir_new+' will update\n'
+                # print(i[2],type(i[2])) 
+                # print(i[3],type(i[3])) 
+                # print(i[4],type(i[4]))
+                # print(i[5],type(i[5]))
+                for x in project:
+                    p_old = x[0]
+                    if p_new == p_old:
+                        count += 1
+                        if i[0] == x[0] and i[1] == x[1] and i[2] == x[2] and i[3] == x[3] and i[4] == x[4] and i[5] == x[5] and i[6] == x[6] and i[7] == x[7] and i[8] == x[8] and i[9] == x[9]:
+                            msg_project_old += p_new+' already in database\n'
+                            
+                        else:
+                            msg_project_update += p_new+' will update\n'
+                            
+                            project_update.append(i)
+                        break
+                if count == 0:
+                    project_new.append(i)
                     #print(i)
-                    circuit_update.append(i)
-                break
-        if count == 0:
-            msg_circuit_update += cir_new+' new data\n'
-            circuit_new.append(i)
-    if len(msg_circuit_update) != 0:
-        msg_circuit_update = msg_circuit_update[:-1]
-    if len(msg_circuit_old) != 0:
-        msg_circuit_old = msg_circuit_old[:-1]
+                    msg_project_update += p_new+' new data\n'
 
-    if len(circuit_update) != 0:
-        session['circuit_update'] = circuit_update
+            if len(msg_project_update) != 0:
+                msg_project_update = msg_project_update[:-1]
 
-    if len(circuit_new) != 0:
-        session['circuit_new'] = circuit_new
+            if len(project_update) != 0:
+                session['project_update'] = project_update
 
-    msg_circuit_old = str(msg_circuit_old).replace("\n"," <br/> ")
-    msg_circuit_update = str(msg_circuit_update).replace("\n"," <br/> ")
-    msg_circuit_old = Markup(msg_circuit_old)
-    msg_circuit_update = Markup(msg_circuit_update)
-    msg_new[4] = msg_circuit_update
-    msg_old[4] = msg_circuit_old
+            if len(project_new) != 0:
+                session['project_new'] = project_new
 
+            if len(msg_project_old) != 0:
+                msg_project_old = msg_project_old[:-1]
+            msg_project_old = str(msg_project_old).replace("\n"," <br/> ")
+            msg_project_update = str(msg_project_update).replace("\n"," <br/> ")
+            msg_project_old = Markup(msg_project_old)
+            msg_project_update = Markup(msg_project_update)
+            msg_new[0] = msg_project_update
+            msg_old[0] = msg_project_old
+        except (Exception) as error:
+            print(error)
 
+        try:
+            msg_contract_old = ''
+            msg_contract_update = ''
+            contract_update = []
+            contract_new = []
+            # project table check
+            for i in contract_data:
+                #print(i)
+                con_new = ['','']
+                con_new[0] = i[0]
+                con_new[1] = i[1]
+                count = 0
+                for x in contract:
+                    con_old = ['','']
+                    con_old[0] = x[1]
+                    con_old[1] = x[2]
+                    if con_new[0] == con_old[0] and con_new[1] == con_old[1]:
+                        count += 1
+                        if i[0] == x[1] and i[1] == x[2] and i[2] == x[3] and i[3] == x[4] and i[4] == x[5]:
+                            msg_contract_old += con_new[0]+","+con_new[1]+' already in database\n'
+                        else:
+                            msg_contract_update += con_new[0]+","+con_new[1]+' will update\n'
+                            i.append(x[0])
+                            contract_update.append(i)
+                        break
+                if count == 0:
+                    msg_contract_update += con_new[0]+","+con_new[1]+' new data\n'
+                    contract_new.append(i)
 
-    msg_interface_old = ''
-    msg_interface_update = ''
-    # project table check
-    interface_update = []
-    interface_new = []
-    for i in interface_data:
-        inter_new = ['','']
-        inter_new[0] = i[0]
-        inter_new[1] = i[1]
-        count = 0
-        for x in interface:
-            inter_old = ['','']
-            inter_old[0] = x[1]
-            inter_old[1] = x[2]
-            if inter_new[0] == inter_old[0] and inter_new[1] == inter_old[1]:
-                count += 1
-                if i[0] == x[1] and i[1] == x[2] and i[2] == x[3] and i[3] == x[4] and i[4] == x[5] and i[5] == x[6] and i[6] == x[7]:
-                    msg_interface_old += inter_new[0]+","+inter_new[1]+' already in database\n'
-                else:
-                    msg_interface_update += inter_new[0]+","+inter_new[1]+' will update\n'
-                    i.append(x[0])
-                    interface_update.append(i)
-                break
-        if count == 0:
-            msg_interface_update += inter_new[0]+","+inter_new[1]+' new data\n'
-            interface_new.append(i)
-    if len(msg_interface_update) != 0:
-        msg_interface_update = msg_interface_update[:-1]
-    if len(msg_interface_old) != 0:
-        msg_interface_old = msg_interface_old[:-1]
+            if len(msg_contract_update) != 0:
+                msg_contract_update = msg_contract_update[:-1]
 
-    if len(interface_update) != 0:
-        session['interface_update'] = interface_update
+            if len(contract_update) != 0:
+                session['contract_update'] = contract_update
 
-    if len(interface_new) != 0:
-        session['interface_new'] = interface_new
+            if len(contract_new) != 0:
+                session['contract_new'] = contract_new
 
-    msg_interface_old = str(msg_interface_old).replace("\n"," <br/> ")
-    msg_interface_update = str(msg_interface_update).replace("\n"," <br/> ")
-    msg_interface_old = Markup(msg_interface_old)
-    msg_interface_update = Markup(msg_interface_update)
-    msg_new[5] = msg_interface_update
-    msg_old[5] = msg_interface_old
-    msg_list = [msg_new,msg_old]
-    return msg_list
+            if len(msg_contract_old) != 0:
+                msg_contract_old = msg_contract_old[:-1]
+
+            msg_contract_old = str(msg_contract_old).replace("\n"," <br/> ")
+            msg_contract_update = str(msg_contract_update).replace("\n"," <br/> ")
+            msg_contract_old = Markup(msg_contract_old)
+            msg_contract_update = Markup(msg_contract_update)
+            msg_new[1] = msg_contract_update
+            msg_old[1] = msg_contract_old
+        except (Exception) as error:
+            print(error)
+
+        try:
+            msg_site_old = ''
+            msg_site_update = ''
+            site_update = []
+            site_new = []
+            # project table check
+            for i in site_data:
+                s_new = ['','']
+                s_new[0] = i[0]
+                s_new[1] = i[1]
+                count = 0
+                for x in site:
+                    s_old = ['','']
+                    s_old[0] = x[1]
+                    s_old[1] = x[2]
+                    if s_new[0] == s_old[0] and s_new[1] == s_old[1]:
+                        count += 1
+                        if i[0] == x[1] and i[1] == x[2] and i[2] == x[3] and i[3] == x[4] and i[4] == x[5] and i[5] == x[6] and i[6] == x[7]:
+                            msg_site_old += s_new[0]+","+s_new[1]+' already in database\n'
+                        else:
+                            msg_site_update += s_new[0]+","+s_new[1]+' will update\n'
+                            i.append(x[0])
+                            site_update.append(i)
+                        break
+                if count == 0:
+                    msg_site_update += s_new[0]+","+s_new[1]+' new data\n'
+                    site_new.append(i)
+
+            if len(msg_site_update) != 0:
+                msg_site_update = msg_site_update[:-1]
+
+            if len(msg_site_old) != 0:
+                msg_site_old = msg_site_old[:-1]
+
+            if len(site_update) != 0:
+                session['site_update'] = site_update
+
+            if len(site_new) != 0:
+                session['site_new'] = site_new
+
+            msg_site_old = str(msg_site_old).replace("\n"," <br/> ")
+            msg_site_update = str(msg_site_update).replace("\n"," <br/> ")
+            msg_site_old = Markup(msg_site_old)
+            msg_site_update = Markup(msg_site_update)
+            msg_new[2] = msg_site_update
+            msg_old[2] = msg_site_old
+        except (Exception) as error:
+            print(error)
+        try:
+            msg_equipment_old = ''
+            msg_equipment_update = ''
+            equipment_update = []
+            equipment_new = []
+            # equipment table check
+            for i in equipment_data:
+                e_new = i[1]
+                #print(e_new)
+                count = 0
+                try:
+                    if type(i[7]) == str:
+                        i[7] = datetime.datetime.strptime(i[7], '%d/%m/%Y')
+                    if type(i[8]) == str:
+                        i[8] = datetime.datetime.strptime(i[8], '%d/%m/%Y')
+                except (Exception) as error:
+                    print("project",error)
+                for x in equipment:
+                    e_old = x[0]
+                    if e_old == e_new:
+                        count += 1
+                        # if i[0] != x[2]:
+                        #     print(i[0],x[2])
+                        # if i[1] != x[0]:
+                        #     print(i[1],x[0])
+                        # if i[2] != x[3]:
+                        #     print(i[2],x[3])
+                        # if i[3] != x[4]:
+                        #     print(i[3],x[4])
+                        # if i[4] != x[5]:
+                        #     print(i[4],x[5])
+                        # if i[5] != x[6]:
+                        #     print(i[5],x[6])
+                        # if i[6] != x[7]:
+                        #     print(i[6],x[7])
+                        # if i[7] != x[8]:
+                        #     print(i[7],x[8])
+                        # if i[8] != x[9]:
+                        #     print(i[8],x[9])
+                        # if i[9] != x[11]:
+                        #     print(i[9],x[11])
+                        # if i[10] != x[-2]:
+                        #     print(i[10],x[-2])
+                        # if i[11] != x[1]:
+                        #     print(i[11],x[1])
+                        # print("***")
+                        if i[0] == x[2] and i[1] == x[0] and i[2] == x[3] and i[3] == x[4] and i[4] == x[5] and i[5] == x[6] and i[6] == x[7] and i[7] == x[8] and i[8] == x[9] and i[9] == x[11] and i[10] == x[-2] and i[11] == x[1]:
+                            msg_equipment_old += e_new+' already in database\n'
+                        else:
+                            msg_equipment_update += e_new+' will update\n'
+                            equipment_update.append(i)
+                        break
+                if count == 0:
+                    msg_equipment_update += e_new+' new data\n'
+                    equipment_new.append(i)
+            if len(msg_equipment_update) != 0:
+                msg_equipment_update = msg_equipment_update[:-1]
+
+            if len(msg_equipment_old) != 0:
+                msg_equipment_old = msg_equipment_old[:-1]
+            
+            if len(equipment_update) != 0:
+                session['equipment_update'] = equipment_update
+
+            if len(equipment_new) != 0:
+                session['equipment_new'] = equipment_new
+            
+            msg_equipment_old = str(msg_equipment_old).replace("\n"," <br/> ")
+            msg_equipment_update = str(msg_equipment_update).replace("\n"," <br/> ")
+            msg_equipment_old = Markup(msg_equipment_old)
+            msg_equipment_update = Markup(msg_equipment_update)
+            msg_new[3] = msg_equipment_update
+            msg_old[3] = msg_equipment_old
+        except (Exception) as error:
+            print(error)
+
+        try:
+            # อาจมีอัปเดจ
+            msg_circuit_old = ''
+            msg_circuit_update = ''
+            circuit_update = []
+            circuit_new = []
+            # equipment table check
+            for i in circuit_data:
+                cir_new = i[1]
+                count = 0
+                #print(i)
+                for x in circuit:
+                    cir_old = x[0]
+                    if cir_new == cir_old:
+                        count += 1
+                        i[7] = str(i[7])
+                        i[8] = (str(i[8])).upper()
+                        i[9] = (str(i[9])).upper()
+                        # print(i[9])
+                        # if str(i[9]) == "True":
+                        #     i[9] = 'TRUE'
+                        #     #print(i[9])
+                        # if str(i[8]) == "True":
+                        #     i[8] = 'TRUE'
+                        # if i[0] != x[1]:
+                        #     print(i[0],x[1])
+                        # if i[1] != x[0]:
+                        #     print(i[1],x[0])
+                        # if i[2] != x[2]:
+                        #     print(i[2],x[2])
+                        # if i[3] != x[3]:
+                        #     print(i[3],x[3])
+                        # if i[4] != x[4]:
+                        #     print(i[4],x[4])
+                        # if i[5] != x[5]:
+                        #     print(i[5],x[5])
+                        # if i[6] != x[6]:
+                        #     print(i[6],x[6])
+                        # if i[7] != x[7]:
+                        #     print(i[7],x[7])
+                        #     print(type(i[7]),type(x[7]))
+                        # if i[8] != x[8]:
+                        #     print(i[8],x[8])
+                        # if i[9] != x[9]:
+                        #     print(i[9],x[9])
+                        # if i[10] != x[10]:
+                        #     print(i[10],x[10])
+                        if i[0] == x[1] and i[1] == x[0] and i[2] == x[2] and i[3] == x[3] and i[4] == x[4] and i[5] == x[5] and i[6] == x[6] and i[7] == x[7] and i[8] == x[8] and i[9] == x[9] and i[10] == x[10]: 
+                            msg_circuit_old += cir_new+' already in database\n'
+                        else:
+                            msg_circuit_update += cir_new+' will update\n'
+                            #print(i)
+                            circuit_update.append(i)
+                        break
+                if count == 0:
+                    msg_circuit_update += cir_new+' new data\n'
+                    circuit_new.append(i)
+            if len(msg_circuit_update) != 0:
+                msg_circuit_update = msg_circuit_update[:-1]
+            if len(msg_circuit_old) != 0:
+                msg_circuit_old = msg_circuit_old[:-1]
+
+            if len(circuit_update) != 0:
+                session['circuit_update'] = circuit_update
+
+            if len(circuit_new) != 0:
+                session['circuit_new'] = circuit_new
+
+            msg_circuit_old = str(msg_circuit_old).replace("\n"," <br/> ")
+            msg_circuit_update = str(msg_circuit_update).replace("\n"," <br/> ")
+            msg_circuit_old = Markup(msg_circuit_old)
+            msg_circuit_update = Markup(msg_circuit_update)
+            msg_new[4] = msg_circuit_update
+            msg_old[4] = msg_circuit_old
+        except (Exception) as error:
+            print(error)
+
+        try:
+            msg_interface_old = ''
+            msg_interface_update = ''
+            # project table check
+            interface_update = []
+            interface_new = []
+            for i in interface_data:
+                inter_new = ['','']
+                inter_new[0] = i[0]
+                inter_new[1] = i[1]
+                count = 0
+                for x in interface:
+                    inter_old = ['','']
+                    inter_old[0] = x[1]
+                    inter_old[1] = x[2]
+                    if inter_new[0] == inter_old[0] and inter_new[1] == inter_old[1]:
+                        count += 1
+                        if i[0] == x[1] and i[1] == x[2] and i[2] == x[3] and i[3] == x[4] and i[4] == x[5] and i[5] == x[6] and i[6] == x[7]:
+                            msg_interface_old += inter_new[0]+","+inter_new[1]+' already in database\n'
+                        else:
+                            msg_interface_update += inter_new[0]+","+inter_new[1]+' will update\n'
+                            i.append(x[0])
+                            interface_update.append(i)
+                        break
+                if count == 0:
+                    msg_interface_update += inter_new[0]+","+inter_new[1]+' new data\n'
+                    interface_new.append(i)
+            if len(msg_interface_update) != 0:
+                msg_interface_update = msg_interface_update[:-1]
+            if len(msg_interface_old) != 0:
+                msg_interface_old = msg_interface_old[:-1]
+
+            if len(interface_update) != 0:
+                session['interface_update'] = interface_update
+
+            if len(interface_new) != 0:
+                session['interface_new'] = interface_new
+
+            msg_interface_old = str(msg_interface_old).replace("\n"," <br/> ")
+            msg_interface_update = str(msg_interface_update).replace("\n"," <br/> ")
+            msg_interface_old = Markup(msg_interface_old)
+            msg_interface_update = Markup(msg_interface_update)
+            msg_new[5] = msg_interface_update
+            msg_old[5] = msg_interface_old
+            msg_list = [msg_new,msg_old]
+            return msg_list
+        except (Exception) as error:
+            print(error)
+    except (Exception) as error:
+        print(error)
 
 @app.route("/ajaxfile",methods=["POST","GET"])
 def ajaxfile():
