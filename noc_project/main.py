@@ -1062,21 +1062,35 @@ def check_data():
         #print(i[4])
         p_new = i[0]
         count = 0
+        try:
+            if type(i[2]) == str:
+                i[2] = datetime.datetime.strptime(i[2], '%d/%m/%Y')
+        except (Exception) as error:
+                print("project",i[2],error)
+        try:
+            if type(i[3]) == str:
+                i[3] = datetime.datetime.strptime(i[3], '%d/%m/%Y')
+        except (Exception) as error:
+            print("project",i[3],error)
+        try:
+            if type(i[4]) == str:
+                i[4] = datetime.datetime.strptime(i[4], '%d/%m/%Y')
+        except (Exception) as error:
+            print("project",i[4],error)
+        try:
+            if type(i[5]) == str:
+                i[5] = datetime.datetime.strptime(i[5], '%d/%m/%Y')
+        except (Exception) as error:
+            print("project",i[5],error)
+
+        # print(i[2],type(i[2])) 
+        # print(i[3],type(i[3])) 
+        # print(i[4],type(i[4]))
+        # print(i[5],type(i[5]))
         for x in project:
             p_old = x[0]
             if p_new == p_old:
                 count += 1
-                try:
-                    if type(i[2]) == str:
-                        i[2] = datetime.datetime.strptime(i[2], '%d/%m/%Y')
-                    if type(i[3]) == str:
-                        i[3] = datetime.datetime.strptime(i[3], '%d/%m/%Y')
-                    if type(i[4]) == str:
-                        i[4] = datetime.datetime.strptime(i[4], '%d/%m/%Y')
-                    if type(i[5]) == str:
-                        i[5] = datetime.datetime.strptime(i[5], '%d/%m/%Y')
-                except (Exception) as error:
-                    print("project",error)
                 if i[0] == x[0] and i[1] == x[1] and i[2] == x[2] and i[3] == x[3] and i[4] == x[4] and i[5] == x[5] and i[6] == x[6] and i[7] == x[7] and i[8] == x[8] and i[9] == x[9]:
                     msg_project_old += p_new+' already in database\n'
                     
@@ -1212,6 +1226,13 @@ def check_data():
         e_new = i[1]
         #print(e_new)
         count = 0
+        try:
+            if type(i[7]) == str:
+                i[7] = datetime.datetime.strptime(i[7], '%d/%m/%Y')
+            if type(i[8]) == str:
+                i[8] = datetime.datetime.strptime(i[8], '%d/%m/%Y')
+        except (Exception) as error:
+            print("project",error)
         for x in equipment:
             e_old = x[0]
             if e_old == e_new:
@@ -1241,13 +1262,6 @@ def check_data():
                 # if i[11] != x[1]:
                 #     print(i[11],x[1])
                 # print("***")
-                try:
-                    if type(i[7]) == str:
-                        i[7] = datetime.datetime.strptime(i[7], '%d/%m/%Y')
-                    if type(i[8]) == str:
-                        i[8] = datetime.datetime.strptime(i[8], '%d/%m/%Y')
-                except (Exception) as error:
-                    print("project",error)
                 if i[0] == x[2] and i[1] == x[0] and i[2] == x[3] and i[3] == x[4] and i[4] == x[5] and i[5] == x[6] and i[6] == x[7] and i[7] == x[8] and i[8] == x[9] and i[9] == x[11] and i[10] == x[-2] and i[11] == x[1]:
                     msg_equipment_old += e_new+' already in database\n'
                 else:
