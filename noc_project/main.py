@@ -1990,7 +1990,63 @@ def upload_file():
 		return resp
 
 
+@app.route('/delete_table')
+def delete_table():
+    data = session['delete_table_name']
+    if data == 'Project':
+        project = session['project']
+        project = replace_space(project)
+        collection = []
+        columns = ['project name','s/o','C_S_C','C_E_C','D_S_C','D_E_C','Vpn Detail','Important Detail','Addition Detail','Remark']
+        for i in project:
+            collection.append(dict(zip(columns,[i[0],i[1],i[2],i[3],i[4],i[5],i[6],i[7],i[8],i[9]])))
+        results = BaseDataTables(request, columns, collection).output_result()
+        return json.dumps(results)
+    # for i in range(len(name)):
+    #     collection.append(dict(zip(columns,[name[i],password[i],Role[i]])))
 
+    # results = BaseDataTables(request, columns, collection).output_result()
+    
+    # return json.dumps(results)
+@app.route('/delete_page', methods=['GET', 'POST'])
+def delete_page():
+    if 'loggedin' in session and session['role'] == 'admin':
+        session['delete_table_name'] = 'Project'
+        if request.method == 'POST' and 'table_name' in request.form:
+            tablename = request.form['table_name']
+            session['delete_table_name'] = tablename
+        # circuit = session['circuit']
+        # circuit = replace_space(circuit)
+        # equipment = session['equipment']
+        # equipment = replace_space(equipment)
+        # interface = session['interface']
+        # interface = replace_space(interface)
+        # site = session['site']
+        # site = replace_space(site)
+        # project = session['project']
+        # project = replace_space(project)
+        # contrat = session['contrat']
+        # contrat = replace_space(contrat)
+
+        return render_template('delete_form.html')
+    return redirect(url_for('login'))
+
+def replace_space(data):
+    data2 = []
+    for i in data:
+        data3 = []
+        for x in i:
+            if type(x) == str:
+                x.replace('\n','<br />')
+                data3.append(x)
+            elif type(x) == datetime.datetime:
+                x = x.strftime("%d/%m/%Y")
+                data3.append(x)
+            else:
+                data3.append(x)
+        data2.append(data3)
+    return data2
+        
 @app.route('/noc_project/profile')
 def profile():
     if 'loggedin' in session:
