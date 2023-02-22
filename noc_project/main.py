@@ -1889,6 +1889,7 @@ def get_server_data():
     connection.close()
     collection = []
     columns = session['columns']
+    print(name)
     for i in range(len(name)):
         collection.append(dict(zip(columns,[name[i],password[i],Role[i]])))
 
@@ -1997,9 +1998,20 @@ def delete_table():
         project = session['project']
         project = replace_space(project)
         collection = []
-        columns = ['project name','s/o','C_S_C','C_E_C','D_S_C','D_E_C','Vpn Detail','Important Detail','Addition Detail','Remark']
+        columns = session['columns_delete']
         for i in project:
             collection.append(dict(zip(columns,[i[0],i[1],i[2],i[3],i[4],i[5],i[6],i[7],i[8],i[9]])))
+        results = BaseDataTables(request, columns, collection).output_result()
+        return json.dumps(results)
+    elif data == 'Contract':
+        contrat = session['contrat']
+        contrat = replace_space(contrat)
+        collection = []
+        columns = session['columns_delete']
+        for i in contrat:
+            print(i[-1])
+            print("XXX")
+            collection.append(dict(zip(columns,[i[0],i[1],i[2],i[3],i[4],i[5]])))
         results = BaseDataTables(request, columns, collection).output_result()
         return json.dumps(results)
     # for i in range(len(name)):
@@ -2010,25 +2022,42 @@ def delete_table():
     # return json.dumps(results)
 @app.route('/delete_page', methods=['GET', 'POST'])
 def delete_page():
+    # if 'loggedin' in session and session['role'] == 'admin':
+    #     session['delete_table_name'] = 'Project'
+    #     columns = ['Username', 'password', 'Role']
+    #     session['columns'] = columns
+    #     if request.method == 'POST' and 'table_name' in request.form:
+    #         tablename = request.form['table_name']
+    #         session['delete_table_name'] = tablename
+    #     # circuit = session['circuit']
+    #     # circuit = replace_space(circuit)
+    #     # equipment = session['equipment']
+    #     # equipment = replace_space(equipment)
+    #     # interface = session['interface']
+    #     # interface = replace_space(interface)
+    #     # site = session['site']
+    #     # site = replace_space(site)
+    #     # project = session['project']
+    #     # project = replace_space(project)
+    #     # contrat = session['contrat']
+    #     # contrat = replace_space(contrat)
+
+    #     return render_template('delete_form.html')
     if 'loggedin' in session and session['role'] == 'admin':
+        columns = ['project name','s/o','C_S_C','C_E_C','D_S_C','D_E_C','Vpn Detail','Important Detail','Addition Detail','Remark']
+        session['columns_delete'] = columns
         session['delete_table_name'] = 'Project'
         if request.method == 'POST' and 'table_name' in request.form:
             tablename = request.form['table_name']
-            session['delete_table_name'] = tablename
-        # circuit = session['circuit']
-        # circuit = replace_space(circuit)
-        # equipment = session['equipment']
-        # equipment = replace_space(equipment)
-        # interface = session['interface']
-        # interface = replace_space(interface)
-        # site = session['site']
-        # site = replace_space(site)
-        # project = session['project']
-        # project = replace_space(project)
-        # contrat = session['contrat']
-        # contrat = replace_space(contrat)
-
-        return render_template('delete_form.html')
+            if tablename == 'Project':
+                columns = ['project name','s/o','C_S_C','C_E_C','D_S_C','D_E_C','Vpn Detail','Important Detail','Addition Detail','Remark']
+                session['columns_delete'] = columns
+                session['delete_table_name'] = 'Project'
+            elif tablename == 'Contract':
+                columns = ['id','project_name','role','name','tel','additional_detail']
+                session['columns_delete'] = columns
+                session['delete_table_name'] = 'Contract'
+        return render_template('delete_form.html', columns=columns)
     return redirect(url_for('login'))
 
 def replace_space(data):

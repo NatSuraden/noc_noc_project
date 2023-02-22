@@ -1,6 +1,6 @@
 {% extends 'layout.html' %}
 
-{% block title %}Delete{% endblock %}
+{% block title %}delete_form{% endblock %}
 
 {% block content %}
 <head>
@@ -23,12 +23,17 @@ $(document).ready(function() {
 		"sDom": "<'row-fluid'<'span6 toolbar'><'span6'>r>t<'row-fluid'<'span6'f><'span6'p>>",
 		"bProcessing": true,
 		"bjQueryUI": true,
-		"sAjaxSource": "{{ url_for('get_server_data') }}",
+		"sAjaxSource": "{{ url_for('delete_table') }}",
 	});
 } );
 </script>
-
-
+<form action="{{ url_for('delete_page') }}" method="POST">
+    <select name="table_name" id="table_name" onchange="this.form.submit()">
+        <option>select table</option>
+        <option value="Project">Project</option>
+        <option value="Contract">Contract</option>
+    </select>
+</form>
 <body>
 	<div class="container">
 	<table class='table' id='example'>
@@ -42,5 +47,4 @@ $(document).ready(function() {
 	</table>
 	</div>
 </body>
-
 {% endblock %}
