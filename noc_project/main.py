@@ -133,7 +133,7 @@ def check_test():
                 connection.close()
             except (Exception) as error:
                 msg = []
-                error = "add",i[0],str(error)  
+                error = str(error)  
                 msg.append(error)
                 session['project_error'] += msg
             if len(session['project_error']) != 0:
