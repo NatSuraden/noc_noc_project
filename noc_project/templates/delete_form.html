@@ -15,6 +15,7 @@
 	<script src="{{ url_for('static', filename='js/jquery-1.8.1.min.js') }}"></script>
 	<script src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
 	<script src="{{ url_for('static', filename='js/jquery.dataTables.min.js') }}"></script>
+
 </head>
 
 <script>
@@ -38,6 +39,7 @@ $(document).ready(function() {
 		<option value="Interface">Interface</option>
     </select>
 </form>
+<p>Table Name: {{tablename}}</p>
 <body>
 	
 	<table class='table' id='example'>
@@ -49,6 +51,9 @@ $(document).ready(function() {
 			</tr>
 		</thead>
 	</table>
-	
+	<form action="{{ url_for('delete_page') }}" method="POST">
+		<input type="text" placeholder="input PK to delete" name = 'PK' id = 'PK'></input>
+		<button type="submit">submit</button>
+	</form>
 </body>
 {% endblock %}

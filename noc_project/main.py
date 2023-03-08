@@ -2077,6 +2077,7 @@ def delete_table():
 def delete_page():
     if 'loggedin' in session and session['role'] == 'admin':
         global equipment,site,circuit,interface,project,contrat
+        tablename = 'Project'
         connection = psycopg2.connect(user="postgres",password="pplus1234",host="127.0.0.1",port="5432",database="python2565")
         cursor = connection.cursor()
         cursor.execute('SELECT * FROM circuit')
@@ -2094,25 +2095,26 @@ def delete_page():
         cursor.close()
         connection.close()
         if 'delete_table_name' not in session:
-            columns = ['project name','s/o','C_S_C','C_E_C','D_S_C','D_E_C','Vpn_Detail','Important_Detail','Addition_Detail','Remark']
+            columns = ['project_name','s/o','C_S_C','C_E_C','D_S_C','D_E_C','Vpn_Detail','Important_Detail','Addition_Detail','Remark']
             session['columns_delete'] = columns
             session['delete_table_name'] = 'Project'
+            tablename = 'Project'
         if request.method == 'POST' and 'table_name' in request.form:
             tablename = request.form['table_name']
             if tablename == 'Project':
-                columns = ['project name','s/o','C_S_C','C_E_C','D_S_C','D_E_C','Vpn_Detail','Important_Detail','Addition_Detail','Remark']
+                columns = ['project_name','s/o','C_S_C','C_E_C','D_S_C','D_E_C','Vpn_Detail','Important_Detail','Addition_Detail','Remark']
                 session['columns_delete'] = columns
                 session['delete_table_name'] = 'Project'
             elif tablename == 'Contract':
-                columns = ['id','project_name','role','name','tel','additional_detail']
+                columns = ['contrat_id','project_name','role','name','tel','additional_detail']
                 session['columns_delete'] = columns
                 session['delete_table_name'] = 'Contract'
             elif tablename == 'Site':
-                columns = ["id","project_name","site_name","location","short_name","contact_owner_site","contact","type"]
+                columns = ["site_id","project_name","site_name","location","short_name","contact_owner_site","contact","type"]
                 session['columns_delete'] = columns
                 session['delete_table_name'] = 'Site'
             elif tablename == 'Equipment':
-                columns = ["serial","project_name","site_name","brand","model","disty_name","disty_contact",
+                columns = ["serial_number","project_name","site_name","brand","model","disty_name","disty_contact",
                 "open_case_contact","s_o_w","e_o_w","ha_status","ha"]
                 session['columns_delete'] = columns
                 session['delete_table_name'] = 'Equipment'
@@ -2122,11 +2124,35 @@ def delete_page():
                 session['columns_delete'] = columns
                 session['delete_table_name'] = 'Circuit'
             elif tablename == 'Interface':
-                columns = ["id","circuit_id","e_serial","e_brand","e_model","physical_interface","vlan_id","tunnel_interface_name"]
+                columns = ["interface_id","circuit_id","e_serial","e_brand","e_model","physical_interface","vlan_id","tunnel_interface_name"]
                 session['columns_delete'] = columns
                 session['delete_table_name'] = 'Interface'
-        return render_template('delete_form.html', columns=session['columns_delete'])
+        if request.method == 'POST' and 'PK' in request.form:
+            if 'delete_table_name' not in session:
+                tablename = 'Project'
+            else:
+                tablename = session['delete_table_name']
+            PK_name = request.form['PK']
+            msg = table_delete(PK_name,tablename,session['columns_delete'][0])
+            #print(msg)
+            return render_template('delete_form.html', columns=session['columns_delete'] ,tablename = tablename)
+        return render_template('delete_form.html', columns=session['columns_delete'] ,tablename = tablename)
     return redirect(url_for('login'))
+
+def table_delete(PK_name,tablename,columns_delete):
+    try:
+        connection = psycopg2.connect(user="postgres",password="pplus1234",host="127.0.0.1",port="5432",database="python2565")
+        cursor = connection.cursor()
+        tablename = tablename.lower()
+        sql = "DELETE FROM " +tablename+" WHERE "+columns_delete+" = "+"'{}'".format(PK_name)
+        #cursor.execute("DELETE FROM %s WHERE %s = %s", (tablename,columns_delete,PK_name))
+        cursor.execute(sql)
+        connection.commit()
+        cursor.close()
+        connection.close()
+        return "DONE"
+    except (Exception) as error:
+        print(error)
 
 def replace_space(data):
     data2 = []
