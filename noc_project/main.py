@@ -1140,15 +1140,17 @@ def check_data():
             # project table check
             for i in contract_data:
                 #print(i)
-                con_new = ['','']
+                con_new = ['','','']
                 con_new[0] = i[0]
                 con_new[1] = i[1]
+                con_new[2] = i[2]
                 count = 0
                 for x in contract:
-                    con_old = ['','']
+                    con_old = ['','','']
                     con_old[0] = x[1]
                     con_old[1] = x[2]
-                    if con_new[0] == con_old[0] and con_new[1] == con_old[1]:
+                    con_old[2] = x[3]
+                    if con_new[0] == con_old[0] and con_new[1] == con_old[1] and con_new[2] == con_old[2]:
                         count += 1
                         if i[0] == x[1] and i[1] == x[2] and i[2] == x[3] and i[3] == x[4] and i[4] == x[5]:
                             msg_contract_old += con_new[0]+","+con_new[1]+' already in database\n'
@@ -1190,15 +1192,17 @@ def check_data():
             site_new = []
             # project table check
             for i in site_data:
-                s_new = ['','']
+                s_new = ['','','']
                 s_new[0] = i[0]
                 s_new[1] = i[1]
+                s_new[2] = i[2]
                 count = 0
                 for x in site:
-                    s_old = ['','']
+                    s_old = ['','','']
                     s_old[0] = x[1]
                     s_old[1] = x[2]
-                    if s_new[0] == s_old[0] and s_new[1] == s_old[1]:
+                    s_old[2] = x[3]
+                    if s_new[0] == s_old[0] and s_new[1] == s_old[1] and s_new[2] == s_old[2]:
                         count += 1
                         if i[0] == x[1] and i[1] == x[2] and i[2] == x[3] and i[3] == x[4] and i[4] == x[5] and i[5] == x[6] and i[6] == x[7]:
                             msg_site_old += s_new[0]+","+s_new[1]+' already in database\n'
@@ -2150,9 +2154,11 @@ def table_delete(PK_name,tablename,columns_delete):
         connection.commit()
         cursor.close()
         connection.close()
-        return "DONE"
+        msg = "DELETE "+PK_name+" form "+tablename+' successfully'
+        return msg
     except (Exception) as error:
-        print(error)
+        msg = "Fail to DELETE "+PK_name+" form "+tablename
+        return msg
 
 def replace_space(data):
     data2 = []
@@ -2175,7 +2181,9 @@ def profile():
     if 'loggedin' in session:
         return render_template('profile.html', account=session)
     return redirect(url_for('login'))
- 
+
+def save_log(msg):
+    pass
 
 def W_chack(sql):
     sql_str = sql

@@ -14,18 +14,24 @@ try:
         role      VARCHAR(50)); '''
     """
     # TABLE circuit
-    create_table_guery = '''CREATE TABLE circuit
-        (circuit_id  VARCHAR(50) PRIMARY KEY,
-        equipment_ref     VARCHAR(50) ,
-        ip_address_pe     VARCHAR(50) ,
-        ip_address_ce      VARCHAR(50) ,
-        subnet      VARCHAR(50) ,
-        loopback      VARCHAR(50) ,
-        circuit_type      VARCHAR(50) ,
-        link_number      VARCHAR(50) ,
-        original_isp      VARCHAR(255) ,
-        owner_isp      VARCHAR(255) ,
-        isp_contact_tel      VARCHAR(255)); ''' 
+    # create_table_guery = '''CREATE TABLE circuit
+    #     (circuit_id  VARCHAR(50) PRIMARY KEY,
+    #     equipment_ref     VARCHAR(50) ,
+    #     ip_address_pe     VARCHAR(50) ,
+    #     ip_address_ce      VARCHAR(50) ,
+    #     subnet      VARCHAR(50) ,
+    #     loopback      VARCHAR(50) ,
+    #     circuit_type      VARCHAR(50) ,
+    #     link_number      VARCHAR(50) ,
+    #     original_isp      VARCHAR(255) ,
+    #     owner_isp      VARCHAR(255) ,
+    #     isp_contact_tel      VARCHAR(255)); ''' 
+    
+    create_table_guery = '''CREATE TABLE event_logs
+        (id SERIAL PRIMARY KEY,
+        username     VARCHAR(50) ,
+        time     timestamp ,
+        event      VARCHAR(50)); ''' 
 
     #TABLE interface
     # create_table_guery = '''CREATE TABLE interface
