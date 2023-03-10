@@ -1040,8 +1040,9 @@ def check_data():
         ex_name_sheet = ['Project','Contract','Site','Equipment','Circuit','Interface']
         #ex_name_sheet = ['Project']
         for i in ex_name_sheet:
-            data = pd.read_excel("noc_project/upload/data_up_load.xlsx",sheet_name=i)
-            # print(data)
+            filename = 'data_up_load.xlsx'
+            data = pd.read_excel(os.path.join(app.config['UPLOAD_FOLDER'], filename),sheet_name=i)
+            #data = pd.read_excel("noc_project/upload/data_up_load.xlsx",sheet_name=i)
             data = data.replace(np.nan, '-', regex=True)
             data = data.replace('', '-', regex=True)
             data = data.replace('NaT', '-', regex=True)
@@ -2340,17 +2341,23 @@ def adv_search(inputdata):
     circuit_table = []
     for n in circuit:
         for i in circuit_all:
-            data_in_process = []
+            data_in_process = ["","","","","",""]
             if str(i[0]).upper() == str(n[0]).upper():
-                data_in_process.append(i[0]) #circuit_id  added
+                #data_in_process.append(i[0]) #circuit_id  added
+                data_in_process[0] = i[0] #circuit_id  added
                 for a in equipment_all:
                     if i[1] == a[0]:
-                        data_in_process.append(a[1]) #project_name added
-                        data_in_process.append(a[2]) #site_name added
-                        data_in_process.append(a[0]) #serial_number added
+                        # data_in_process.append(a[1]) #project_name added
+                        # data_in_process.append(a[2]) #site_name added
+                        # data_in_process.append(a[0]) #serial_number added
+                        data_in_process[3] = a[0] #serial_number added
+                        data_in_process[2] = a[2] #site_name added
+                        data_in_process[1] = a[1] #project_name added
                         break
-                data_in_process.append(i[5])     #Equipment_Loopback  added
-                data_in_process.append(i[3])   #IP_address_CE  added
+                # data_in_process.append(i[5])     #Equipment_Loopback  added
+                # data_in_process.append(i[3])   #IP_address_CE  added
+                data_in_process[-2] = i[5]  #Equipment_Loopback  added
+                data_in_process[-1] = i[3]  #IP_address_CE added
                 circuit_table.append(data_in_process)
                 break
 
@@ -2507,5 +2514,5 @@ def adv_search(inputdata):
 
 
 if __name__ == '__main__' :
-    app.run(debug=True)
+    app.run(debug=True,host="0.0.0.0")
 
