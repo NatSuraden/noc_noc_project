@@ -176,33 +176,48 @@
                 <!-- End of Topbar -->
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
+
+                    <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-end mb-4">
                         <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                                class="fas fa-download fa-sm text-white-50" href="{{url_for('download')}}"></i>Download CSV</a>
+                                class="bi bi-plus text-white-50"></i> ADD USER</a>  
                     </div>
-
-					{% with messages = get_flashed_messages() %}
-						{% if messages %}
-							<ul class=flashes>
-							{% for message in messages %}
-							<span style="color:red">{{ message }}</span>
-							{% endfor %}
-							</ul>
-						{% endif %}
-
-						{% endwith %}
-
-						{% if error %} 
-							{% for er in error %}
-							<a><span style="color:red"><strong>Error</strong>: {{er}}</span></a>
-							{% endfor %}
-						{% endif %}  
-						<dl>
-								<p id="msg"></p>
-								<input type="file" id="multiFiles" name="files[]" multiple="multiple"/>
-								<button id="upload">Upload</button>
-                                <button  data-id ='test_data' class="check_data ">Check</button>
-						</dl>
+                    
+                    <!-- Page Heading -->
+                
+                    <!-- <h1 class="h3 mb-2 text-gray-800">Tables</h1> -->
+                    
+                    <!-- DataTales Example -->
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Username</th>
+                                <th>Password</th>
+                                <th>Role</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody> 
+                            {% for row in data %}
+                            <tr> 
+                                <td>{{row[1]}}</td>
+                                <td>{{row[2]}}</td>
+                                <td>{{row[3]}}</td> 
+                                <td>
+                                    <div class="dropdown open">
+                                        <a href="#!" class="px-2" id="triggerId1" data-toggle="dropdown" aria-haspopup="true"
+                                                aria-expanded="false">
+                                                    <i class="fa fa-ellipsis-v"></i>
+                                        </a>
+                                        <div class="dropdown-menu" aria-labelledby="triggerId1">
+                                            <a class="dropdown-item" href="#"><i class="fa fa-pencil mr-1"></i> Edit</a>
+                                            <a class="dropdown-item text-danger" href="#"><i class="fa fa-trash mr-1"></i> Delete</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </table>
                             </div>
                             </div>
                         </div>
@@ -263,22 +278,6 @@
         </div>
     </div>
 
-	<div class="modal fade" id="empModal" role="dialog">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h4 class="modal-title">Check</h4>
-				<button type="button" class="close" data-dismiss="modal">×</button>
-				</div>
-				<div class="modal-body"></div>
-				<div class="modal-footer">
-				<form action="{{ url_for('check_test') }}" method="post">
-				<button type="submit" class="btn btn-default" value="submit_done" name="test">submit</button></form>
-				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-				</div>
-			</div>
-		</div>
-	</div>
 
     <!-- <div class="modal " id="empModal" role="dialog">
         <div class="modal-dialog">
@@ -310,62 +309,4 @@
     <!-- Custom scripts for all pages-->
     <script src="../static/js/sb-admin-2.js"></script>
 </body>
-<script type="text/javascript">
-	$(document).ready(function(){
-		$('.check_data').click(function(){
-		var check_data = $(this).data('id');
-		$.ajax({
-			url: '/check_cell',
-			type: 'post',
-			data: {check_data:check_data},
-			success: function(data){
-			$('.modal-body').html(data);
-			$('.modal-body').append(data.htmlcheck_cell);
-			$('#empModal').modal('show');
-			}
-		});
-		});
-	});
-</script>
-<script type="text/javascript">
-	$(document).ready(function (e) {
-		$('#upload').on('click', function () {
-			var form_data = new FormData();
-			var ins = document.getElementById('multiFiles').files.length;
-			
-			if(ins == 0) {
-				$('#msg').html('<span style="color:red">Select at least one file</span>');
-				return;
-			}
-			
-			for (var x = 0; x < ins; x++) {
-				form_data.append("files[]", document.getElementById('multiFiles').files[x]);
-			}
-			
-			$.ajax({
-				url: '/python-flask-files-upload', // point to server-side URL
-				dataType: 'json', // what to expect back from server
-				cache: false,
-				contentType: false,
-				processData: false,
-				data: form_data,
-				type: 'post',
-				success: function (response) { // display success response
-					$('#msg').html('');
-					$.each(response, function (key, data) {							
-						if(key !== 'message') {
-							$('#msg').append(key + ' -> ' + data + '<br/>');
-						} else {
-							$('#msg').append(data + '<br/>');
-						}
-					})
-				},
-				error: function (response) {
-					$('#msg').html(response.message); // display error response
-				}
-			});
-		});
-	});
-</script>
-
 </html>

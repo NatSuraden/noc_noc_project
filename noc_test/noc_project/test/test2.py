@@ -28,4 +28,5 @@ print((data[0][2]).strftime("%d/%m/%y"))
 test_str = "ABCDE\Gnadasdasdas"
 if "\n" in test_str:
     print(True)
+
     

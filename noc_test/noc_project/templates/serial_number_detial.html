@@ -1,110 +1,99 @@
-{% extends 'layout.html' %}
 
-{% block title %}Serial_number_detial{% endblock %}
-
-{% block content %}
-<h2>Detials Serial_number Page</h2>
 <div>
-    <p>Your {{zone2[0]}} details are below:</p>
     <table>
         <tr>
-            <td>Project Name:</td>
+            <td><div>Your {{zone2[0]}} Details are below : </div></td>
+        </tr>
+        <tr>
+            <td>Project Name : </td>
             <td>{{ zone1[0] }}</td>
         </tr>
-    </table>
-    <p>---------------------------------------------------------------</p>
-    <table>
         <tr>
-            <td>serial_number:</td>
+            <td>Serial Number : </td>
             <td>{{ zone2[0] }}</td>
         </tr>
         <tr>
-            <td>project_name:</td>
+            <td>Project Name : </td>
             <td>{{ zone2[1] }}</td>
         </tr>
         <tr>
-            <td>site_name:</td>
+            <td>Site Name : </td>
             <td>{{ zone2[2] }}</td>
         </tr>
         <tr>
-            <td>brand:</td>
+            <td>Brand : </td>
             <td>{{ zone2[3] }}</td>
         </tr>
         <tr>
-            <td>model:</td>
+            <td>Model : </td>
             <td>{{ zone2[4] }}</td>
         </tr>
         <tr>
-            <td>disty_name:</td>
+            <td>Disty Name : </td>
             <td>{{ zone2[5] }}</td>
         </tr>
         <tr>
-            <td>disty_contact:</td>
+            <td>Disty Contact : </td>
             <td>{{ zone2[6] }}</td>
         </tr>
         <tr>
-            <td>open_case_contact:</td>
+            <td>Open Case Contact : </td>
             <td>{{ zone2[7] }}</td>
         </tr>
         <tr>
-            <td>start_of_warranty:</td>
+            <td>Start of Warranty : </td>
             <td>{{ zone2[8] }}</td>
         </tr>
         <tr>
-            <td>end_of_warranty:</td>
+            <td>End of Warranty : </td>
             <td>{{ zone2[9] }}</td>
         </tr>
         <tr>
-            <td>ha_status:</td>
+            <td>HA Status : </td>
             <td>{{ zone2[10] }}</td>
         </tr>
         <tr>
-            <td>ha:</td>
+            <td>HA : </td>
             <td>{{ zone2[11] }}</td>
         </tr>
-    </table>
-    <p>---------------------------------------------------------------</p>
-    <table>
         <tr>
-            <td>project_name:</td>
+            <td>Project Name : </td>
             <td>{{ zone3[1] }}</td>
         </tr>
         <tr>
-            <td>site_name</td>
+            <td>Site Name : </td>
             <td>{{ zone3[2] }}</td>
         </tr>
         <tr>
-            <td>location</td>
+            <td>Location : </td>
             <td>{{ zone3[3] }}</td>
         </tr>
         <tr>
-            <td>site_short_name:</td>
+            <td>Site Short Name : </td>
             <td>{{ zone3[4] }}</td>
         </tr>
         <tr>
-            <td>contact_owner_site</td>
+            <td>Contact Owner Site : </td>
             <td>{{ zone3[5] }}</td>
         </tr>
         <tr>
-            <td>contact</td>
+            <td>Contact : </td>
             <td>{{ zone3[6] }}</td>
         </tr>
         <tr>
-            <td>type</td>
+            <td>Type : </td>
             <td>{{ zone3[7] }}</td>
         </tr>
     </table>
     <p>---------------------------------------------------------------</p>
     <table>
         <form action="{{ url_for('serial_number_detial') }}" method="post">
-        <tr><td>Circuit_ID list</td></tr>
+        <tr><td>Circuit ID List</td></tr>
         {% for row in zone4 %}
         <tr><td>###</td>
-            <td >{{row}} <button type = "submit" value="{{ [zone1[0]],row }}" name="data">+</button></td>
+            <td >{{row}}</td>
             {% endfor %}
         </tr>
     </form>
     </table>
-    <h3>Thank you</h3>
 </div>
-{% endblock %}

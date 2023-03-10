@@ -176,33 +176,105 @@
                 <!-- End of Topbar -->
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
+
+                    <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-end mb-4">
                         <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                                class="fas fa-download fa-sm text-white-50" href="{{url_for('download')}}"></i>Download CSV</a>
+                                class="bi bi-plus-square fa-sm text-white-50"></i> ADD USER</a>  
                     </div>
-
-					{% with messages = get_flashed_messages() %}
-						{% if messages %}
-							<ul class=flashes>
-							{% for message in messages %}
-							<span style="color:red">{{ message }}</span>
-							{% endfor %}
-							</ul>
-						{% endif %}
-
-						{% endwith %}
-
-						{% if error %} 
-							{% for er in error %}
-							<a><span style="color:red"><strong>Error</strong>: {{er}}</span></a>
-							{% endfor %}
-						{% endif %}  
-						<dl>
-								<p id="msg"></p>
-								<input type="file" id="multiFiles" name="files[]" multiple="multiple"/>
-								<button id="upload">Upload</button>
-                                <button  data-id ='test_data' class="check_data ">Check</button>
-						</dl>
+                    
+                    <!-- Page Heading -->
+                
+                    <!-- <h1 class="h3 mb-2 text-gray-800">Tables</h1> -->
+                    
+                    <!-- DataTales Example -->
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>User</th>
+                                <th>Date</th>
+                                <th>Time</th>
+                                <th>Detail</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    Prakorn
+                                </td>
+                                <td>10/12/2022</td>
+                                <td>17:00:00</td>
+                                <td>Upload file</td>
+                                <td>
+                                    <div class="dropdown open">
+                                        <a href="#!" class="px-2" id="triggerId1" data-toggle="dropdown" aria-haspopup="true"
+                                                aria-expanded="false">
+                                                    <i class="fa fa-ellipsis-v"></i>
+                                        </a>
+                                        <div class="dropdown-menu" aria-labelledby="triggerId1">
+                                            <a class="dropdown-item" href="#"><i class="fa fa-pencil mr-1"></i> Edit</a>
+                                            <a class="dropdown-item text-danger" href="#"><i class="fa fa-trash mr-1"></i> Delete</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Admin
+                                </td>
+                                <td>10/12/2022</td>
+                                <td>12:00:00</td>
+                                <td>prakorn.chaikure@gmail.com</td>
+                                <td>
+                                    <div class="dropdown open">
+                                        <a href="#!" class="px-2" id="triggerId1" data-toggle="dropdown" aria-haspopup="true"
+                                                aria-expanded="false">
+                                                    <i class="fa fa-ellipsis-v"></i>
+                                        </a>
+                                        <div class="dropdown-menu" aria-labelledby="triggerId1">
+                                            <a class="dropdown-item" href="#"><i class="fa fa-pencil mr-1"></i> Edit</a>
+                                            <a class="dropdown-item text-danger" href="#"><i class="fa fa-trash mr-1"></i> Delete</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <!-- <tr>
+                                <td>
+                                    <div class="user-info">
+                                        <div class="user-info__img">
+                                            <img src="img/user1.jpg" alt="User Img">
+                                        </div>
+                                        <div class="user-info__basic">
+                                            <h5 class="mb-0">Kiran Acharya</h5>
+                                            <p class="text-muted mb-0">@kiranacharyaa</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <span class="active-circle bg-danger"></span> Inactive
+                                </td>
+                                <td>Bangalore</td>
+                                <td>+91 9876543215</td>
+                                <td>
+                                    <button class="btn btn-primary btn-sm">Contact</button>
+                                </td>
+                                <td>
+                                    <div class="dropdown open">
+                                        <a href="#!" class="px-2" id="triggerId2" data-toggle="dropdown" aria-haspopup="true"
+                                                aria-expanded="false">
+                                                    <i class="fa fa-ellipsis-v"></i>
+                                        </a>
+                                        <div class="dropdown-menu" aria-labelledby="triggerId2">
+                                            <a class="dropdown-item" href="#"><i class="fa fa-pencil mr-1"></i> Edit</a>
+                                            <a class="dropdown-item text-danger" href="#"><i class="fa fa-trash mr-1"></i> Delete</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr> -->
+                        </tbody>
+                    </table>
+                                <div class="displayflexend pagination-table"></div>
                             </div>
                             </div>
                         </div>
@@ -254,7 +326,18 @@
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <div class="modal-profile "></div>
+                <div class="modal-profile ">
+                    <div class="displayflex">
+                        <div class="d-flex flex-column align-items-center text-center displaypropic"><img class="rounded-circle" src="https://media4.giphy.com/media/eePSFNBFv2W9owZ4Sh/giphy.gif?cid=ecf05e47qctng9140e7a7r88jrad9j1pk8slri3upfe8vvyg&rid=giphy.gif&ct=g" width="128" height="128"><span class="font-weight-bold">John</span><span class="text-black-50">john_doe12@bbb.com</span></div>
+                        <div class="row">
+                            <div class="col-md-12 displaycen">Username : Prakorn Chaikure</div>
+                            <div class="col-md-12 displaycen">Email : prakorn.chaikure@gmail.com</div>
+                            <div class="col-md-12 displaycen">Role : NOC</div>
+                            <div class="col-md-12 displaycen">Permissions : User</div>
+                            <div class="col-md-12 displaycen">Contact : 0997830734</div>
+                        </div>
+                    </div>
+                </div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Edit</button>
                     <a class="btn btn-primary" href="login.html">Logout</a>
@@ -263,22 +346,22 @@
         </div>
     </div>
 
-	<div class="modal fade" id="empModal" role="dialog">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h4 class="modal-title">Check</h4>
-				<button type="button" class="close" data-dismiss="modal">×</button>
-				</div>
-				<div class="modal-body"></div>
-				<div class="modal-footer">
-				<form action="{{ url_for('check_test') }}" method="post">
-				<button type="submit" class="btn btn-default" value="submit_done" name="test">submit</button></form>
-				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-				</div>
-			</div>
-		</div>
-	</div>
+
+    <div class="modal " id="empModal" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Details</h4>
+                  <button type="button" class="close" data-dismiss="modal">×</button>
+                </div>
+                <div class="modal-body">
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- <div class="modal " id="empModal" role="dialog">
         <div class="modal-dialog">
@@ -310,62 +393,5 @@
     <!-- Custom scripts for all pages-->
     <script src="../static/js/sb-admin-2.js"></script>
 </body>
-<script type="text/javascript">
-	$(document).ready(function(){
-		$('.check_data').click(function(){
-		var check_data = $(this).data('id');
-		$.ajax({
-			url: '/check_cell',
-			type: 'post',
-			data: {check_data:check_data},
-			success: function(data){
-			$('.modal-body').html(data);
-			$('.modal-body').append(data.htmlcheck_cell);
-			$('#empModal').modal('show');
-			}
-		});
-		});
-	});
-</script>
-<script type="text/javascript">
-	$(document).ready(function (e) {
-		$('#upload').on('click', function () {
-			var form_data = new FormData();
-			var ins = document.getElementById('multiFiles').files.length;
-			
-			if(ins == 0) {
-				$('#msg').html('<span style="color:red">Select at least one file</span>');
-				return;
-			}
-			
-			for (var x = 0; x < ins; x++) {
-				form_data.append("files[]", document.getElementById('multiFiles').files[x]);
-			}
-			
-			$.ajax({
-				url: '/python-flask-files-upload', // point to server-side URL
-				dataType: 'json', // what to expect back from server
-				cache: false,
-				contentType: false,
-				processData: false,
-				data: form_data,
-				type: 'post',
-				success: function (response) { // display success response
-					$('#msg').html('');
-					$.each(response, function (key, data) {							
-						if(key !== 'message') {
-							$('#msg').append(key + ' -> ' + data + '<br/>');
-						} else {
-							$('#msg').append(data + '<br/>');
-						}
-					})
-				},
-				error: function (response) {
-					$('#msg').html(response.message); // display error response
-				}
-			});
-		});
-	});
-</script>
 
 </html>

@@ -1,0 +1,75 @@
+<div>
+    <table>
+        <tr>
+            <td><div>Your {{zone1[0]}} Details are below : </div></td>
+        </tr>
+        <tr>
+            <td>Project Name : </td>
+            <td>{{ zone1[0] }}</td>
+        </tr>
+        <tr>
+            <td>Circuit ID : </td>
+            <td>{{ zone1[1] }}</td>
+        </tr>
+        <tr>
+            <td>Serial number : </td>
+            <td>{{ zone1[2] }}</td>
+        </tr>
+        <tr>
+            <td>S/O : </td>
+            <td>{{ zone2[1] }}</td>
+        </tr>
+        <tr>
+            <td>Customer Start of Contract : </td>
+            <td>{{ zone2[2] }}</td>
+        </tr>
+        <tr>
+            <td>Customer End of Contract : </td>
+            <td>{{ zone2[3] }}</td>
+        </tr>
+        <tr>
+            <td>Disty Start of Contract : </td>
+            <td>{{ zone2[4] }}</td>
+        </tr>
+        <tr>
+            <td>Disty End of Contract : </td>
+            <td>{{ zone2[5] }}</td>
+        </tr>
+        <tr>
+            <td>VPN Detail : </td>
+            <td>{{ zone2[6] }}</td>
+        </tr>
+        <tr>
+            <td>Important Detail : </td>
+            <td>{{ zone2[7] }}</td>
+        </tr>
+        <tr>
+            <td>Addition Detail : </td>
+            <td>{{ zone2[8] }}</td>
+        </tr>
+        <tr>
+            <td>Remark : </td>
+            <td>{{ zone2[9] }}</td>
+        </tr>
+        </table>
+
+        <table class="table" id="dataTable">
+        <tr>
+            <td>Role</td>
+            <td>Name</td>
+            <td>Tel</td>
+            <td>Additional Detail</td>
+        </tr>
+        <tbody>
+            {% for row in zone3 %}
+            <tr>
+                <td>{{ row[2] }}</td>
+                <td>{{ row[3] }}</td>
+                <td>{{ row[4] }}</td>
+                <td>{{ row[5] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
