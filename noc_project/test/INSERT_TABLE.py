@@ -169,40 +169,6 @@ try:
         print(error,"site")
 
     try:
-        data = [["กำแพงเพชร","FLM263911JU","cisco","ISR4321","-","-","-","-","-","-","-","NBTC"]]
-        for i in data:
-            cursor = connection.cursor()
-            cursor.execute('SELECT * FROM equipment')
-            equipment_for_count = cursor.fetchall()
-            if i[1] == "-":
-                i[1] = str(len(equipment_for_count))
-            if i[7] != "-":
-                i[7] = i[7].strftime('%Y/%m/%d')
-                i[7] = datetime.datetime.strptime(i[7], '%Y/%m/%d')
-            if i[8] != "-":
-                i[8] = i[-4].strftime('%Y/%m/%d')
-                i[8] = datetime.datetime.strptime(i[8], '%Y/%m/%d')
-
-            if i[7] == "-":
-                d = "2001/2/16"
-                i[7] = d
-                i[7] = datetime.datetime.strptime(i[7], '%Y/%m/%d')
-            if i[8] == "-":
-                d = "2002/2/16"
-                i[8] = d
-                i[8] = datetime.datetime.strptime(i[8], '%Y/%m/%d')
-            cursor.execute('SELECT * FROM equipment WHERE serial_number = %s AND site_name = %s AND project_name = %s',(i[1],i[0],i[-1],))
-            data_in_base = cursor.fetchall()
-            if data_in_base:
-                print("ERROR_equipment")
-            else:
-                postgres_insert_query = """ INSERT INTO equipment (serial_number, project_name,site_name, brand,model,disty_name,disty_contact,
-                open_case_contact,start_of_warranty,end_of_warranty,ha_status,ha) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
-                cursor.execute(postgres_insert_query,(i[1],i[-1],i[0],i[2],i[3],i[4],i[5],i[6],i[7],i[8],i[9],i[10]))
-        connection.commit()
-    except Exception as error:
-        print(error,"equipment")
-    try:
         data = [["9610663051","FG200FT922929184","Fortinet","FG-200F","Wan3","-","-"]]
         for i in data:
             cursor.execute('SELECT * FROM interface WHERE circuit_id = %s AND equipment_serial = %s AND equipment_brand = %s',(str(i[0]),str(i[1]),str(i[2]),))
