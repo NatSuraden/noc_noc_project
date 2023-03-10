@@ -1040,8 +1040,9 @@ def check_data():
         ex_name_sheet = ['Project','Contract','Site','Equipment','Circuit','Interface']
         #ex_name_sheet = ['Project']
         for i in ex_name_sheet:
-            data = pd.read_excel("noc_project/upload/data_up_load.xlsx",sheet_name=i)
-            # print(data)
+            filename = 'data_up_load.xlsx'
+            data = pd.read_excel(os.path.join(app.config['UPLOAD_FOLDER'], filename),sheet_name=i)
+            #data = pd.read_excel("noc_project/upload/data_up_load.xlsx",sheet_name=i)
             data = data.replace(np.nan, '-', regex=True)
             data = data.replace('', '-', regex=True)
             data = data.replace('NaT', '-', regex=True)
