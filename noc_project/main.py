@@ -1888,37 +1888,44 @@ def register_user():
 
 @app.route('/noc_project/user_table', methods=['GET', 'POST'])
 def user_table():
-     if 'admin' in session['role'] or 'super_user' in session['role']:
+    if 'admin' in session['role'] or 'super_user' in session['role']:
+        # columns = ['Username', 'password', 'Role']
+        # session['columns'] = columns
+        # return render_template('user_table.html', columns=columns)
+        connection = psycopg2.connect(user="postgres",password="pplus1234",host="127.0.0.1",port="5432",database="python2565")
+        cursor = connection.cursor()
+        cursor.execute('SELECT * FROM accounts')
+        account = cursor.fetchall()
         columns = ['Username', 'password', 'Role']
-        session['columns'] = columns
-        return render_template('user_table.html', columns=columns)
+        return render_template('user_table.html', columns=columns,data=account)
 
-@app.route('/_server_data')
-def get_server_data():
-    
-    connection = psycopg2.connect(user="postgres",password="pplus1234",host="127.0.0.1",port="5432",database="python2565")
-    cursor = connection.cursor()
-    cursor.execute('SELECT * FROM accounts')
-    account = cursor.fetchall()
-    name = []
-    Role = []
-    password = []
-    for i in account:
-        i = list(i)
-        name.append(i[1])
-        password.append(i[2])
-        Role.append(i[3])
-    cursor.close()
-    connection.close()
-    collection = []
-    columns = session['columns']
-    print(name)
-    for i in range(len(name)):
-        collection.append(dict(zip(columns,[name[i],password[i],Role[i]])))
 
-    results = BaseDataTables(request, columns, collection).output_result()
+# @app.route('/_server_data')
+# def get_server_data():
     
-    return json.dumps(results)
+#     connection = psycopg2.connect(user="postgres",password="pplus1234",host="127.0.0.1",port="5432",database="python2565")
+#     cursor = connection.cursor()
+#     cursor.execute('SELECT * FROM accounts')
+#     account = cursor.fetchall()
+#     name = []
+#     Role = []
+#     password = []
+#     for i in account:
+#         i = list(i)
+#         name.append(i[1])
+#         password.append(i[2])
+#         Role.append(i[3])
+#     cursor.close()
+#     connection.close()
+#     collection = []
+#     columns = session['columns']
+#     print(name)
+#     for i in range(len(name)):
+#         collection.append(dict(zip(columns,[name[i],password[i],Role[i]])))
+
+#     results = BaseDataTables(request, columns, collection).output_result()
+    
+#     return json.dumps(results)
 
 class BaseDataTables:
     

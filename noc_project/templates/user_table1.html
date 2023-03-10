@@ -17,6 +17,16 @@
 	<script src="{{ url_for('static', filename='js/jquery.dataTables.min.js') }}"></script>
 </head>
 
+<script>
+$(document).ready(function() {
+	$('#example').dataTable( {
+		"sDom": "<'row-fluid'<'span6 toolbar'><'span6'>r>t<'row-fluid'<'span6'f><'span6'p>>",
+		"bProcessing": true,
+		"bjQueryUI": true,
+		"sAjaxSource": "{{ url_for('get_server_data') }}",
+	});
+} );
+</script>
 <script type="text/javascript">
 	function tableToCSV() {
 
@@ -79,7 +89,8 @@
 	}
 </script>
 <body>
-	<table>
+	<div class="container">
+	<table class='table' id='example'>
 		<thead>
 			<tr>
 				{% for col in columns %}
@@ -87,14 +98,6 @@
 				{% endfor %}
 			</tr>
 		</thead>
-		<tbody> 
-			{% for row in data %}
-			  <tr> 
-				<td>{{row[1]}}</td>
-				<td>{{row[2]}}</td>
-				<td>{{row[3]}}</td>
-			  </tr> 
-			{% endfor %}
 	</table>
 	</div>
 </body>
