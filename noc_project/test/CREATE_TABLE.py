@@ -120,9 +120,10 @@ try:
             contact_owner_site VARCHAR(5000),
             contact VARCHAR(50),
             type VARCHAR(50));''' 
-
-    cursor.execute(create_table_guery)
-    connection.commit()
+        cursor.execute(create_table_guery)
+        connection.commit()
+    except (Exception, psycopg2.DatabaseError) as error: 
+        print("Error while creating PostgreSQL table", error) 
     print("Table created successfully in PostgreSOL ")
 
 except (Exception, psycopg2.DatabaseError) as error: 
