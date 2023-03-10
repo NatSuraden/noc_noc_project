@@ -8,12 +8,13 @@ try:
     try:
         cursor = connection.cursor()
         # TABLE accounts
-        """  create_table_guery = '''CREATE TABLE accounts 
+        create_table_guery = '''CREATE TABLE accounts 
             (user_id SERIAL PRIMARY KEY,
             username      VARCHAR(50) NOT NULL,
             password      VARCHAR(50) NOT NULL,
             role      VARCHAR(50)); '''
-        """
+        cursor.execute(create_table_guery)
+        connection.commit()
     except (Exception, psycopg2.DatabaseError) as error: 
         print("Error while creating PostgreSQL table", error) 
     try:
