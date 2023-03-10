@@ -54,6 +54,7 @@ try:
     try:
         postgres_insert_query = """ INSERT INTO accounts (username, password, role) VALUES (%s,%s,%s)"""
         cursor.execute(postgres_insert_query,(username,password,role))
+        connection.commit()
     except Exception as error:
         print(error,"user")
     # postgres_insert_query = """ INSERT INTO circuit (equipment_ref, circuit_id, ip_address_pe,ip_address_ce,subnet,loopback,circuit_type,
