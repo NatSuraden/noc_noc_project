@@ -180,11 +180,16 @@ def project_table_new_data(data):
                 i[5] = datetime.datetime.strptime(i[5], '%Y/%m/%d')
             #print(data , 'new data')
             #print(i[0])
-            postgres_insert_query = """ INSERT INTO project (project_name,s_o,customer_start_of_contract,customer_end_of_contract,
-            disty_start_of_contract,disty_end_of_contract,vpn_detail,Important_Detail,
-            Addition_Detail,Remark) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
-            cursor.execute(postgres_insert_query,(i[0],i[1],i[2],i[3],i[4],i[5],i[6],i[7],i[8],i[9]))
-            connection.commit()
+            cursor.execute('SELECT * FROM project WHERE project_name = %s ',(i[0],))
+            data_in_base = cursor.fetchall()
+            if data_in_base:
+                print("ERROR_project")
+            else:
+                postgres_insert_query = """ INSERT INTO project (project_name,s_o,customer_start_of_contract,customer_end_of_contract,
+                disty_start_of_contract,disty_end_of_contract,vpn_detail,Important_Detail,
+                Addition_Detail,Remark) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
+                cursor.execute(postgres_insert_query,(i[0],i[1],i[2],i[3],i[4],i[5],i[6],i[7],i[8],i[9]))
+                connection.commit()
         cursor.close()
         connection.close()
     except (Exception) as error: 
