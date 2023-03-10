@@ -2359,8 +2359,8 @@ def adv_search(inputdata):
                 data_in_process[-2] = i[5]  #Equipment_Loopback  added
                 data_in_process[-1] = i[3]  #IP_address_CE added
                 circuit_table.append(data_in_process)
-                break
-
+                break       
+               
     equipment_table = []
     for i in equipment:
         data_in_process = ["","","","","",""] #serial_number added
@@ -2470,18 +2470,19 @@ def adv_search(inputdata):
     if len(table_main) == 1:
         table_main_data = []
         for i in circuit_all:
-            data_in_process = []
-            data_in_process.append(i[0])     #circuit_id  added
+            data_in_process = ["","","","","",""]
+            data_in_process[0] = i[0] #circuit_id  added
             for a in equipment_all:
                 if i[1] == a[0]:
-                    data_in_process.append(a[1]) #project_name added
-                    data_in_process.append(a[2]) #site_name added
-                    data_in_process.append(a[0]) #serial_number added
+                    data_in_process[3] = a[0] #serial_number added
+                    data_in_process[2] = a[2] #site_name added
+                    data_in_process[1] = a[1] #project_name added
                     break
-            data_in_process.append(i[5])     #Equipment_Loopback  added
-            data_in_process.append(i[3])   #IP_address_CE  added
-            if table_main[0] in data_in_process:
-                table_main_data.append(data_in_process)
+            data_in_process[-2] = i[5]  #Equipment_Loopback  added
+            data_in_process[-1] = i[3]  #IP_address_CE added
+        if table_main[0] in data_in_process:
+            table_main_data.append(data_in_process)
+
     if len(table_main) == 0:
         table_main_data = []
         try:
