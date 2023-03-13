@@ -78,6 +78,7 @@ def login():
             site = cursor.fetchall()
             event = 'Login'
             save_log(event)
+
             return redirect(url_for('home'))
         else:
             msg = 'Incorrect username/password!'
@@ -2079,7 +2080,6 @@ def delete_table():
 def delete_page():
     if 'loggedin' in session and session['role'] == 'admin':
         global equipment,site,circuit,interface,project,contrat
-        data_display = delete_table()
         connection = psycopg2.connect(user="postgres",password="pplus1234",host="127.0.0.1",port="5432",database="python2565")
         cursor = connection.cursor()
         cursor.execute('SELECT * FROM circuit')
@@ -2097,7 +2097,7 @@ def delete_page():
         cursor.close()
         connection.close()
         tablename = 'Project'
-        session['delete_table_name'] = 'Project'
+        # session['delete_table_name'] = 'Project'
         if request.method == 'POST' and 'table_name' in request.form:
             tablename = request.form['table_name']
             if tablename == 'Project':
@@ -2142,6 +2142,11 @@ def delete_page():
             #print(msg)
             #log_event
             return render_template('delete_form.html', columns=session['columns_delete'] ,tablename = tablename,data_display = data_display)
+        if 'delete_table_name' not in session:
+            columns = ['project_name','s/o','C_S_C','C_E_C','D_S_C','D_E_C','Vpn_Detail','Important_Detail','Addition_Detail','Remark']
+            session['columns_delete'] = columns
+            session['delete_table_name'] = 'Project'
+            data_display = delete_table()
         return render_template('delete_form.html', columns=session['columns_delete'] ,tablename = tablename,data_display = data_display)
     return redirect(url_for('login'))
 
