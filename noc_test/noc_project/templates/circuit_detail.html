@@ -1,0 +1,84 @@
+<div>
+    <table>
+        <tr>
+            <td><div>Your {{zone2[0]}} Details are below : </div></td>
+        </tr>
+        <tr>
+            <td>Project Name : </td>
+            <td>{{ zone1[0] }}</td>
+        </tr>
+        <tr>
+            <td>Circuit_id : </td>
+            <td>{{ zone2[0] }}</td>
+        </tr>
+        <tr>
+            <td>Equipment_ref : </td>
+            <td>{{ zone2[1] }}</td>
+        </tr>
+        <tr>
+            <td>IP_address_pe : </td>
+            <td>{{ zone2[2] }}</td>
+        </tr>
+        <tr>
+            <td>IP_address_ce : </td>
+            <td>{{ zone2[3] }}</td>
+        </tr>
+        <tr>
+            <td>Subnet : </td>
+            <td>{{ zone2[4] }}</td>
+        </tr>
+        <tr>
+            <td>Loopback : </td>
+            <td>{{ zone2[5] }}</td>
+        </tr>
+        <tr>
+            <td>Circuit_type : </td>
+            <td>{{ zone2[6] }}</td>
+        </tr>
+        <tr>
+            <td>Link_number : </td>
+            <td>{{ zone2[7] }}</td>
+        </tr>
+        <tr>
+            <td>Original_isp : </td>
+            <td>{{ zone2[8] }}</td>
+        </tr>
+        <tr>
+            <td>Owner_isp : </td>
+            <td>{{ zone2[9] }}</td>
+        </tr>
+        <tr>
+            <td>ISP_contact_tel : </td>
+            <td>{{ zone2[10] }}</td>
+        </tr>
+        <tr>
+            <td>Equipment Model : </td>
+            <td>{{ zone3[0] }}</td>
+        </tr>
+        <tr>
+            <td>Equipment Brand : </td>
+            <td>{{ zone3[1] }}</td>
+        </tr>
+        <tr>
+            <td>Serial_number : </td>
+            <td>{{ zone3[2] }}</td>
+        </tr>
+        <tr>
+            <td>Physical Interface : </td>
+            <td>{{ zone4[0] }}</td>
+        </tr>
+        <tr>
+            <td>VLAN_ID : </td>
+            <td>{{ zone4[1] }}</td>
+        </tr>
+    </table>
+    <p> </p>
+    <table>
+        <tr><td>Tunnel Interface Name</td></tr>
+        {% for row in range(zone5_num) %}
+        <tr><td>{{row}}</td>
+            <td >{{zone5[row]}}</td>
+            {% endfor %}
+        </tr>
+
+    </table>

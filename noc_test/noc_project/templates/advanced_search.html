@@ -188,25 +188,44 @@
                     <!-- <h1 class="h3 mb-2 text-gray-800">Tables</h1> -->
                     
                     <!-- DataTales Example -->
+                        <div class="card-body">
+                            <div class="table-responsive">
                                 <div class="card shadow mb-4">
                                     <div class="card-header py-3">
-                                        <h6 class="m-0 font-weight-bold text-primary">TABLES</h6>
+                                        <h6 class="m-0 font-weight-bold text-primary">MAIN TABLES</h6>
                                         <button class="form-control bg-light bi bi-caret-down-square" onclick="toggletable(this);"></button>
                                     </div>
                             <div id="mytable">
                             <div style="margin-bottom: 10px; margin-top: 10px;">
                                 <div class="input-group">                                    
+                                    <a class="form-control bg-light bi-funnel" onclick="togglefilter(this);" ></a>
+                                    <div id="myfilter" hidden="hidden">
+                                        <form action="{{ url_for('advanced_search') }}" method="post">
+                                        <p>Project Name <input class="form-control bg-light" type="text" list="projectname" name="project_name">
+                                        S/O : <input class="form-control bg-light" type="text" list="S_O" name="s_o"/></p>
+                                        <p>Customer Start Contract : <input  class="form-control bg-light" type="date" name="customer_start_contract">
+                                        Customer End Contract : <input  class="form-control bg-light" type="date" name="customer_end_contract"></p>
+                                        <p>Vendor Start Contract : <input class="form-control bg-light" type="date" name="disty_Start_contract">
+                                        Vendor END Contract <input class="form-control bg-light" type="date" name="disty_End_contract"></p><br>
 
-                                <form action="{{ url_for('home') }}" method="post">
-                                    <!-- <a class="form-control bg-light bi-funnel" onclick="togglefilter(this);"></a> -->
-                                    <a  href="{{ url_for('advanced_search') }}" class="form-control bg-light bi-funnel"></a>
-                                    <input type="text" name="data_search" class="form-control bg-light" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
-                                    <button class="form-control bg-light bi bi-search" >
-                                    <!-- <input class="form-control bg-light" type = "submit"> -->
-                                </form>
+                                        <p> Site name : <input class="form-control bg-light" type="text" list="s_name" name="site_name">
+                                        Site Type : <input class="form-control bg-light" type="text" list="s_type" name="site_type"></p><br>
+
+                                        <p>Serial number : <input class="form-control bg-light" type="text" list="s_n" name="serial_number"/> Disty name : <input class="form-control bg-light" type="text" list="d_n" name="disty_name"/></p>
+                                        <p>Equipment Model : <input class="form-control bg-light" type="text" list="e_m" name="equipment_model"/> Equipment Brand : <input class="form-control bg-light" type="text" list="e_b" name="equipment_brand"/></p>
+                                        <p>Equipment Start of warranty : <input class="form-control bg-light" type="date" name="start_of_warranty">
+                                        Equipment End of warranty : <input class="form-control bg-light" type="date" name="end_of_warranty"></p>
+                                        <p>HA Status : <input class="form-control bg-light" type="text" list="ha" name="ha_status"/></p><br>
+
+                                        <p>Circuit ID : <input class="form-control bg-light" type="text" list="c_i" name="circuit_id"/> IP address CE : <input class="form-control bg-light" type="text" list="ip_ce" name="ip_address_ce"/></p>
+                                        <p>IP Loopback : <input class="form-control bg-light" type="text" list="ip_lb" name="ip_loopback"/> Owner ISP : <input class="form-control bg-light" type="text" list="o_i" name="owner_isp"/></p>
+                                        <br>
+                                    </div>
+                                    <p><input  class="form-control bg-light" type = "submit"/></p></form>
                                 </div>
                             </div>
-                                <table class="table" id="dataTable">
+        
+                                <table class="table">
                                     <thead>
                                         <tr>
                                             <th>CircuitID</th>
@@ -217,25 +236,9 @@
                                             <th>E Serial number</th>
                                         </tr>
                                     </thead>
-                                    <tbody >
-                                        
-                                        {% for row in data %}
-                                        <tr> 
-                                            <td><a data-id ='{{row,row[0]}}' class="userinfo">{{row[0]}}</a></td>
-                                            <td><a data-id ='{{row,row[1]}}' class="userinfo">{{row[1]}}</a></td>
-                                            <td><a data-id ='{{row,row[2]}}' class="userinfo">{{row[2]}}</a></td>
-                                            <td><a data-id ='{{row,row[3]}}' class="userinfo">{{row[3]}}</a></td>
-                                            <td>{{row[4]}}</td>
-                                            <td>{{row[5]}}</td>
-                                        </tr>
-                                        <tr> 
-                                            <td><a data-id ='{{row,row[0]}}' class="userinfo">{{row[0]}}</a></td>
-                                            <td><a data-id ='{{row,row[1]}}' class="userinfo">{{row[1]}}</a></td>
-                                            <td><a data-id ='{{row,row[2]}}' class="userinfo">{{row[2]}}</a></td>
-                                            <td><a data-id ='{{row,row[3]}}' class="userinfo">{{row[3]}}</a></td>
-                                            <td>{{row[4]}}</td>
-                                            <td>{{row[5]}}</td>
-                                        </tr>
+                        
+                                    <tbody>
+                                        {% for row in main_table %}
                                         <tr> 
                                             <td><a data-id ='{{row,row[0]}}' class="userinfo">{{row[0]}}</a></td>
                                             <td><a data-id ='{{row,row[1]}}' class="userinfo">{{row[1]}}</a></td>
@@ -247,10 +250,164 @@
                                       {% endfor %}
                                     </tbody>
                                 </table>
-                                <div class="displayflexend  pagination-table"></div>
+                                <div class="displayflexend pagination-table"></div>
+                            </div>
                             </div>
                         </div>
                     </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">PROJECT TABLES</h6>
+                                    <button class="form-control bg-light bi bi-caret-down-square" onclick="togglepro(this);"></button>
+                                </div>
+                        <div id="mytablepro" hidden="hidden">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>CircuitID</th>
+                                        <th>Project Name</th>
+                                        <th>Site Name</th>
+                                        <th>Equipment Loopback</th>
+                                        <th>IP add CE</th>
+                                        <th>E Serial number</th>
+                                    </tr>
+                                </thead>
+                    
+                                <tbody>
+                                    {% for row in project_table %}
+                                    <tr> 
+                                        <td><a data-id ='{{row,row[0]}}' class="userinfo">{{row[0]}}</a></td>
+                                        <td><a data-id ='{{row,row[1]}}' class="userinfo">{{row[1]}}</a></td>
+                                        <td><a data-id ='{{row,row[2]}}' class="userinfo">{{row[2]}}</a></td>
+                                        <td><a data-id ='{{row,row[3]}}' class="userinfo">{{row[3]}}</a></td>
+                                        <td>{{row[4]}}</td>
+                                        <td>{{row[5]}}</td>
+                                    </tr>
+                                  {% endfor %}
+                                </tbody>
+                            </table>
+                            <div class="displayflexend pagination-table"></div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <div class="card shadow mb-4">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary">SITE TABLES</h6>
+                                <button class="form-control bg-light bi bi-caret-down-square" onclick="togglesite(this);"></button>
+                            </div>
+                    <div id="mytablesite" hidden="hidden">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>CircuitID</th>
+                                    <th>Project Name</th>
+                                    <th>Site Name</th>
+                                    <th>Equipment Loopback</th>
+                                    <th>IP add CE</th>
+                                    <th>E Serial number</th>
+                                </tr>
+                            </thead>
+                
+                            <tbody>
+                                {% for row in site_table %}
+                                <tr> 
+                                    <td><a data-id ='{{row,row[0]}}' class="userinfo">{{row[0]}}</a></td>
+                                    <td><a data-id ='{{row,row[1]}}' class="userinfo">{{row[1]}}</a></td>
+                                    <td><a data-id ='{{row,row[2]}}' class="userinfo">{{row[2]}}</a></td>
+                                    <td><a data-id ='{{row,row[3]}}' class="userinfo">{{row[3]}}</a></td>
+                                    <td>{{row[4]}}</td>
+                                    <td>{{row[5]}}</td>
+                                </tr>
+                              {% endfor %}
+                            </tbody>
+                        </table>
+                        <div class="displayflexend pagination-table"></div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Eq PROJECT TABLES</h6>
+                            <button class="form-control bg-light bi bi-caret-down-square" onclick="toggleeq(this);"></button>
+                        </div>
+                <div id="mytableeq" hidden="hidden">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>CircuitID</th>
+                                <th>Project Name</th>
+                                <th>Site Name</th>
+                                <th>Equipment Loopback</th>
+                                <th>IP add CE</th>
+                                <th>E Serial number</th>
+                            </tr>
+                        </thead>
+            
+                        <tbody>
+                            {% for row in equipment_table %}
+                            <tr> 
+                                <td><a data-id ='{{row,row[0]}}' class="userinfo">{{row[0]}}</a></td>
+                                <td><a data-id ='{{row,row[1]}}' class="userinfo">{{row[1]}}</a></td>
+                                <td><a data-id ='{{row,row[2]}}' class="userinfo">{{row[2]}}</a></td>
+                                <td><a data-id ='{{row,row[3]}}' class="userinfo">{{row[3]}}</a></td>
+                                <td>{{row[4]}}</td>
+                                <td>{{row[5]}}</td>
+                            </tr>
+                          {% endfor %}
+                        </tbody>
+                    </table>
+                    <div class="displayflexend pagination-table"></div>
+                </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">CIRCUIT TABLES</h6>
+                        <button class="form-control bg-light bi bi-caret-down-square" onclick="togglecir(this);"></button>
+                    </div>
+            <div id="mytablecir" hidden="hidden">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>CircuitID</th>
+                            <th>Project Name</th>
+                            <th>Site Name</th>
+                            <th>Equipment Loopback</th>
+                            <th>IP add CE</th>
+                            <th>E Serial number</th>
+                        </tr>
+                    </thead>
+        
+                    <tbody>
+                        {% for row in circuit_table %}
+                        <tr> 
+                            <td><a data-id ='{{row,row[0]}}' class="userinfo">{{row[0]}}</a></td>
+                            <td><a data-id ='{{row,row[1]}}' class="userinfo">{{row[1]}}</a></td>
+                            <td><a data-id ='{{row,row[2]}}' class="userinfo">{{row[2]}}</a></td>
+                            <td><a data-id ='{{row,row[3]}}' class="userinfo">{{row[3]}}</a></td>
+                            <td>{{row[4]}}</td>
+                            <td>{{row[5]}}</td>
+                        </tr>
+                      {% endfor %}
+                    </tbody>
+                </table>
+                <div class="displayflexend pagination-table"></div>
+            </div>
+            </div>
+        </div>
+    </div>
+            </div>
                 </div>
                 <!-- /.container-fluid -->
 
@@ -282,7 +439,7 @@
                 <div class="modal-logout">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="{{ url_for('logout') }}">Logout</a>
+                    <a class="btn btn-primary" href="login.html">Logout</a>
                 </div>
             </div>
         </div>
@@ -307,6 +464,7 @@
         </div>
     </div>
 
+
     <div class="modal " id="empModal" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -322,8 +480,6 @@
             </div>
         </div>
     </div>
-
-
 
     <!-- Bootstrap core JavaScript-->
     <script src="../static/vendor/jquery/jquery.min.js"></script>
@@ -358,7 +514,6 @@
       });
     });
 </script>
-
 <script>
     let toggletable = button => {
       let element = document.getElementById("mytable");
@@ -373,4 +528,151 @@
       }
     }
 </script>
+<script>
+    let togglepro = button => {
+      let element = document.getElementById("mytablepro");
+      let hidden = element.getAttribute("hidden");
+  
+      if (hidden) {
+         element.removeAttribute("hidden");
+         button.innerText = "";
+      } else {
+         element.setAttribute("hidden", "hidden");
+         button.innerText = "";
+      }
+    }
+</script>
+<script>
+    let togglesite = button => {
+      let element = document.getElementById("mytablesite");
+      let hidden = element.getAttribute("hidden");
+  
+      if (hidden) {
+         element.removeAttribute("hidden");
+         button.innerText = "";
+      } else {
+         element.setAttribute("hidden", "hidden");
+         button.innerText = "";
+      }
+    }
+</script>
+<script>
+    let toggleeq = button => {
+      let element = document.getElementById("mytableeq");
+      let hidden = element.getAttribute("hidden");
+  
+      if (hidden) {
+         element.removeAttribute("hidden");
+         button.innerText = "";
+      } else {
+         element.setAttribute("hidden", "hidden");
+         button.innerText = "";
+      }
+    }
+</script>
+<script>
+    let togglecir = button => {
+      let element = document.getElementById("mytablecir");
+      let hidden = element.getAttribute("hidden");
+  
+      if (hidden) {
+         element.removeAttribute("hidden");
+         button.innerText = "";
+      } else {
+         element.setAttribute("hidden", "hidden");
+         button.innerText = "";
+      }
+    }
+</script>
+<script>
+    let togglefilter = button => {  
+      let element = document.getElementById("myfilter");
+      let hidden = element.getAttribute("hidden");
+  
+      if (hidden) {
+         element.removeAttribute("hidden");
+      } else {
+         element.setAttribute("hidden", "hidden");
+      }
+    }
+</script>
+
+<datalist id="projectname">
+    {% for PN in project %}
+    <option>{{PN[0]}}</option>
+    {% endfor %}
+</datalist>
+
+  <datalist id="S_O">
+    {% for SO in project %}
+    <option>{{SO[1]}}</option>
+    {% endfor %}
+  </datalist>
+
+  <datalist id="s_n">
+    {% for sn in equipment %}
+    <option>{{sn[0]}}</option>
+    {% endfor %}
+  </datalist>
+
+  <datalist id="e_b">
+    {% for eb in equipment2[0] %}
+    <option>{{eb}}</option>
+    {% endfor %}
+  </datalist>
+
+  <datalist id="e_m">
+    {% for em in equipment2[1] %}
+    <option>{{em}}</option>
+    {% endfor %}
+  </datalist>
+
+  <datalist id="d_n">
+    {% for dn in equipment2[2] %}
+    <option>{{dn}}</option>
+    {% endfor %}
+  </datalist>
+
+  <datalist id="ha">
+    {% for ha in equipment2[-1] %}
+    <option>{{ha}}</option>
+    {% endfor %}
+  </datalist>
+
+  <datalist id="c_i">
+    {% for ci in circuit %}
+    <option>{{ci[0]}}</option>
+    {% endfor %}
+  </datalist>
+
+  <datalist id="ip_ce">
+    {% for ip_ce in circuit %}
+    <option>{{ip_ce[3]}}</option>
+    {% endfor %}
+  </datalist>
+
+  <datalist id="ip_lb">
+    {% for ip_lb in circuit %}
+    <option>{{ip_lb[5]}}</option>
+    {% endfor %}
+  </datalist>
+
+  <datalist id="o_i">
+    {% for oi in circuit2 %}
+    <option>{{oi}}</option>
+    {% endfor %}
+  </datalist>
+
+  <datalist id="s_name">
+    {% for oi in site2[0] %}
+    <option>{{oi}}</option>
+    {% endfor %}
+  </datalist>
+
+  <datalist id="s_type">
+    {% for oi in site2[-1] %}
+    <option>{{oi}}</option>
+    {% endfor %}
+  </datalist>
+
 </html>

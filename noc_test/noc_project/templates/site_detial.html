@@ -1,12 +1,8 @@
-{% extends 'layout.html' %}
-
-{% block title %}Circuit{% endblock %}
-
-{% block content %}
-<h2>Detials Site Page</h2>
 <div>
-    <p>Your {{zone2[2]}} details are below:</p>
     <table>
+        <tr>
+            <td><div>Your {{zone2[2]}} Details are below : </div></td>
+        </tr>
         <tr>
             <td>Project Name:</td>
             <td>{{ zone1[0] }}</td>
@@ -19,9 +15,6 @@
             <td>Serial_number:</td>
             <td>{{ zone1[2] }}</td>
         </tr>
-    </table>
-    <p>---------------------------------------------------------------</p>
-    <table>
         <tr>
             <td>site_name:</td>
             <td>{{ zone2[2] }}</td>
@@ -47,6 +40,4 @@
             <td>{{ zone2[7] }}</td>
         </tr>
     </table>    
-    <h3>Thank you</h3>
 </div>
-{% endblock %}

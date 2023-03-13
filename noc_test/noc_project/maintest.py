@@ -1866,13 +1866,36 @@ def register_user():
 @app.route('/noc_project/user_table', methods=['GET', 'POST'])
 def user_table():
      if 'admin' in session['role'] or 'super_user' in session['role']:
-        connection = psycopg2.connect(user="postgres",password="1234",host="127.0.0.1",port="5432",database="python2565")
-        cursor = connection.cursor()
-        cursor.execute('SELECT * FROM accounts')
-        account = cursor.fetchall()
         columns = ['Username', 'password', 'Role']
-        return render_template('team.html', columns=columns,data=account)
+        session['columns'] = columns
+        return render_template('team.html', columns=columns)
 
+@app.route('/_server_data')
+def get_server_data():
+    
+    connection = psycopg2.connect(user="postgres",password="1234",host="127.0.0.1",port="5432",database="python2565")
+    cursor = connection.cursor()
+    cursor.execute('SELECT * FROM accounts')
+    account = cursor.fetchall()
+    name = []
+    Role = []
+    password = []
+    for i in account:
+        i = list(i)
+        name.append(i[1])
+        password.append(i[2])
+        Role.append(i[3])
+    cursor.close()
+    connection.close()
+    collection = []
+    columns = session['columns']
+    print(name)
+    for i in range(len(name)):
+        collection.append(dict(zip(columns,[name[i],password[i],Role[i]])))
+
+    results = BaseDataTables(request, columns, collection).output_result()
+    
+    return json.dumps(results)
 
 class BaseDataTables:
     
@@ -2037,7 +2060,7 @@ def delete_page():
                 columns = []
                 session['columns_delete'] = columns
                 session['delete_table_name'] = 'Interface'
-        return render_template('delete.html', columns=session['columns_delete'])
+        return render_template('delete_form.html', columns=session['columns_delete'])
     return redirect(url_for('login'))
 
 def replace_space(data):

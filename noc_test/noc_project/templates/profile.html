@@ -1,25 +1,22 @@
-{% extends 'layout.html' %}
 
-{% block title %}Profile{% endblock %}
-
-{% block content %}
-<h2>Profile Page</h2>
-<div>
-    <p>Your account details are below:</p>
-    <table>
-        <tr>
-            <td>Username:</td>
-            <td>{{ account['username'] }}</td>
-        </tr>
-        <tr>
-            <td>Password:</td>
-            <td>{{ account['password'] }}</td>
-        </tr>
-        <tr>
-            <td>Role:</td>
-            <td>{{ account['role'] }}</td>
-        </tr>
-    </table>
-    <h3>Thank you</h3>
-</div>
-{% endblock %}
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">PROFILE</h5>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+            </button>
+        </div>
+        <div class="modal-profile ">
+            <div class="displayflex">
+                <div class="d-flex flex-column align-items-center text-center displaypropic"><img class="rounded-circle" src="https://media4.giphy.com/media/eePSFNBFv2W9owZ4Sh/giphy.gif?cid=ecf05e47qctng9140e7a7r88jrad9j1pk8slri3upfe8vvyg&rid=giphy.gif&ct=g" width="128" height="128"></div>
+                <div class="row">
+                    <div class="col-md-12 displaycen">Username : {{ account['username'] }}</div>
+                    <div class="col-md-12 displaycen">Password : {{ account['password'] }}</div>
+                    <div class="col-md-12 displaycen">Role : {{ account['role'] }}</div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-secondary" type="button" data-dismiss="modal">Edit</button>
+            <a class="btn btn-primary" href="login.html">Logout</a>
+        </div>
+    </div>
