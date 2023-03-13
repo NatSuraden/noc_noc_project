@@ -133,11 +133,15 @@ def check_test():
                 site = cursor.fetchall()
                 cursor.close()
                 connection.close()
+                event = 'update data to database.'
+                save_log(event)
             except (Exception) as error:
                 msg = []
                 error = str(error)  
                 msg.append(error)
                 session['project_error'] += msg
+                event = 'error update data to database.'
+                save_log(event)
             if len(session['project_error']) != 0:
                 # for i in session['project_error']:
                 #     print(i)
@@ -1632,19 +1636,18 @@ def search(inputdata):
     while data_len == 0:
         #search by circuit_id
         for i in circuit:
-            data_in_process = [] 
+            data_in_process = ["","","","","",""]
             if str(i[0]).upper() == str(inputdata).upper():
-                data_in_process.append(i[0]) #circuit_id  added
+                data_in_process[0] = i[0]
                 for a in equipment:
                     if i[1] == a[0]:
-                        data_in_process.append(a[1]) #project_name added
-                        data_in_process.append(a[2]) #site_name added
-                        data_in_process.append(a[0]) #serial_number added
+                        data_in_process[1] = a[1]
+                        data_in_process[2] = a[2]
+                        data_in_process[3] = a[0]
                         break
-                data_in_process.append(i[5])     #Equipment_Loopback  added
-                data_in_process.append(i[3])   #IP_address_CE  added
+                data_in_process[4] = i[5]
+                data_in_process[5] = i[3]
                 data.append(data_in_process)
-                break
         #search by project_name
         data_len = len(data)
         for i in equipment:
@@ -1730,16 +1733,16 @@ def search2(inputdata):
     # equipment = session['equipment']
     data = []
     for i in circuit:
-        data_in_process = []
-        data_in_process.append(i[0])     #circuit_id  added
+        data_in_process = ["","","","","",""]
+        data_in_process[0] = i[0]
         for a in equipment:
             if i[1] == a[0]:
-                data_in_process.append(a[1]) #project_name added
-                data_in_process.append(a[2]) #site_name added
-                data_in_process.append(a[0]) #serial_number added
+                data_in_process[1] = a[1]
+                data_in_process[2] = a[2]
+                data_in_process[3] = a[0]
                 break
-        data_in_process.append(i[5])     #Equipment_Loopback  added
-        data_in_process.append(i[3])   #IP_address_CE  added
+        data_in_process[4] = i[5]
+        data_in_process[5] = i[3]
         data.append(data_in_process)
     data2 = []
     for i in data:
@@ -1764,6 +1767,8 @@ def home():
                 msg = "Not Found"
             else:
                 msg = "We Found"
+                event = 'normal search '+search_data
+                save_log(event)
             return render_template('home.html', text=msg ,data = data)
         return render_template('home.html', text='Hello '+str(session['role']),data = data)
     return redirect(url_for('login'))
@@ -1810,6 +1815,8 @@ def advanced_search():
         request.form['disty_name'],request.form['start_of_warranty'],request.form['end_of_warranty'],request.form['ha_status'],
 
         request.form['circuit_id'],request.form['ip_address_ce'],request.form['ip_loopback'],request.form['owner_isp']]
+        delete_empty = [ele for ele in inputdata if ele.strip()]
+        print(delete_empty)
         table_data = adv_search(inputdata)
         main_table = table_data[0]
         circuit_table = table_data[1]
@@ -1997,112 +2004,157 @@ def page_upload():
 @app.route('/python-flask-files-upload', methods=['POST'])
 def upload_file():
 	# check if the post request has the file part
-	if 'files[]' not in request.files:
-		resp = jsonify({'message' : 'No file part in the request'})
-		resp.status_code = 400
-		return resp
-	
-	files = request.files.getlist('files[]')
-	errors = {}
-	success = False
-	for file in files:
-    
-		if file and allowed_file(file.filename):
-            
-			filename = 'data_up_load.xlsx'
-            
-			file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-			success = True
-                        
-		else:
-			errors[file.filename] = 'File type is not allowed'
+        if 'files[]' not in request.files:
+            resp = jsonify({'message' : 'No file part in the request'})
+            resp.status_code = 400
 
-	if success and errors:
-		errors['message'] = 'File(s) successfully uploaded'
-		resp = jsonify(errors)
-		resp.status_code = 206
-		return resp
-	if success:
-		resp = jsonify({'message' : 'Files successfully uploaded'})
-		resp.status_code = 201
-        #log_event
-		return resp
-	else:
-		resp = jsonify(errors)
-		resp.status_code = 400
-		return resp
+            return resp
+        
+        files = request.files.getlist('files[]')    
+        errors = {}
+        success = False
+        
+        for file in files:
+        
+            if file and allowed_file(file.filename):
+                
+                filename = 'data_up_load.xlsx'
+                
+                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                success = True
+                event = 'uploaded '+str(file.filename)
+                save_log(event)            
+            else:
+                errors[file.filename] = 'File type is not allowed'
+                event = 'error uploaded '+str(file.filename)
+                save_log(event)  
+        if success and errors:
+            errors['message'] = 'File(s) successfully uploaded'
+            resp = jsonify(errors)
+            resp.status_code = 206
+            return resp
+        if success:
+            resp = jsonify({'message' : 'Files successfully uploaded'})
+            resp.status_code = 201
+            #log_event
+            return resp
+        else:
+            resp = jsonify(errors)
+            resp.status_code = 400
+            return resp
     
 
-@app.route('/delete_table')
+#@app.route('/delete_table')
 def delete_table():
     data = session['delete_table_name']
     global equipment,site,circuit,interface,project,contrat
-    if data == 'Project':
-        project1 = replace_space(project)
-        collection = []
-        columns = session['columns_delete']
-        for i in project1:
-            collection.append(dict(zip(columns,[i[0],i[1],i[2],i[3],i[4],i[5],i[6],i[7],i[8],i[9]])))
-        results = BaseDataTables(request, columns, collection).output_result()
-        return json.dumps(results)
-    elif data == 'Contract':
-        #contrat = session['contrat']
-        contrat1 = replace_space(contrat)
-        collection = []
-        columns = session['columns_delete']
-        for i in contrat1:
-            collection.append(dict(zip(columns,[i[0],i[1],i[2],i[3],i[4],i[5]])))
-        results = BaseDataTables(request, columns, collection).output_result()
-        return json.dumps(results)
-    elif data == 'Site':
-        #site = session['site']
-        site1 = replace_space(site)
-        collection = []
-        columns = session['columns_delete']
-        for i in site1:
-            collection.append(dict(zip(columns,[i[0],i[1],i[2],i[3],i[4],i[5],i[6],i[7]])))
-        results = BaseDataTables(request, columns, collection).output_result()
-        return json.dumps(results)
-    elif data == 'Equipment':
-        #site = session['equipment']
-        equipment1 = replace_space(equipment)
-        collection = []
-        columns = session['columns_delete']
-        for i in equipment1:
-            collection.append(dict(zip(columns,[i[0],i[1],i[2],i[3],i[4],i[5],i[6],i[7],i[8],i[9],i[10],i[11]])))
-        results = BaseDataTables(request, columns, collection).output_result()
-        return json.dumps(results)
-    elif data == 'Circuit':
-        #site = session['circuit']
-        circuit1 = replace_space(circuit)
-        collection = []
-        columns = session['columns_delete']
-        for i in circuit1:
-            collection.append(dict(zip(columns,[i[0],i[1],i[2],i[3],i[4],i[5],i[6],i[7],i[8],i[9],i[10]])))
-        results = BaseDataTables(request, columns, collection).output_result()
-        return json.dumps(results)
-    elif data == 'Interface':
-        #site = session['interface']
-        interface1 = replace_space(interface)
-        collection = []
-        columns = session['columns_delete']
-        for i in interface1:
-            collection.append(dict(zip(columns,[i[0],i[1],i[2],i[3],i[4],i[5],i[6],i[7]])))
-        results = BaseDataTables(request, columns, collection).output_result()
-        return json.dumps(results)
-    # for i in range(len(name)):
-    #     collection.append(dict(zip(columns,[name[i],password[i],Role[i]])))
-
-    # results = BaseDataTables(request, columns, collection).output_result()
-    
-    # return json.dumps(results)
+    try:
+        if data == 'Project':
+            project1 = replace_space(project)
+            return project1
+        elif data == 'Contract':
+            #contrat = session['contrat']
+            contrat1 = replace_space(contrat)
+            return contrat1
+        elif data == 'Site':
+            #site = session['site']
+            site1 = replace_space(site)
+            return site1
+        elif data == 'Equipment':
+            #site = session['equipment']
+            equipment1 = replace_space(equipment)
+            return equipment1
+        elif data == 'Circuit':
+            #site = session['circuit']
+            circuit1 = replace_space(circuit)
+            return circuit1
+        elif data == 'Interface':
+            #site = session['interface']
+            interface1 = replace_space(interface)
+            return interface1
+    except:
+        pass
+   
 @app.route('/delete_page', methods=['GET', 'POST'])
 def delete_page():
     if 'loggedin' in session and session['role'] == 'admin':
         global equipment,site,circuit,interface,project,contrat
-        tablename = 'Project'
+        data_display = delete_table()
         connection = psycopg2.connect(user="postgres",password="pplus1234",host="127.0.0.1",port="5432",database="python2565")
         cursor = connection.cursor()
+        cursor.execute('SELECT * FROM circuit')
+        circuit = cursor.fetchall()
+        cursor.execute('SELECT * FROM equipment')
+        equipment = cursor.fetchall()
+        cursor.execute('SELECT * FROM interface')
+        interface = cursor.fetchall()   
+        cursor.execute('SELECT * FROM project')
+        project = cursor.fetchall()
+        cursor.execute('SELECT * FROM contract')
+        contrat = cursor.fetchall()
+        cursor.execute('SELECT * FROM site')
+        site = cursor.fetchall()
+        cursor.close()
+        connection.close()
+        tablename = 'Project'
+        session['delete_table_name'] = 'Project'
+        if request.method == 'POST' and 'table_name' in request.form:
+            tablename = request.form['table_name']
+            if tablename == 'Project':
+                columns = ['project_name','s/o','C_S_C','C_E_C','D_S_C','D_E_C','Vpn_Detail','Important_Detail','Addition_Detail','Remark']
+                session['columns_delete'] = columns
+                session['delete_table_name'] = 'Project'
+                data_display = delete_table()
+            elif tablename == 'Contract':
+                columns = ['contrat_id','project_name','role','name','tel','additional_detail']
+                session['columns_delete'] = columns
+                session['delete_table_name'] = 'Contract'
+                data_display = delete_table()
+            elif tablename == 'Site':
+                columns = ["site_id","project_name","site_name","location","short_name","contact_owner_site","contact","type"]
+                session['columns_delete'] = columns
+                session['delete_table_name'] = 'Site'
+                data_display = delete_table()
+            elif tablename == 'Equipment':
+                columns = ["serial_number","project_name","site_name","brand","model","disty_name","disty_contact",
+                "open_case_contact","s_o_w","e_o_w","ha_status","ha"]
+                session['columns_delete'] = columns
+                session['delete_table_name'] = 'Equipment'
+                data_display = delete_table()
+            elif tablename == 'Circuit':
+                columns = ["circuit_id","equipment_ref","ip_address_pe","ip_address_ce","subnet","loopback",
+                "circuit_type","link_number","original_isp","owner_isp","isp_contact_tel"]
+                session['columns_delete'] = columns
+                session['delete_table_name'] = 'Circuit'
+                data_display = delete_table()
+            elif tablename == 'Interface':
+                columns = ["interface_id","circuit_id","e_serial","e_brand","e_model","physical_interface","vlan_id","tunnel_interface_name"]
+                session['columns_delete'] = columns
+                session['delete_table_name'] = 'Interface'
+                data_display = delete_table()
+        if request.method == 'POST' and 'PK' in request.form:
+            if 'delete_table_name' not in session:
+                tablename = 'Project'
+            else:
+                tablename = session['delete_table_name']
+            PK_name = request.form['PK']
+            msg = table_delete(PK_name,tablename,session['columns_delete'][0])
+            #print(msg)
+            #log_event
+            return render_template('delete_form.html', columns=session['columns_delete'] ,tablename = tablename,data_display = data_display)
+        return render_template('delete_form.html', columns=session['columns_delete'] ,tablename = tablename,data_display = data_display)
+    return redirect(url_for('login'))
+
+def table_delete(PK_name,tablename,columns_delete):
+    try:
+        global equipment,site,circuit,interface,project,contrat
+        connection = psycopg2.connect(user="postgres",password="pplus1234",host="127.0.0.1",port="5432",database="python2565")
+        cursor = connection.cursor()
+        tablename = tablename.lower()
+        sql = "DELETE FROM " +tablename+" WHERE "+columns_delete+" = "+"'{}'".format(PK_name)
+        #cursor.execute("DELETE FROM %s WHERE %s = %s", (tablename,columns_delete,PK_name))
+        cursor.execute(sql)
+        connection.commit()
         cursor.execute('SELECT * FROM circuit')
         circuit = cursor.fetchall()
         cursor.execute('SELECT * FROM equipment')
@@ -2115,69 +2167,14 @@ def delete_page():
         contrat = cursor.fetchall()
         cursor.execute('SELECT * FROM site')
         site = cursor.fetchall()
-        cursor.close()
-        connection.close()
-        if 'delete_table_name' not in session:
-            columns = ['project_name','s/o','C_S_C','C_E_C','D_S_C','D_E_C','Vpn_Detail','Important_Detail','Addition_Detail','Remark']
-            session['columns_delete'] = columns
-            session['delete_table_name'] = 'Project'
-            tablename = 'Project'
-        if request.method == 'POST' and 'table_name' in request.form:
-            tablename = request.form['table_name']
-            if tablename == 'Project':
-                columns = ['project_name','s/o','C_S_C','C_E_C','D_S_C','D_E_C','Vpn_Detail','Important_Detail','Addition_Detail','Remark']
-                session['columns_delete'] = columns
-                session['delete_table_name'] = 'Project'
-            elif tablename == 'Contract':
-                columns = ['contrat_id','project_name','role','name','tel','additional_detail']
-                session['columns_delete'] = columns
-                session['delete_table_name'] = 'Contract'
-            elif tablename == 'Site':
-                columns = ["site_id","project_name","site_name","location","short_name","contact_owner_site","contact","type"]
-                session['columns_delete'] = columns
-                session['delete_table_name'] = 'Site'
-            elif tablename == 'Equipment':
-                columns = ["serial_number","project_name","site_name","brand","model","disty_name","disty_contact",
-                "open_case_contact","s_o_w","e_o_w","ha_status","ha"]
-                session['columns_delete'] = columns
-                session['delete_table_name'] = 'Equipment'
-            elif tablename == 'Circuit':
-                columns = ["circuit_id","equipment_ref","ip_address_pe","ip_address_ce","subnet","loopback",
-                "circuit_type","link_number","original_isp","owner_isp","isp_contact_tel"]
-                session['columns_delete'] = columns
-                session['delete_table_name'] = 'Circuit'
-            elif tablename == 'Interface':
-                columns = ["interface_id","circuit_id","e_serial","e_brand","e_model","physical_interface","vlan_id","tunnel_interface_name"]
-                session['columns_delete'] = columns
-                session['delete_table_name'] = 'Interface'
-        if request.method == 'POST' and 'PK' in request.form:
-            if 'delete_table_name' not in session:
-                tablename = 'Project'
-            else:
-                tablename = session['delete_table_name']
-            PK_name = request.form['PK']
-            msg = table_delete(PK_name,tablename,session['columns_delete'][0])
-            #print(msg)
-            #log_event
-            return render_template('delete_form.html', columns=session['columns_delete'] ,tablename = tablename)
-        return render_template('delete_form.html', columns=session['columns_delete'] ,tablename = tablename)
-    return redirect(url_for('login'))
-
-def table_delete(PK_name,tablename,columns_delete):
-    try:
-        connection = psycopg2.connect(user="postgres",password="pplus1234",host="127.0.0.1",port="5432",database="python2565")
-        cursor = connection.cursor()
-        tablename = tablename.lower()
-        sql = "DELETE FROM " +tablename+" WHERE "+columns_delete+" = "+"'{}'".format(PK_name)
-        #cursor.execute("DELETE FROM %s WHERE %s = %s", (tablename,columns_delete,PK_name))
-        cursor.execute(sql)
-        connection.commit()
-        cursor.close()
-        connection.close()
         msg = "DELETE "+PK_name+" form "+tablename+' successfully'
+        save_log(msg)
+        cursor.close()
+        connection.close()
         return msg
     except (Exception) as error:
         msg = "Fail to DELETE "+PK_name+" form "+tablename
+        save_log(msg)
         return msg
 
 def replace_space(data):
