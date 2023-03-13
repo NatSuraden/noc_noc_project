@@ -1817,7 +1817,7 @@ def advanced_search():
 
         request.form['circuit_id'],request.form['ip_address_ce'],request.form['ip_loopback'],request.form['owner_isp']]
         delete_empty = [ele for ele in inputdata if ele.strip()]
-        print(delete_empty)
+        #log
         table_data = adv_search(inputdata)
         main_table = table_data[0]
         circuit_table = table_data[1]
@@ -1900,6 +1900,8 @@ def register_user():
                 cursor.execute(postgres_insert_query,(A_username,A_password,A_role))
                 connection.commit()
                 connection.close()
+                event = 'register ' + A_username
+                save_log(event)
                 return render_template('home.html',text='register successfully')
         return render_template('register_user.html')
     return redirect(url_for('login'))
@@ -2044,6 +2046,14 @@ def upload_file():
             resp.status_code = 400
             return resp
     
+@app.route("/ajaxfile_delete",methods=["POST","GET"])
+def ajaxfile_delete():
+    if request.method == 'POST':
+        global equipment,site,circuit,interface,project,contrat
+   
+        msg = request.form['msg']
+        res = ast.literal_eval(msg)
+        return jsonify({'htmldelete_pop': render_template('delete_pop.html',msg=res)})
 
 #@app.route('/delete_table')
 def delete_table():
@@ -2139,9 +2149,13 @@ def delete_page():
                 tablename = session['delete_table_name']
             PK_name = request.form['PK']
             msg = table_delete(PK_name,tablename,session['columns_delete'][0])
+            data_display = delete_table()
             #print(msg)
             #log_event
             return render_template('delete_form.html', columns=session['columns_delete'] ,tablename = tablename,data_display = data_display)
+        if 'delete_table_name' in session:
+            data_display = delete_table()
+            tablename = session['delete_table_name']
         if 'delete_table_name' not in session:
             columns = ['project_name','s/o','C_S_C','C_E_C','D_S_C','D_E_C','Vpn_Detail','Important_Detail','Addition_Detail','Remark']
             session['columns_delete'] = columns
@@ -2499,8 +2513,9 @@ def adv_search(inputdata):
                     break
             data_in_process[-2] = i[5]  #Equipment_Loopback  added
             data_in_process[-1] = i[3]  #IP_address_CE added
-        if table_main[0] in data_in_process:
-            table_main_data.append(data_in_process)
+            if table_main[0] in data_in_process:
+                table_main_data.append(data_in_process)
+        
 
     if len(table_main) == 0:
         table_main_data = []

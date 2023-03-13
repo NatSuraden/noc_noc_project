@@ -12,6 +12,38 @@
       border-collapse: collapse;
     }
  </style>
+ <div class="modal fade" id="empModal" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">Delete</h4>
+			  <button type="button" class="close" data-dismiss="modal">×</button>
+			</div>
+			<div class="modal-body"></div>
+			<div class="modal-footer">
+			  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	$(document).ready(function(){
+	  $('.return').click(function(){
+		var msg = $(this).data('id');
+		$.ajax({
+		  url: '/ajaxfile_delete',
+		  type: 'post',
+		  data: {msg:msg},
+		  success: function(data){
+			$('.modal-body').html(data);
+			$('.modal-body').append(data.htmldelete_pop);
+			$('#empModal').modal('show');
+		  }
+		});
+	  });
+	});
+  </script>
 
 <form action="{{ url_for('delete_page') }}" method="POST">
     <select name="table_name" id="table_name" onchange="this.form.submit()">
@@ -38,9 +70,8 @@
 		</thead>
 		{% for data in data_display %}
 			<tr>
-					<td><button  data-id ='{{data}}' class="details_data btn btn-success">-</button></td>
+					<td><button  data-id ='{{ data }}' class="return btn btn-success">-</button></td>
 					{% for row in data %}
-					
 						<td>{{ row }}</td>
 					{% endfor %}
 			</tr>
