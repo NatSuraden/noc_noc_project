@@ -76,6 +76,8 @@ def login():
             contrat = cursor.fetchall()
             cursor.execute('SELECT * FROM site')
             site = cursor.fetchall()
+            event = 'Login'
+            save_log(event)
             return redirect(url_for('home'))
         else:
             msg = 'Incorrect username/password!'
@@ -1616,6 +1618,8 @@ def logout():
     session.pop('loggedin', None)
     session.pop('id', None)
     session.pop('username', None)
+    event = 'Logout'
+    save_log(event)
     return redirect(url_for('login'))
 
 
@@ -1999,7 +2003,6 @@ def upload_file():
 		return resp
 	
 	files = request.files.getlist('files[]')
-	
 	errors = {}
 	success = False
 	for file in files:
@@ -2010,8 +2013,10 @@ def upload_file():
             
 			file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 			success = True
+                        
 		else:
 			errors[file.filename] = 'File type is not allowed'
+
 	if success and errors:
 		errors['message'] = 'File(s) successfully uploaded'
 		resp = jsonify(errors)
@@ -2020,12 +2025,13 @@ def upload_file():
 	if success:
 		resp = jsonify({'message' : 'Files successfully uploaded'})
 		resp.status_code = 201
+        #log_event
 		return resp
 	else:
 		resp = jsonify(errors)
 		resp.status_code = 400
 		return resp
-
+    
 
 @app.route('/delete_table')
 def delete_table():
@@ -2152,6 +2158,7 @@ def delete_page():
             PK_name = request.form['PK']
             msg = table_delete(PK_name,tablename,session['columns_delete'][0])
             #print(msg)
+            #log_event
             return render_template('delete_form.html', columns=session['columns_delete'] ,tablename = tablename)
         return render_template('delete_form.html', columns=session['columns_delete'] ,tablename = tablename)
     return redirect(url_for('login'))
@@ -2195,8 +2202,18 @@ def profile():
         return render_template('profile.html', account=session)
     return redirect(url_for('login'))
 
-def save_log(msg):
-    pass
+def save_log(event):
+    connection = psycopg2.connect(user="postgres",password="pplus1234",host="127.0.0.1",port="5432",database="python2565")
+    cursor = connection.cursor()
+    time = datetime.datetime.now()
+    try:
+        postgres_insert_query = """ INSERT INTO event_logs (username,time,event) VALUES (%s,%s,%s)"""
+        cursor.execute(postgres_insert_query,(session['username'],time,event))
+        connection.commit()
+        cursor.close()
+        connection.close()
+    except Exception as error:
+        print("Log: error",error)
 
 def W_chack(sql):
     sql_str = sql
@@ -2360,7 +2377,7 @@ def adv_search(inputdata):
                 data_in_process[-1] = i[3]  #IP_address_CE added
                 circuit_table.append(data_in_process)
                 break       
-               
+
     equipment_table = []
     for i in equipment:
         data_in_process = ["","","","","",""] #serial_number added
