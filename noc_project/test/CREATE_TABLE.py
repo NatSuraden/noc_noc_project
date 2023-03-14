@@ -40,7 +40,7 @@ try:
             (id SERIAL PRIMARY KEY,
             username     VARCHAR(50) ,
             time     timestamp ,
-            event      VARCHAR(50)); ''' 
+            event      VARCHAR(500)); ''' 
         cursor.execute(create_table_guery)
         connection.commit()
     except (Exception, psycopg2.DatabaseError) as error: 
