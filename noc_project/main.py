@@ -41,14 +41,9 @@ def login():
     role = ""
     newpass =""
     if request.method == 'POST' and 'username' in request.form and 'password' in request.form:
-        global equipment,site,circuit,interface,project,contrat
         username = request.form['username']
         password = request.form['password']
-        connection = psycopg2.connect(user="postgres",
-                                    password="pplus1234",
-                                    host="127.0.0.1",
-                                    port="5432",
-                                    database="python2565")
+        connection = connect()
         cursor = connection.cursor()
         cursor.execute('SELECT * FROM accounts WHERE username = %s AND password = %s', (username, password,))
         account = cursor.fetchall()
@@ -64,18 +59,7 @@ def login():
             session['password'] = newpass
             session['username'] = username
             session['role'] = role
-            cursor.execute('SELECT * FROM circuit')
-            circuit = cursor.fetchall()
-            cursor.execute('SELECT * FROM equipment')
-            equipment = cursor.fetchall()
-            cursor.execute('SELECT * FROM interface')
-            interface = cursor.fetchall()
-            cursor.execute('SELECT * FROM project')
-            project = cursor.fetchall()
-            cursor.execute('SELECT * FROM contract')
-            contrat = cursor.fetchall()
-            cursor.execute('SELECT * FROM site')
-            site = cursor.fetchall()
+            global_data()
             event = 'Login'
             save_log(event)
 
@@ -117,8 +101,8 @@ def check_test():
                     interface_table_update(interface_update)
                 if len(interface_new) != 0:
                     interface_table_new_data(interface_new)
-                    print(len(interface_new))
-                connection = psycopg2.connect(user="postgres",password="pplus1234",host="127.0.0.1",port="5432",database="python2565")
+                    #print(len(interface_new))
+                connection = connect()
                 cursor = connection.cursor()
                 cursor.execute('SELECT * FROM circuit')
                 circuit = cursor.fetchall()
@@ -152,9 +136,9 @@ def check_test():
 def project_table_new_data(data):
     msg = []
     try:
-        connection = psycopg2.connect(user="postgres",password="pplus1234",host="127.0.0.1",port="5432",database="python2565")
+        connection = connect()
         cursor = connection.cursor()
-        print(len(data))
+        #print(len(data))
         for i in data:
             if i[2] != "-":
                 i[2] = i[2].strftime('%Y/%m/%d')
@@ -205,7 +189,7 @@ def project_table_new_data(data):
         session['project_error'] += msg
 
 def project_table_update(data):
-    connection = psycopg2.connect(user="postgres",password="pplus1234",host="127.0.0.1",port="5432",database="python2565")
+    connection = connect()
     cursor = connection.cursor()
     for data_update_project in data:
         #print(data_update_project)
@@ -316,7 +300,7 @@ def project_table_update(data):
 def contract_table_new_data(data):
     msg = []
     try:
-        connection = psycopg2.connect(user="postgres",password="pplus1234",host="127.0.0.1",port="5432",database="python2565")
+        connection = connect()
         cursor = connection.cursor()
         for i in data:
             cursor.execute('SELECT * FROM contract WHERE project_name = %s AND role = %s AND name = %s',(i[0],i[1],i[2],))
@@ -336,7 +320,7 @@ def contract_table_new_data(data):
         session['project_error'] += msg
 
 def contract_table_update(data):
-    connection = psycopg2.connect(user="postgres",password="pplus1234",host="127.0.0.1",port="5432",database="python2565")
+    connection = connect()
     cursor = connection.cursor()
     for data_update_contract in data:
         try:
@@ -375,7 +359,7 @@ def contract_table_update(data):
 def site_table_new_data(data):
     msg = []
     try:
-        connection = psycopg2.connect(user="postgres",password="pplus1234",host="127.0.0.1",port="5432",database="python2565")
+        connection = connect()
         cursor = connection.cursor()
         for i in data:
             cursor.execute('SELECT * FROM site WHERE project_name = %s AND site_name = %s AND location = %s',(i[0],i[1],i[2],))
@@ -395,7 +379,7 @@ def site_table_new_data(data):
         session['project_error'] += msg
 
 def site_table_update(data):
-    connection = psycopg2.connect(user="postgres",password="pplus1234",host="127.0.0.1",port="5432",database="python2565")
+    connection = connect()
     cursor = connection.cursor()
     for data_update_site in data:
         try:
@@ -454,7 +438,7 @@ def site_table_update(data):
 def equipment_table_new_data(data):
     msg = []
     try:
-        connection = psycopg2.connect(user="postgres",password="pplus1234",host="127.0.0.1",port="5432",database="python2565")
+        connection = connect()
         #cursor = connection.cursor()
         for i in data:
             cursor = connection.cursor()
@@ -495,7 +479,7 @@ def equipment_table_new_data(data):
 
 
 def equipment_table_update(data):
-    connection = psycopg2.connect(user="postgres",password="pplus1234",host="127.0.0.1",port="5432",database="python2565")
+    connection = connect()
     cursor = connection.cursor()
     for data_update_equipment in data:
         try:
@@ -620,7 +604,7 @@ def equipment_table_update(data):
 def circuit_table_new_data(data):
     msg = []
     try:
-        connection = psycopg2.connect(user="postgres",password="pplus1234",host="127.0.0.1",port="5432",database="python2565")
+        connection = connect()
         for i in data:
             cursor = connection.cursor()
             cursor.execute('SELECT * FROM circuit')
@@ -650,7 +634,7 @@ def circuit_table_new_data(data):
         session['project_error'] += msg
 
 def circuit_table_update(data):
-    connection = psycopg2.connect(user="postgres",password="pplus1234",host="127.0.0.1",port="5432",database="python2565")
+    connection = connect()
     cursor = connection.cursor()
     for data_update_circuit in data:
         try:
@@ -759,7 +743,7 @@ def circuit_table_update(data):
 def interface_table_new_data(data):
     msg = []
     try:
-        connection = psycopg2.connect(user="postgres",password="pplus1234",host="127.0.0.1",port="5432",database="python2565")
+        connection = connect()
         cursor = connection.cursor()
         for i in data:
             cursor.execute('SELECT * FROM interface WHERE circuit_id = %s AND equipment_serial = %s AND equipment_brand = %s',(str(i[0]),str(i[1]),str(i[2]),))
@@ -779,7 +763,7 @@ def interface_table_new_data(data):
         session['project_error'] += msg
 
 def interface_table_update(data):
-    connection = psycopg2.connect(user="postgres",password="pplus1234",host="127.0.0.1",port="5432",database="python2565")
+    connection = connect()
     cursor = connection.cursor()
     for data_update_interface in data:
         try:
@@ -847,7 +831,7 @@ def check_cell():
 
 @app.route('/download')
 def download():
-    connection = psycopg2.connect(user="postgres",password="pplus1234",host="127.0.0.1",port="5432",database="python2565")
+    connection = connect()
     cursor = connection.cursor()
     cursor.execute('SELECT * FROM circuit')
     circuit = cursor.fetchall()
@@ -1029,7 +1013,7 @@ def download():
     #                            "output.xlsx", as_attachment=True)
 
 def check_data():
-    connection = psycopg2.connect(user="postgres",password="pplus1234",host="127.0.0.1",port="5432",database="python2565")
+    connection = connect()
     cursor = connection.cursor()
     cursor.execute('SELECT * FROM circuit')
     circuit = cursor.fetchall()
@@ -1459,7 +1443,8 @@ def check_data():
 @app.route("/ajaxfile",methods=["POST","GET"])
 def ajaxfile():
     if request.method == 'POST':
-        global equipment,site,circuit,interface,project,contrat
+        #global equipment,site,circuit,interface,project,contrat
+        global_data()
         #circuit_data = request.get_json()
         circuit_data = request.form['circuit_data']
         #print(circuit_data)
@@ -1620,11 +1605,11 @@ def ajaxfile():
 
 @app.route('/noc_project/logout')
 def logout():
+    event = 'Logout'
+    save_log(event)
     session.pop('loggedin', None)
     session.pop('id', None)
     session.pop('username', None)
-    event = 'Logout'
-    save_log(event)
     return redirect(url_for('login'))
 
 
@@ -1757,6 +1742,7 @@ def search2(inputdata):
 @app.route('/noc_project/home', methods=['GET', 'POST'])
 def home():
     if 'loggedin' in session:
+        global_data()
         data = []
         if request.method == "POST" and 'data_search' in request.form:
             search_data = request.form['data_search']
@@ -1776,7 +1762,7 @@ def home():
 
 @app.route('/noc_project/advance_search', methods=['GET', 'POST'])
 def advanced_search():
-    global equipment,site,circuit,interface,project,contrat
+    global_data()
     main_table = []
     # project = session['project']
     # equipment = session['equipment']
@@ -1817,6 +1803,8 @@ def advanced_search():
 
         request.form['circuit_id'],request.form['ip_address_ce'],request.form['ip_loopback'],request.form['owner_isp']]
         delete_empty = [ele for ele in inputdata if ele.strip()]
+        event = 'advance search'+ str(delete_empty)
+        save_log(event)
         #log
         table_data = adv_search(inputdata)
         main_table = table_data[0]
@@ -1832,7 +1820,7 @@ def advanced_search():
 @app.route('/noc_project/serial_number_detial', methods=['GET', 'POST'])
 def serial_number_detial():
     if request.method == "POST" and 'data' in request.form:
-        connection = psycopg2.connect(user="postgres",password="pplus1234",host="127.0.0.1",port="5432",database="python2565")
+        connection = connect()
         cursor = connection.cursor()
         cursor.execute('SELECT * FROM circuit')
         circuit = cursor.fetchall()
@@ -1885,7 +1873,7 @@ def register_user():
             A_password = request.form['password']
             A_role = request.form['role']
             #print(A_role)
-            connection = psycopg2.connect(user="postgres",password="pplus1234",host="127.0.0.1",port="5432",database="python2565")
+            connection = connect()
             cursor = connection.cursor()
             cursor.execute('SELECT * FROM accounts WHERE username = %s', (A_username,))
             account = cursor.fetchone()
@@ -1912,92 +1900,13 @@ def user_table():
         # columns = ['Username', 'password', 'Role']
         # session['columns'] = columns
         # return render_template('user_table.html', columns=columns)
-        connection = psycopg2.connect(user="postgres",password="pplus1234",host="127.0.0.1",port="5432",database="python2565")
+        connection = connect()
         cursor = connection.cursor()
         cursor.execute('SELECT * FROM accounts')
         account = cursor.fetchall()
         columns = ['Username', 'password', 'Role']
         return render_template('user_table.html', columns=columns,data=account)
 
-
-# @app.route('/_server_data')
-# def get_server_data():
-    
-#     connection = psycopg2.connect(user="postgres",password="pplus1234",host="127.0.0.1",port="5432",database="python2565")
-#     cursor = connection.cursor()
-#     cursor.execute('SELECT * FROM accounts')
-#     account = cursor.fetchall()
-#     name = []
-#     Role = []
-#     password = []
-#     for i in account:
-#         i = list(i)
-#         name.append(i[1])
-#         password.append(i[2])
-#         Role.append(i[3])
-#     cursor.close()
-#     connection.close()
-#     collection = []
-#     columns = session['columns']
-#     print(name)
-#     for i in range(len(name)):
-#         collection.append(dict(zip(columns,[name[i],password[i],Role[i]])))
-
-#     results = BaseDataTables(request, columns, collection).output_result()
-    
-#     return json.dumps(results)
-
-class BaseDataTables:
-    
-    def __init__(self, request, columns, collection):
-        
-        self.columns = columns
-
-        self.collection = collection
-         
-        self.request_values = request.values
-         
- 
-        self.result_data = None
-         
-        self.cardinality_filtered = 0
- 
-        self.cadinality = 0
- 
-        self.run_queries()
-    
-    def output_result(self):
-        
-        output = {}
-
-        aaData_rows = []
-        
-        for row in self.result_data:
-            aaData_row = []
-            for i in range(len(self.columns)):
-                aaData_row.append(str(row[ self.columns[i] ]).replace('"','\\"'))
-            aaData_rows.append(aaData_row)
-            
-        output['aaData'] = aaData_rows
-        
-        return output
-    
-    def run_queries(self):
-        
-         self.result_data = self.collection
-         self.cardinality_filtered = len(self.result_data)
-         self.cardinality = len(self.result_data)
-
-#@app.route('/upload_file', methods = ['GET', 'POST']) 
-#def upload_file():
-    """ namefile = []
-    dir_path = r'test/upload/'
-    for path in os.listdir(dir_path):
-    # check if current path is a file
-        if os.path.isfile(os.path.join(dir_path, path)):
-            #count += 1
-            namefile.append(path) """
-    #return render_template('index.html' ,namefile = namefile)
 
 @app.route('/noc_project/page_upload', methods = ['GET', 'POST'])
 def page_upload():
@@ -2050,9 +1959,13 @@ def upload_file():
 def ajaxfile_delete():
     if request.method == 'POST':
         global equipment,site,circuit,interface,project,contrat
-   
         msg = request.form['msg']
+        
         res = ast.literal_eval(msg)
+     
+        session['delete_pk'] = res[0]
+        #print(type(res[0]))
+        res = [res[0],session['delete_table_name']]
         return jsonify({'htmldelete_pop': render_template('delete_pop.html',msg=res)})
 
 #@app.route('/delete_table')
@@ -2085,10 +1998,33 @@ def delete_table():
             return interface1
     except:
         pass
-   
-def gobal_data():
-    global equipment,site,circuit,interface,project,contrat
+
+def connect():
     connection = psycopg2.connect(user="postgres",password="pplus1234",host="127.0.0.1",port="5432",database="python2565")
+    return connection
+
+def delete_search_option(tablename):
+    try:
+        connection = connect()
+        cursor = connection.cursor()
+        sql = "SELECT * FROM "+tablename
+        cursor.execute(sql)
+        data = cursor.fetchall()
+        cursor.close()
+        connection.close()
+        data = replace_space(data)
+        data2 = []
+        for i in data:
+            data2.append(i[0])
+        return data2
+    except Exception as error:
+        print('delete_search_option',error)
+        data = []
+        return data2
+
+def global_data():
+    global equipment,site,circuit,interface,project,contrat
+    connection = connect()
     cursor = connection.cursor()
     cursor.execute('SELECT * FROM circuit')
     circuit = cursor.fetchall()
@@ -2108,25 +2044,6 @@ def gobal_data():
 @app.route('/delete_page', methods=['GET', 'POST'])
 def delete_page():
     if 'loggedin' in session and session['role'] == 'admin':
-        # global equipment,site,circuit,interface,project,contrat
-        # connection = psycopg2.connect(user="postgres",password="pplus1234",host="127.0.0.1",port="5432",database="python2565")
-        # cursor = connection.cursor()
-        # cursor.execute('SELECT * FROM circuit')
-        # circuit = cursor.fetchall()
-        # cursor.execute('SELECT * FROM equipment')
-        # equipment = cursor.fetchall()
-        # cursor.execute('SELECT * FROM interface')
-        # interface = cursor.fetchall()   
-        # cursor.execute('SELECT * FROM project')
-        # project = cursor.fetchall()
-        # cursor.execute('SELECT * FROM contract')
-        # contrat = cursor.fetchall()
-        # cursor.execute('SELECT * FROM site')
-        # site = cursor.fetchall()
-        # cursor.close()
-        # connection.close()
-        gobal_data()
-        tablename = 'Project'
         # session['delete_table_name'] = 'Project'
         if request.method == 'POST' and 'table_name' in request.form:
             tablename = request.form['table_name']
@@ -2135,86 +2052,115 @@ def delete_page():
                 session['columns_delete'] = columns
                 session['delete_table_name'] = 'Project'
                 data_display = delete_table()
+                data_option = delete_search_option(tablename)
             elif tablename == 'Contract':
                 columns = ['contrat_id','project_name','role','name','tel','additional_detail']
                 session['columns_delete'] = columns
                 session['delete_table_name'] = 'Contract'
                 data_display = delete_table()
+                data_option = delete_search_option(tablename)
             elif tablename == 'Site':
                 columns = ["site_id","project_name","site_name","location","short_name","contact_owner_site","contact","type"]
                 session['columns_delete'] = columns
                 session['delete_table_name'] = 'Site'
                 data_display = delete_table()
+                data_option = delete_search_option(tablename)
             elif tablename == 'Equipment':
                 columns = ["serial_number","project_name","site_name","brand","model","disty_name","disty_contact",
                 "open_case_contact","s_o_w","e_o_w","ha_status","ha"]
                 session['columns_delete'] = columns
                 session['delete_table_name'] = 'Equipment'
                 data_display = delete_table()
+                data_option = delete_search_option(tablename)
             elif tablename == 'Circuit':
                 columns = ["circuit_id","equipment_ref","ip_address_pe","ip_address_ce","subnet","loopback",
                 "circuit_type","link_number","original_isp","owner_isp","isp_contact_tel"]
                 session['columns_delete'] = columns
                 session['delete_table_name'] = 'Circuit'
                 data_display = delete_table()
+                data_option = delete_search_option(tablename)
             elif tablename == 'Interface':
                 columns = ["interface_id","circuit_id","e_serial","e_brand","e_model","physical_interface","vlan_id","tunnel_interface_name"]
                 session['columns_delete'] = columns
                 session['delete_table_name'] = 'Interface'
                 data_display = delete_table()
+                data_option = delete_search_option(tablename)
         if request.method == 'POST' and 'PK' in request.form:
             if 'delete_table_name' not in session:
                 tablename = 'Project'
             else:
                 tablename = session['delete_table_name']
             PK_name = request.form['PK']
-            msg = table_delete(PK_name,tablename,session['columns_delete'][0])
-            data_display = delete_table()
-            #print(msg)
-            #log_event
-            return render_template('delete_form.html', columns=session['columns_delete'] ,tablename = tablename,data_display = data_display)
+            data_display = delete_search(PK_name,session['delete_table_name'],session['columns_delete'][0])
+            data_option = delete_search_option(tablename)
+            return render_template('delete_form.html', columns=session['columns_delete'] ,tablename = tablename,data_display = data_display,data_option = data_option)
         if 'delete_table_name' in session:
-            data_display = delete_table()
             tablename = session['delete_table_name']
+            data_display = delete_table()
+            data_option = delete_search_option(tablename)
         if 'delete_table_name' not in session:
             columns = ['project_name','s/o','C_S_C','C_E_C','D_S_C','D_E_C','Vpn_Detail','Important_Detail','Addition_Detail','Remark']
             session['columns_delete'] = columns
             session['delete_table_name'] = 'Project'
+            tablename = 'Project'
             data_display = delete_table()
-        return render_template('delete_form.html', columns=session['columns_delete'] ,tablename = tablename,data_display = data_display)
+            data_option = delete_search_option(tablename)
+        global_data()
+        return render_template('delete_form.html', columns=session['columns_delete'] ,tablename = tablename,data_display = data_display,data_option = data_option)
     return redirect(url_for('login'))
 
+@app.route('/delete_pop_get', methods=['GET', 'POST'])
+def delete_pop_get():
+    try:
+        if request.method == 'POST':
+            submit_request = request.form['test']
+            if submit_request == 'submit_done':
+                table_delete(str(session['delete_pk']),session['delete_table_name'],session['columns_delete'][0])
+                data_display = delete_table()
+                tablename = session['delete_table_name']
+                data_option = delete_search_option(tablename)
+                return render_template('delete_form.html', columns=session['columns_delete'] ,tablename = tablename,data_display = data_display ,data_option = data_option)
+    except Exception as error:
+        print("delete_pop_get",error)
+        data_display = delete_table()
+        tablename = session['delete_table_name']
+        data_option = delete_search_option(tablename)
+        return render_template('delete_form.html', columns=session['columns_delete'] ,tablename = tablename,data_display = data_display ,data_option = data_option)
+def delete_search(PK_name,tablename,columns_delete):
+    try:
+        connection = connect()
+        cursor = connection.cursor()
+        tablename = tablename.lower()
+        sql = "SELECT * FROM "+tablename+" WHERE "+columns_delete+" = "+"'{}'".format(str(PK_name))
+        cursor.execute(sql)
+        data = cursor.fetchall()
+        cursor.close()
+        connection.close()
+        data = replace_space(data)
+        return data
+    except (Exception) as error:
+        msg = 'search Fail delete page ' + KeyError
+        print(msg)
+        return msg
 def table_delete(PK_name,tablename,columns_delete):
     try:
-        global equipment,site,circuit,interface,project,contrat
-        connection = psycopg2.connect(user="postgres",password="pplus1234",host="127.0.0.1",port="5432",database="python2565")
+        connection = connect()
         cursor = connection.cursor()
         tablename = tablename.lower()
         sql = "DELETE FROM " +tablename+" WHERE "+columns_delete+" = "+"'{}'".format(PK_name)
         #cursor.execute("DELETE FROM %s WHERE %s = %s", (tablename,columns_delete,PK_name))
         cursor.execute(sql)
         connection.commit()
-        cursor.execute('SELECT * FROM circuit')
-        circuit = cursor.fetchall()
-        cursor.execute('SELECT * FROM equipment')
-        equipment = cursor.fetchall()
-        cursor.execute('SELECT * FROM interface')
-        interface = cursor.fetchall()
-        cursor.execute('SELECT * FROM project')
-        project = cursor.fetchall()
-        cursor.execute('SELECT * FROM contract')
-        contrat = cursor.fetchall()
-        cursor.execute('SELECT * FROM site')
-        site = cursor.fetchall()
         msg = "DELETE "+PK_name+" form "+tablename+' successfully'
         save_log(msg)
         cursor.close()
         connection.close()
+        global_data()
         return msg
     except (Exception) as error:
         msg = "Fail to DELETE "+PK_name+" form "+tablename
         save_log(msg)
-        return msg
+        return msg +" "+error
 
 def replace_space(data):
     data2 = []
@@ -2239,7 +2185,7 @@ def profile():
     return redirect(url_for('login'))
 
 def save_log(event):
-    connection = psycopg2.connect(user="postgres",password="pplus1234",host="127.0.0.1",port="5432",database="python2565")
+    connection = connect()
     cursor = connection.cursor()
     time = datetime.datetime.now()
     try:
@@ -2263,7 +2209,7 @@ def W_chack(sql):
 
 
 def adv_search(inputdata):
-    connection = psycopg2.connect(user="postgres",password="pplus1234",host="127.0.0.1",port="5432",database="python2565")
+    connection = connect()
     cursor = connection.cursor()
     table_main = []
     sql = "SELECT * FROM project"
