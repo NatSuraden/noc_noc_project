@@ -2086,26 +2086,46 @@ def delete_table():
     except:
         pass
    
+def gobal_data():
+    global equipment,site,circuit,interface,project,contrat
+    connection = psycopg2.connect(user="postgres",password="pplus1234",host="127.0.0.1",port="5432",database="python2565")
+    cursor = connection.cursor()
+    cursor.execute('SELECT * FROM circuit')
+    circuit = cursor.fetchall()
+    cursor.execute('SELECT * FROM equipment')
+    equipment = cursor.fetchall()
+    cursor.execute('SELECT * FROM interface')
+    interface = cursor.fetchall()   
+    cursor.execute('SELECT * FROM project')
+    project = cursor.fetchall()
+    cursor.execute('SELECT * FROM contract')
+    contrat = cursor.fetchall()
+    cursor.execute('SELECT * FROM site')
+    site = cursor.fetchall()
+    cursor.close()
+    connection.close()
+
 @app.route('/delete_page', methods=['GET', 'POST'])
 def delete_page():
     if 'loggedin' in session and session['role'] == 'admin':
-        global equipment,site,circuit,interface,project,contrat
-        connection = psycopg2.connect(user="postgres",password="pplus1234",host="127.0.0.1",port="5432",database="python2565")
-        cursor = connection.cursor()
-        cursor.execute('SELECT * FROM circuit')
-        circuit = cursor.fetchall()
-        cursor.execute('SELECT * FROM equipment')
-        equipment = cursor.fetchall()
-        cursor.execute('SELECT * FROM interface')
-        interface = cursor.fetchall()   
-        cursor.execute('SELECT * FROM project')
-        project = cursor.fetchall()
-        cursor.execute('SELECT * FROM contract')
-        contrat = cursor.fetchall()
-        cursor.execute('SELECT * FROM site')
-        site = cursor.fetchall()
-        cursor.close()
-        connection.close()
+        # global equipment,site,circuit,interface,project,contrat
+        # connection = psycopg2.connect(user="postgres",password="pplus1234",host="127.0.0.1",port="5432",database="python2565")
+        # cursor = connection.cursor()
+        # cursor.execute('SELECT * FROM circuit')
+        # circuit = cursor.fetchall()
+        # cursor.execute('SELECT * FROM equipment')
+        # equipment = cursor.fetchall()
+        # cursor.execute('SELECT * FROM interface')
+        # interface = cursor.fetchall()   
+        # cursor.execute('SELECT * FROM project')
+        # project = cursor.fetchall()
+        # cursor.execute('SELECT * FROM contract')
+        # contrat = cursor.fetchall()
+        # cursor.execute('SELECT * FROM site')
+        # site = cursor.fetchall()
+        # cursor.close()
+        # connection.close()
+        gobal_data()
         tablename = 'Project'
         # session['delete_table_name'] = 'Project'
         if request.method == 'POST' and 'table_name' in request.form:
