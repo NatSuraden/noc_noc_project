@@ -6,9 +6,12 @@ import datetime
 username = "Nat_Test"
 password = "1234"
 role = "admin" 
+def connect():
+    connection = psycopg2.connect(user="postgres",password="pplus1234",host="127.0.0.1",port="5432",database="python2565")
+    return connection
 try:
     #connection = psycopg2.connect(user="postgres",password="1234",host="127.0.0.1",port="5432",database="postgres")
-    connection = psycopg2.connect(user="postgres",password="pplus1234",host="127.0.0.1",port="5432",database="python2565")
+    connection = connect()
     table = ['accounts','circuit','contract','equipment','event_logs','interface','project','site']
     cursor = connection.cursor()
     for i in table:
@@ -24,7 +27,7 @@ try:
 except (Exception, psycopg2.DatabaseError) as error: 
         print(error) 
 try:
-    connection = psycopg2.connect(user="postgres",password="pplus1234",host="127.0.0.1",port="5432",database="python2565")
+    connection = connect()
     #connection = psycopg2.connect(user="webadmin",password="BFCqhr46914", host="node4943-env-2254395.th.app.ruk-com.cloud", port="11043", database="pythonlogin")
 
     try:
@@ -158,7 +161,7 @@ finally:
         connection.close()
         print("PostgreSOL connection is closed")
 try:
-    connection = psycopg2.connect(user="postgres",password="pplus1234",host="127.0.0.1",port="5432",database="python2565")
+    connection = connection = connect()
     #connection = psycopg2.connect(user="webadmin",password="BFCqhr46914", host="node4943-env-2254395.th.app.ruk-com.cloud", port="11043", database="pythonlogin")
 
     cursor = connection.cursor()
