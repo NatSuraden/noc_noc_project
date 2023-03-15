@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>PPlus</title>
+    <title>Search</title>
 
     <!-- Custom fonts for this template -->
     <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"> -->
@@ -57,6 +57,18 @@
                     <span>Home</span></a>
             </li>
             <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('advanced_search') }}">
+                    <!-- <i class="bi bi-activity"></i> -->
+                    <i class="bi bi-search"></i>
+                    <span>Advanced Search</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('user_table') }}">
+                    <!-- <i class="bi bi-activity"></i> -->
+                    <i class="bi bi-people"></i>
+                    <span>User List</span></a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" href="{{ url_for('log') }}">
                     <!-- <i class="bi bi-activity"></i> -->
                     <i class="bi bi-list-columns-reverse"></i>
@@ -87,21 +99,6 @@
                 </div>
             </li>
             <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-                    aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="bi bi-people-fill"></i>
-                    <span>Communitys</span>
-                </a>
-                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Custom Communitys:</h6>
-                        <a class="collapse-item" href="{{ url_for('user_table') }}">Teams</a>
-                        <a class="collapse-item" href="cards.html">Permissions</a>
-                    </div>
-                </div>
-            </li>
-
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 
@@ -132,7 +129,7 @@
                     <!-- Topbar Search -->
                     <form
                         class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                        HOMEPAGE
+                        ADVANCED SEARCH
                     </form>
 
                     <!-- Topbar Navbar -->
@@ -143,9 +140,8 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Prakorn Chaikure</span>
-                                <img class="img-profile rounded-circle"
-                                    src="../static/img/undraw_profile.svg" >
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ username }}</span>
+                                <span class="fa-2x rounded-circle bi bi-person-circle"></span>
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -188,44 +184,49 @@
                     <!-- <h1 class="h3 mb-2 text-gray-800">Tables</h1> -->
                     
                     <!-- DataTales Example -->
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <div class="card shadow mb-4">
-                                    <div class="card-header py-3">
-                                        <h6 class="m-0 font-weight-bold text-primary">MAIN TABLES</h6>
-                                        <button class="form-control bg-light bi bi-caret-down-square" onclick="toggletable(this);"></button>
+                        <div class="card shadow mb-4">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary">MAIN TABLES</h6>
+                                    <button class="form-control bg-light bi bi-caret-down-square" onclick="toggletable(this);"></button>
+                            </div>
+                                <div id="mytable">
+                                    <div style="margin-top: 10px;">
+                                        <div class="input-group">                                    
+                                            <a class="mg-b0 form-control bg-light bi-funnel" onclick="togglefilter(this);" ></a>
+                                            <div class='filbox-in' id="myfilter" hidden="hidden">
+                                                <div class="box-group">
+                                                <form action="{{ url_for('advanced_search') }}" method="post">
+                                                <div class="F-group">
+                                                <div class="inputbox">Project Name : <input class="form-control bg-light" type="text" list="projectname" name="project_name"></div>
+                                                <div class="inputbox">S/O : <input class="form-control bg-light" type="text" list="S_O" name="s_o"/></div>
+                                                <div class="inputbox">Customer Start Contract : <input  class="form-control bg-light" type="date" name="customer_start_contract"></div>
+                                                <div class="inputbox">Customer End Contract : <input  class="form-control bg-light" type="date" name="customer_end_contract"></div>
+                                                <div class="inputbox">Vendor Start Contract : <input class="form-control bg-light" type="date" name="disty_Start_contract"></div>
+                                                <div class="inputbox">Vendor END Contract <input class="form-control bg-light" type="date" name="disty_End_contract"></div><br>
+
+                                                <div class="inputbox">Site name : <input class="form-control bg-light" type="text" list="s_name" name="site_name"></div>
+                                                <div class="inputbox">Site Type : <input class="form-control bg-light" type="text" list="s_type" name="site_type"></div><br>
+
+                                                <div class="inputbox">Serial number : <input class="form-control bg-light" type="text" list="s_n" name="serial_number"/> </div>
+                                                <div class="inputbox">Disty name : <input class="form-control bg-light" type="text" list="d_n" name="disty_name"/></div>
+                                                <div class="inputbox">Equipment Model : <input class="form-control bg-light" type="text" list="e_m" name="equipment_model"/> </div>
+                                                <div class="inputbox">Equipment Brand : <input class="form-control bg-light" type="text" list="e_b" name="equipment_brand"/></div>
+                                                <div class="inputbox">Equipment Start of warranty : <input class="form-control bg-light" type="date" name="start_of_warranty"></div>
+                                                <div class="inputbox">Equipment End of warranty : <input class="form-control bg-light" type="date" name="end_of_warranty"></div>
+                                                <div class="inputbox">HA Status : <input class="form-control bg-light" type="text" list="ha" name="ha_status"/></div><br>
+
+                                                <div class="inputbox">Circuit ID : <input class="form-control bg-light" type="text" list="c_i" name="circuit_id"/> </div>
+                                                <div class="inputbox">IP address CE : <input class="form-control bg-light" type="text" list="ip_ce" name="ip_address_ce"/></div>
+                                                <div class="inputbox">IP Loopback : <input class="form-control bg-light" type="text" list="ip_lb" name="ip_loopback"/> </div>
+                                                <div class="inputbox">Owner ISP : <input class="form-control bg-light" type="text" list="o_i" name="owner_isp"/></div>
+                                                <br>
+                                                <div class="subbox"><input class="form-control bg-light" type = "submit"/></div></form>
+                                            </div>
+                                        </div>
                                     </div>
-                            <div id="mytable">
-                            <div style="margin-bottom: 10px; margin-top: 10px;">
-                                <div class="input-group">                                    
-                                    <a class="form-control bg-light bi-funnel" onclick="togglefilter(this);" ></a>
-                                    <div id="myfilter" hidden="hidden">
-                                        <form action="{{ url_for('advanced_search') }}" method="post">
-                                        <p>Project Name <input class="form-control bg-light" type="text" list="projectname" name="project_name">
-                                        S/O : <input class="form-control bg-light" type="text" list="S_O" name="s_o"/></p>
-                                        <p>Customer Start Contract : <input  class="form-control bg-light" type="date" name="customer_start_contract">
-                                        Customer End Contract : <input  class="form-control bg-light" type="date" name="customer_end_contract"></p>
-                                        <p>Vendor Start Contract : <input class="form-control bg-light" type="date" name="disty_Start_contract">
-                                        Vendor END Contract <input class="form-control bg-light" type="date" name="disty_End_contract"></p><br>
-
-                                        <p> Site name : <input class="form-control bg-light" type="text" list="s_name" name="site_name">
-                                        Site Type : <input class="form-control bg-light" type="text" list="s_type" name="site_type"></p><br>
-
-                                        <p>Serial number : <input class="form-control bg-light" type="text" list="s_n" name="serial_number"/> Disty name : <input class="form-control bg-light" type="text" list="d_n" name="disty_name"/></p>
-                                        <p>Equipment Model : <input class="form-control bg-light" type="text" list="e_m" name="equipment_model"/> Equipment Brand : <input class="form-control bg-light" type="text" list="e_b" name="equipment_brand"/></p>
-                                        <p>Equipment Start of warranty : <input class="form-control bg-light" type="date" name="start_of_warranty">
-                                        Equipment End of warranty : <input class="form-control bg-light" type="date" name="end_of_warranty"></p>
-                                        <p>HA Status : <input class="form-control bg-light" type="text" list="ha" name="ha_status"/></p><br>
-
-                                        <p>Circuit ID : <input class="form-control bg-light" type="text" list="c_i" name="circuit_id"/> IP address CE : <input class="form-control bg-light" type="text" list="ip_ce" name="ip_address_ce"/></p>
-                                        <p>IP Loopback : <input class="form-control bg-light" type="text" list="ip_lb" name="ip_loopback"/> Owner ISP : <input class="form-control bg-light" type="text" list="o_i" name="owner_isp"/></p>
-                                        <br>
-                                    </div>
-                                    <p><input  class="form-control bg-light" type = "submit"/></p></form>
                                 </div>
                             </div>
-        
-                                <table class="table">
+                                <table class="table" id="dataTable">
                                     <thead>
                                         <tr>
                                             <th>CircuitID</th>
@@ -250,20 +251,17 @@
                                       {% endfor %}
                                     </tbody>
                                 </table>
-                                <div class="displayflexend pagination-table"></div>
+                                <div class="displayflexend mg-b0 pagination-table"></div>
+                </div>
+            </div>
+                        <div class="card shadow mb-4">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary">PROJECT TABLES</h6>
+                                <button class="form-control bg-light bi bi-caret-down-square" onclick="togglepro(this);"></button>
                             </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">PROJECT TABLES</h6>
-                                    <button class="form-control bg-light bi bi-caret-down-square" onclick="togglepro(this);"></button>
-                                </div>
                         <div id="mytablepro" hidden="hidden">
-                            <table class="table">
+
+                            <table class="table" >
                                 <thead>
                                     <tr>
                                         <th>CircuitID</th>
@@ -288,20 +286,17 @@
                                   {% endfor %}
                                 </tbody>
                             </table>
-                            <div class="displayflexend pagination-table"></div>
+                            <div class="displayflexend mg-b0 pagination-table"></div>
                         </div>
                         </div>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive">
                         <div class="card shadow mb-4">
                             <div class="card-header py-3">
                                 <h6 class="m-0 font-weight-bold text-primary">SITE TABLES</h6>
                                 <button class="form-control bg-light bi bi-caret-down-square" onclick="togglesite(this);"></button>
                             </div>
                     <div id="mytablesite" hidden="hidden">
-                        <table class="table">
+
+                        <table class="table" >
                             <thead>
                                 <tr>
                                     <th>CircuitID</th>
@@ -326,19 +321,16 @@
                               {% endfor %}
                             </tbody>
                         </table>
-                        <div class="displayflexend pagination-table"></div>
+                        <div class="displayflexend mg-b0 pagination-table"></div>
                     </div>
                     </div>
-                </div>
-            </div>
-            <div class="card-body">
-                <div class="table-responsive">
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Eq PROJECT TABLES</h6>
+                            <h6 class="m-0 font-weight-bold text-primary">EQ PROJECT TABLES</h6>
                             <button class="form-control bg-light bi bi-caret-down-square" onclick="toggleeq(this);"></button>
                         </div>
                 <div id="mytableeq" hidden="hidden">
+
                     <table class="table">
                         <thead>
                             <tr>
@@ -364,19 +356,16 @@
                           {% endfor %}
                         </tbody>
                     </table>
-                    <div class="displayflexend pagination-table"></div>
+                    <div class="displayflexend mg-b0 pagination-table"></div>
                 </div>
                 </div>
-            </div>
-        </div>
-        <div class="card-body">
-            <div class="table-responsive">
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
                         <h6 class="m-0 font-weight-bold text-primary">CIRCUIT TABLES</h6>
                         <button class="form-control bg-light bi bi-caret-down-square" onclick="togglecir(this);"></button>
                     </div>
             <div id="mytablecir" hidden="hidden">
+
                 <table class="table">
                     <thead>
                         <tr>
@@ -402,11 +391,9 @@
                       {% endfor %}
                     </tbody>
                 </table>
-                <div class="displayflexend pagination-table"></div>
+                <div class="displayflexend mg-b0 pagination-table"></div>
             </div>
             </div>
-        </div>
-    </div>
             </div>
                 </div>
                 <!-- /.container-fluid -->
@@ -521,10 +508,10 @@
   
       if (hidden) {
          element.removeAttribute("hidden");
-         button.innerText = "Hide table";
+         button.innerText = "Hide";
       } else {
          element.setAttribute("hidden", "hidden");
-         button.innerText = "Show table";
+         button.innerText = "Show";
       }
     }
 </script>

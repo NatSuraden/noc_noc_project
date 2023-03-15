@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>PPlus</title>
+    <title>Activity Log</title>
 
     <!-- Custom fonts for this template -->
     <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"> -->
@@ -57,6 +57,18 @@
                     <span>Home</span></a>
             </li>
             <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('advanced_search') }}">
+                    <!-- <i class="bi bi-activity"></i> -->
+                    <i class="bi bi-search"></i>
+                    <span>Advanced Search</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('user_table') }}">
+                    <!-- <i class="bi bi-activity"></i> -->
+                    <i class="bi bi-people"></i>
+                    <span>User List</span></a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" href="{{ url_for('log') }}">
                     <!-- <i class="bi bi-activity"></i> -->
                     <i class="bi bi-list-columns-reverse"></i>
@@ -87,21 +99,6 @@
                 </div>
             </li>
             <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-                    aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="bi bi-people-fill"></i>
-                    <span>Communitys</span>
-                </a>
-                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Custom Communitys:</h6>
-                        <a class="collapse-item" href="{{ url_for('user_table') }}">Teams</a>
-                        <a class="collapse-item" href="cards.html">Permissions</a>
-                    </div>
-                </div>
-            </li>
-
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 
@@ -132,7 +129,7 @@
                     <!-- Topbar Search -->
                     <form
                         class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                        HOMEPAGE
+                        ACTIVITY LOG
                     </form>
 
                     <!-- Topbar Navbar -->
@@ -143,9 +140,8 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Prakorn Chaikure</span>
-                                <img class="img-profile rounded-circle"
-                                    src="../static/img/undraw_profile.svg" >
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ username }}</span>
+                                <span class="fa-2x rounded-circle bi bi-person-circle"></span>
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -178,10 +174,6 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <div class="d-sm-flex align-items-center justify-content-end mb-4">
-                        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                                class="bi bi-plus-square fa-sm text-white-50"></i> ADD USER</a>  
-                    </div>
                     
                     <!-- Page Heading -->
                 

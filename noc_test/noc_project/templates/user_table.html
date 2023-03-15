@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>PPlus</title>
+    <title>User List</title>
 
     <!-- Custom fonts for this template -->
     <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"> -->
@@ -57,6 +57,18 @@
                     <span>Home</span></a>
             </li>
             <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('advanced_search') }}">
+                    <!-- <i class="bi bi-activity"></i> -->
+                    <i class="bi bi-search"></i>
+                    <span>Advanced Search</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('user_table') }}">
+                    <!-- <i class="bi bi-activity"></i> -->
+                    <i class="bi bi-people"></i>
+                    <span>User List</span></a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" href="{{ url_for('log') }}">
                     <!-- <i class="bi bi-activity"></i> -->
                     <i class="bi bi-list-columns-reverse"></i>
@@ -87,21 +99,6 @@
                 </div>
             </li>
             <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-                    aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="bi bi-people-fill"></i>
-                    <span>Communitys</span>
-                </a>
-                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Custom Communitys:</h6>
-                        <a class="collapse-item" href="{{ url_for('user_table') }}">Teams</a>
-                        <a class="collapse-item" href="cards.html">Permissions</a>
-                    </div>
-                </div>
-            </li>
-
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 
@@ -132,7 +129,7 @@
                     <!-- Topbar Search -->
                     <form
                         class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                        HOMEPAGE
+                        USER LIST
                     </form>
 
                     <!-- Topbar Navbar -->
@@ -143,9 +140,8 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Prakorn Chaikure</span>
-                                <img class="img-profile rounded-circle"
-                                    src="../static/img/undraw_profile.svg" >
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ username }}</span>
+                                <span class="fa-2x rounded-circle bi bi-person-circle"></span>
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -171,6 +167,7 @@
                         </li>
 
                     </ul>
+
                 </nav>
                 <!-- End of Topbar -->
                 <!-- Begin Page Content -->
@@ -178,14 +175,8 @@
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-end mb-4">
-                        <form action="{{ url_for('delete_page') }}" method="POST">
-                            <select name="table_name" id="table_name" onchange="this.form.submit()">
-                                <option>select table</option>
-                                <option value="Project">Project</option>
-                                <option value="Contract">Contract</option>
-                                <option value="Site">Site</option>
-                            </select>
-                        </form>
+                        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                                class="bi bi-plus text-white-50"></i> ADD USER </a>  
                     </div>
                     
                     <!-- Page Heading -->
@@ -193,15 +184,37 @@
                     <!-- <h1 class="h3 mb-2 text-gray-800">Tables</h1> -->
                     
                     <!-- DataTales Example -->
-                    <table class="table" id="example">
+                    <table class="table">
                         <thead>
                             <tr>
-                                {% for col in columns %}
-                                <th>{{ col }}</th>
-                                {% endfor %}
+                                <th>Username</th>
+                                <th>Password</th>
+                                <th>Role</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
+                        <tbody> 
+                            {% for row in data %}
+                            <tr> 
+                                <td>{{row[1]}}</td>
+                                <td>{{row[2]}}</td>
+                                <td>{{row[3]}}</td> 
+                                <td>
+                                    <div class="dropdown open">
+                                        <a href="#!" class="px-2" id="triggerId1" data-toggle="dropdown" aria-haspopup="true"
+                                                aria-expanded="false">
+                                                    <i class="fa fa-ellipsis-v"></i>
+                                        </a>
+                                        <div class="dropdown-menu" aria-labelledby="triggerId1">
+                                            <a class="dropdown-item" href="#"><i class="fa fa-pencil mr-1"></i> Edit</a>
+                                            <a class="dropdown-item text-danger" href="#"><i class="fa fa-trash mr-1"></i> Delete</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
                     </table>
+                    <div class="displayflexend mg-b0 pagination-table"></div>
                             </div>
                             </div>
                         </div>
@@ -286,7 +299,6 @@
     <script src='https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js'></script>
     <script src='https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js'></script>
     <script src='https://flaviusmatis.github.io/simplePagination.js/jquery.simplePagination.js'></script>
-	<script src="{{ url_for('static', filename='js/jquery.dataTables.min.js') }}"></script>
 
     <!-- Core plugin JavaScript-->
     <script src="../static/vendor/jquery-easing/jquery.easing.min.js"></script>
@@ -294,14 +306,4 @@
     <!-- Custom scripts for all pages-->
     <script src="../static/js/sb-admin-2.js"></script>
 </body>
-<script>
-$(document).ready(function() {
-	$('#example').dataTable( {
-		"sDom": "<'row-fluid'<'span6 toolbar'><'span6'>r>t<'row-fluid'<'span6'f><'span6'p>>",
-		"bProcessing": true,
-		"bjQueryUI": true,
-		"sAjaxSource": "{{ url_for('delete_table') }}",
-	});
-} );
-</script>
 </html>
