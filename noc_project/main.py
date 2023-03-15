@@ -184,7 +184,7 @@ def project_table_new_data(data):
         cursor.close()
         connection.close()
     except (Exception) as error: 
-        error = "add",i[0],str(error)  
+        error = "project add",i[0],str(error)  
         msg.append(error)
         session['project_error'] += msg
 
@@ -473,7 +473,7 @@ def equipment_table_new_data(data):
         cursor.close()
         connection.close()
     except (Exception) as error:
-        error = "add",i[0],str(error)  
+        error = "equipment add",i[0],str(error)  
         msg.append(error)
         session['project_error'] += msg
 
