@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>PPlus</title>
+    <title>Homepage</title>
 
     <!-- Custom fonts for this template -->
     <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"> -->
@@ -34,6 +34,7 @@
 </head>
 
 <body id="page-top">
+    
 
     <!-- Page Wrapper -->
     <div id="wrapper">
@@ -55,6 +56,18 @@
                 <a class="nav-link" href="{{ url_for('home') }}">
                     <i class="bi bi-house-fill"></i>
                     <span>Home</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('advanced_search') }}">
+                    <!-- <i class="bi bi-activity"></i> -->
+                    <i class="bi bi-search"></i>
+                    <span>Advanced Search</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('user_table') }}">
+                    <!-- <i class="bi bi-activity"></i> -->
+                    <i class="bi bi-people"></i>
+                    <span>User List</span></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="{{ url_for('log') }}">
@@ -87,21 +100,6 @@
                 </div>
             </li>
             <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-                    aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="bi bi-people-fill"></i>
-                    <span>Communitys</span>
-                </a>
-                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Custom Communitys:</h6>
-                        <a class="collapse-item" href="{{ url_for('user_table') }}">Teams</a>
-                        <a class="collapse-item" href="cards.html">Permissions</a>
-                    </div>
-                </div>
-            </li>
-
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 
@@ -143,9 +141,8 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Prakorn Chaikure</span>
-                                <img class="img-profile rounded-circle"
-                                    src="../static/img/undraw_profile.svg" >
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ username }}</span>
+                                <span class="fa-2x rounded-circle bi bi-person-circle"></span>
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -228,26 +225,10 @@
                                             <td>{{row[4]}}</td>
                                             <td>{{row[5]}}</td>
                                         </tr>
-                                        <tr> 
-                                            <td><a data-id ='{{row,row[0]}}' class="userinfo">{{row[0]}}</a></td>
-                                            <td><a data-id ='{{row,row[1]}}' class="userinfo">{{row[1]}}</a></td>
-                                            <td><a data-id ='{{row,row[2]}}' class="userinfo">{{row[2]}}</a></td>
-                                            <td><a data-id ='{{row,row[3]}}' class="userinfo">{{row[3]}}</a></td>
-                                            <td>{{row[4]}}</td>
-                                            <td>{{row[5]}}</td>
-                                        </tr>
-                                        <tr> 
-                                            <td><a data-id ='{{row,row[0]}}' class="userinfo">{{row[0]}}</a></td>
-                                            <td><a data-id ='{{row,row[1]}}' class="userinfo">{{row[1]}}</a></td>
-                                            <td><a data-id ='{{row,row[2]}}' class="userinfo">{{row[2]}}</a></td>
-                                            <td><a data-id ='{{row,row[3]}}' class="userinfo">{{row[3]}}</a></td>
-                                            <td>{{row[4]}}</td>
-                                            <td>{{row[5]}}</td>
-                                        </tr>
                                       {% endfor %}
                                     </tbody>
                                 </table>
-                                <div class="displayflexend  pagination-table"></div>
+                                <div class="displayflexend mg-b0 pagination-table"></div>
                             </div>
                         </div>
                     </div>
