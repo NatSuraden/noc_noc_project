@@ -130,8 +130,8 @@ def check_test():
             if len(session['project_error']) != 0:
                 # for i in session['project_error']:
                 #     print(i)
-                return render_template('upload.html',error = session['project_error'])
-    return render_template('upload.html')
+                return render_template('upload.html',error = session['project_error'],username=session['username'])
+    return render_template('upload.html',username=session['username'])
 
 def project_table_new_data(data):
     
@@ -902,7 +902,7 @@ def check_cell():
         msg = check_data()
         #print(msg)
         #msg = [[],[]]
-    return jsonify({'htmlcheck_cell': render_template('check_cell.html',msg = msg)})
+    return jsonify({'htmlcheck_cell': render_template('check_cell.html',msg = msg)},username=session['username'])
 
 
 @app.route('/download')
@@ -1574,7 +1574,7 @@ def ajaxfile():
             else:
                 zone5 = ['null']
             zone5_num = len(zone5)
-            return jsonify({'htmlcircuit_detial': render_template('circuit_detail.html',zone1 = zone1,zone2 = zone2,zone3 = zone3,zone4 = zone4,zone5 = zone5,zone5_num = zone5_num)})
+            return jsonify({'htmlcircuit_detial': render_template('circuit_detail.html',zone1 = zone1,zone2 = zone2,zone3 = zone3,zone4 = zone4,zone5 = zone5,zone5_num = zone5_num,username=session['username'])})
         else:
             data = []
             data.append(res[0])
@@ -1611,7 +1611,7 @@ def ajaxfile():
                 else:
                     zone5 = ['null']
                 zone5_num = len(zone5)
-                return jsonify({'htmlcircuit_detial': render_template('circuit_detail.html',zone1 = zone1,zone2 = zone2,zone3 = zone3,zone4 = zone4,zone5 = zone5,zone5_num = zone5_num)})
+                return jsonify({'htmlcircuit_detial': render_template('circuit_detail.html',zone1 = zone1,zone2 = zone2,zone3 = zone3,zone4 = zone4,zone5 = zone5,zone5_num = zone5_num,username=session['username'])})
             elif index == 1:
                     zone1 = [res[1],res[0][0],res[0][3]] #Project Name , circuit_Id ,Serial_number 
                     zone2 = [] #project detials
@@ -1644,7 +1644,7 @@ def ajaxfile():
                         # zone4 = str(zone3[0]).replace("\n"," <br/> ")
                         # zone4 = Markup(zone4)
                         
-                    return jsonify({'htmlproject_detial': render_template('project_detail.html',zone1 = zone1,zone2 = zone2,zone3 = zone3)})
+                    return jsonify({'htmlproject_detial': render_template('project_detail.html',zone1 = zone1,zone2 = zone2,zone3 = zone3,username=session['username'])})
             elif index == 2:
                     zone1 = [res[0][1],res[0][0],res[0][3]] #Project Name , circuit_Id ,Serial_number
                     zone2 = [] #site detials
@@ -1655,7 +1655,7 @@ def ajaxfile():
                                 a = Markup(a)
                                 zone2.append(a) 
                             break
-                    return jsonify({'htmlsite_detial': render_template('site_detial.html',zone1 = zone1,zone2 = zone2)})
+                    return jsonify({'htmlsite_detial': render_template('site_detial.html',zone1 = zone1,zone2 = zone2,username=session['username'])})
             elif index == 3: #Serial_number
                     zone1 = [res[0][1]] #Project Name
                     zone2 = [] #Detial Equipment
@@ -1681,7 +1681,7 @@ def ajaxfile():
                         if i[1] == res[1]:
                             zone4.append(i[0])
                     zone4_num = len(zone4)
-                    return jsonify({'htmlserial_number_detial': render_template('serial_number_detial.html',zone1 = zone1,zone2 = zone2,zone3 = zone3,zone4 = zone4,zone4_num=zone4_num)})
+                    return jsonify({'htmlserial_number_detial': render_template('serial_number_detial.html',zone1 = zone1,zone2 = zone2,zone3 = zone3,zone4 = zone4,zone4_num=zone4_num,username=session['username'])})
 
 
 @app.route('/noc_project/logout')
@@ -1837,8 +1837,8 @@ def home():
                 msg = "We Found"
                 event = 'normal search '+search_data
                 save_log(event)
-            return render_template('home.html', text=msg ,data = data ,)
-        return render_template('home.html', text='Hello '+str(session['role']),data = data)
+            return render_template('home.html', text=msg ,data = data ,username=session['username'])
+        return render_template('home.html', text='Hello '+str(session['role']),data = data,username=session['username'])
     return redirect(url_for('login'))
 
 @app.route('/noc_project/advance_search', methods=['GET', 'POST'])
@@ -1896,7 +1896,7 @@ def advanced_search():
 
     return render_template('advanced_search.html', text='Hello '+str(session['role']),main_table = main_table,project=project,
     equipment = equipment,equipment2=equipment2,circuit=circuit,circuit2=circuit2,site2 = site2 ,project_table = project_table,
-    site_table = site_table,equipment_table = equipment_table,circuit_table= circuit_table)
+    site_table = site_table,equipment_table = equipment_table,circuit_table= circuit_table,username=session['username'])
 
 @app.route('/noc_project/serial_number_detial', methods=['GET', 'POST'])
 def serial_number_detial():
@@ -1945,7 +1945,7 @@ def serial_number_detial():
             zone5.append(zone4[-1])
         else:
             zone5 = ['null']
-        return render_template('circuit_detial.html',zone1 = zone1,zone2 = zone2,zone3 = zone3,zone4 = zone4,zone5 = zone5)
+        return render_template('circuit_detial.html',zone1 = zone1,zone2 = zone2,zone3 = zone3,zone4 = zone4,zone5 = zone5,username=session['username'])
 @app.route('/noc_project/register_user', methods=['GET', 'POST'])
 def register_user():
     if 'admin' in session['role'] or 'super_user' in session['role']:
@@ -1986,13 +1986,13 @@ def user_table():
         cursor.execute('SELECT * FROM accounts')
         account = cursor.fetchall()
         columns = ['Username', 'password', 'Role']
-        return render_template('user_table.html', columns=columns,data=account)
+        return render_template('user_table.html', columns=columns,data=account,username=session['username'])
 
 
 @app.route('/noc_project/page_upload', methods = ['GET', 'POST'])
 def page_upload():
     error = None
-    return render_template('upload.html',error = error) 
+    return render_template('upload.html',error = error,username=session['username']) 
 
 @app.route('/python-flask-files-upload', methods=['POST'])
 def upload_file():
@@ -2047,7 +2047,7 @@ def ajaxfile_delete():
         session['delete_pk'] = res[0]
         #print(type(res[0]))
         res = [res[0],session['delete_table_name']]
-        return jsonify({'htmldelete_pop': render_template('delete_pop.html',msg=res)})
+        return jsonify({'htmldelete_pop': render_template('delete_pop.html',msg=res,username=session['username'])})
 
 #@app.route('/delete_table')
 def delete_table():
@@ -2193,7 +2193,7 @@ def delete_page():
             # print(PK_name)
             data_display = delete_search(PK_name,session['delete_table_name'],session['columns_delete'][0])
             data_option = delete_search_option(tablename)
-            return render_template('delete_form.html', columns=session['columns_delete'] ,tablename = tablename,data_display = data_display,data_option = data_option)
+            return render_template('delete_form.html', columns=session['columns_delete'] ,tablename = tablename,data_display = data_display,data_option = data_option,username=session['username'])
         if 'delete_table_name' in session:
             tablename = session['delete_table_name']
             data_display = delete_table()
@@ -2206,7 +2206,7 @@ def delete_page():
             data_display = delete_table()
             data_option = delete_search_option(tablename)
         global_data()
-        return render_template('delete_form.html', columns=session['columns_delete'] ,tablename = tablename,data_display = data_display,data_option = data_option)
+        return render_template('delete_form.html', columns=session['columns_delete'] ,tablename = tablename,data_display = data_display,data_option = data_option,username=session['username'])
     return redirect(url_for('login'))
 
 @app.route('/delete_pop_get', methods=['GET', 'POST'])
@@ -2219,13 +2219,13 @@ def delete_pop_get():
                 data_display = delete_table()
                 tablename = session['delete_table_name']
                 data_option = delete_search_option(tablename)
-                return render_template('delete_form.html', columns=session['columns_delete'] ,tablename = tablename,data_display = data_display ,data_option = data_option)
+                return render_template('delete_form.html', columns=session['columns_delete'] ,tablename = tablename,data_display = data_display ,data_option = data_option,username=session['username'])
     except Exception as error:
         print("delete_pop_get",error)
         data_display = delete_table()
         tablename = session['delete_table_name']
         data_option = delete_search_option(tablename)
-        return render_template('delete_form.html', columns=session['columns_delete'] ,tablename = tablename,data_display = data_display ,data_option = data_option)
+        return render_template('delete_form.html', columns=session['columns_delete'] ,tablename = tablename,data_display = data_display ,data_option = data_option,username=session['username'])
 def delete_search(PK_name,tablename,columns_delete):
     try:
         connection = connect()
@@ -2287,7 +2287,7 @@ def replace_space(data):
 @app.route('/noc_project/profile')
 def profile():
     if 'loggedin' in session:
-        return render_template('profile.html', account=session)
+        return render_template('profile.html', account=session,username=session['username'])
     return redirect(url_for('login'))
 
 def save_log(event):
