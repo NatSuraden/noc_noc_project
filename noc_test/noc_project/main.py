@@ -20,7 +20,7 @@ app = Flask(__name__)
 app.secret_key = 'how_to_be_got_A'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:pplus1234@127.0.0.1:5432/python2565'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config["UPLOAD_FOLDER"] = "noc_project/upload/"
+app.config["UPLOAD_FOLDER"] = "noc_test/noc_project/upload/"
 #app.config["DOWNLOAD_FOLDER"] = "noc_project/test/"
 db = SQLAlchemy(app)
 
@@ -1147,22 +1147,26 @@ def check_data():
                     if type(i[2]) == str:
                         i[2] = datetime.datetime.strptime(i[2], '%d/%m/%Y')
                 except (Exception) as error:
-                        print("project",i[2],error)
+                    pass
+                        # print("project",i[2],error)
                 try:
                     if type(i[3]) == str:
                         i[3] = datetime.datetime.strptime(i[3], '%d/%m/%Y')
                 except (Exception) as error:
-                    print("project",i[3],error)
+                    pass
+                    # print("project",i[3],error)
                 try:
                     if type(i[4]) == str:
                         i[4] = datetime.datetime.strptime(i[4], '%d/%m/%Y')
                 except (Exception) as error:
-                    print("project",i[4],error)
+                    pass
+                    # print("project",i[4],error)
                 try:
                     if type(i[5]) == str:
                         i[5] = datetime.datetime.strptime(i[5], '%d/%m/%Y')
                 except (Exception) as error:
-                    print("project",i[5],error)
+                    pass
+                    # print("project",i[5],error)
 
                 # print(i[2],type(i[2])) 
                 # print(i[3],type(i[3])) 
@@ -1326,7 +1330,8 @@ def check_data():
                     if type(i[8]) == str:
                         i[8] = datetime.datetime.strptime(i[8], '%d/%m/%Y')
                 except (Exception) as error:
-                    print("project",error)
+                    pass
+                    # print("project",error)
                 for x in equipment:
                     e_old = x[0]
                     if e_old == e_new:
@@ -2077,7 +2082,7 @@ def delete_table():
         return data
 
 def connect():
-    connection = psycopg2.connect(user="postgres",password="1234",host="127.0.0.1",port="5432",database="python2565")
+    connection = psycopg2.connect(user="postgres",password="pplus1234",host="127.0.0.1",port="5432",database="python2565")
     return connection
 
 def delete_search_option(tablename):

@@ -3,7 +3,7 @@ from psycopg2 import Error
 from datetime import date
 from datetime import datetime
 import datetime
-username = "Nat_Test"
+username = "admin"
 password = "1234"
 role = "admin" 
 def connect():
