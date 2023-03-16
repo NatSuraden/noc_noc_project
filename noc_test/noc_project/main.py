@@ -902,7 +902,7 @@ def check_cell():
         msg = check_data()
         #print(msg)
         #msg = [[],[]]
-    return jsonify({'htmlcheck_cell': render_template('check_cell.html',msg = msg)},username=session['username'])
+    return jsonify({'htmlcheck_cell': render_template('check_cell.html',msg = msg)})
 
 
 @app.route('/download')
@@ -1143,51 +1143,52 @@ def check_data():
                 #print(i[4])
                 p_new = i[0]
                 count = 0
-                try:
-                    if type(i[2]) == str:
-                        i[2] = datetime.datetime.strptime(i[2], '%d/%m/%Y')
-                except (Exception) as error:
-                    pass
-                        # print("project",i[2],error)
-                try:
-                    if type(i[3]) == str:
-                        i[3] = datetime.datetime.strptime(i[3], '%d/%m/%Y')
-                except (Exception) as error:
-                    pass
-                    # print("project",i[3],error)
-                try:
-                    if type(i[4]) == str:
-                        i[4] = datetime.datetime.strptime(i[4], '%d/%m/%Y')
-                except (Exception) as error:
-                    pass
-                    # print("project",i[4],error)
-                try:
-                    if type(i[5]) == str:
-                        i[5] = datetime.datetime.strptime(i[5], '%d/%m/%Y')
-                except (Exception) as error:
-                    pass
-                    # print("project",i[5],error)
+                if i[0] != "-":
+                    try:
+                        if type(i[2]) == str:
+                            i[2] = datetime.datetime.strptime(i[2], '%d/%m/%Y')
+                    except (Exception) as error:
+                            #print("project",i[2],error)
+                            pass
+                    try:
+                        if type(i[3]) == str:
+                            i[3] = datetime.datetime.strptime(i[3], '%d/%m/%Y')
+                    except (Exception) as error:
+                        #print("project",i[3],error)
+                        pass
+                    try:
+                        if type(i[4]) == str:
+                            i[4] = datetime.datetime.strptime(i[4], '%d/%m/%Y')
+                    except (Exception) as error:
+                        #print("project",i[4],error)
+                        pass
+                    try:
+                        if type(i[5]) == str:
+                            i[5] = datetime.datetime.strptime(i[5], '%d/%m/%Y')
+                    except (Exception) as error:
+                        #print("project",i[5],error)
+                        pass
 
-                # print(i[2],type(i[2])) 
-                # print(i[3],type(i[3])) 
-                # print(i[4],type(i[4]))
-                # print(i[5],type(i[5]))
-                for x in project:
-                    p_old = x[0]
-                    if p_new == p_old:
-                        count += 1
-                        if i[0] == x[0] and i[1] == x[1] and i[2] == x[2] and i[3] == x[3] and i[4] == x[4] and i[5] == x[5] and i[6] == x[6] and i[7] == x[7] and i[8] == x[8] and i[9] == x[9]:
-                            msg_project_old += p_new+' already in database\n'
-                            
-                        else:
-                            msg_project_update += p_new+' will update\n'
-                            
-                            project_update.append(i)
-                        break
-                if count == 0:
-                    project_new.append(i)
-                    #print(i)
-                    msg_project_update += p_new+' new data\n'
+                    # print(i[2],type(i[2])) 
+                    # print(i[3],type(i[3])) 
+                    # print(i[4],type(i[4]))
+                    # print(i[5],type(i[5]))
+                    for x in project:
+                        p_old = x[0]
+                        if p_new == p_old:
+                            count += 1
+                            if i[0] == x[0] and i[1] == x[1] and i[2] == x[2] and i[3] == x[3] and i[4] == x[4] and i[5] == x[5] and i[6] == x[6] and i[7] == x[7] and i[8] == x[8] and i[9] == x[9]:
+                                msg_project_old += p_new+' already in database\n'
+                                
+                            else:
+                                msg_project_update += p_new+' will update\n'
+                                
+                                project_update.append(i)
+                            break
+                    if count == 0:
+                        project_new.append(i)
+                        #print(i)
+                        msg_project_update += p_new+' new data\n'
 
             if len(msg_project_update) != 0:
                 msg_project_update = msg_project_update[:-1]
@@ -1217,28 +1218,29 @@ def check_data():
             # project table check
             for i in contract_data:
                 #print(i)
-                con_new = ['','','']
-                con_new[0] = i[0]
-                con_new[1] = i[1]
-                con_new[2] = i[2]
-                count = 0
-                for x in contract:
-                    con_old = ['','','']
-                    con_old[0] = x[1]
-                    con_old[1] = x[2]
-                    con_old[2] = x[3]
-                    if con_new[0] == con_old[0] and con_new[1] == con_old[1] and con_new[2] == con_old[2]:
-                        count += 1
-                        if i[0] == x[1] and i[1] == x[2] and i[2] == x[3] and i[3] == x[4] and i[4] == x[5]:
-                            msg_contract_old += con_new[0]+","+con_new[1]+' already in database\n'
-                        else:
-                            msg_contract_update += con_new[0]+","+con_new[1]+' will update\n'
-                            i.append(x[0])
-                            contract_update.append(i)
-                        break
-                if count == 0:
-                    msg_contract_update += con_new[0]+","+con_new[1]+' new data\n'
-                    contract_new.append(i)
+                if i[0] != "-" and i[1] != "-" and i[2] != "-":
+                    con_new = ['','','']
+                    con_new[0] = i[0]
+                    con_new[1] = i[1]
+                    con_new[2] = i[2]
+                    count = 0
+                    for x in contract:
+                        con_old = ['','','']
+                        con_old[0] = x[1]
+                        con_old[1] = x[2]
+                        con_old[2] = x[3]
+                        if con_new[0] == con_old[0] and con_new[1] == con_old[1] and con_new[2] == con_old[2]:
+                            count += 1
+                            if i[0] == x[1] and i[1] == x[2] and i[2] == x[3] and i[3] == x[4] and i[4] == x[5]:
+                                msg_contract_old += con_new[0]+","+con_new[1]+' already in database\n'
+                            else:
+                                msg_contract_update += con_new[0]+","+con_new[1]+' will update\n'
+                                i.append(x[0])
+                                contract_update.append(i)
+                            break
+                    if count == 0:
+                        msg_contract_update += con_new[0]+","+con_new[1]+' new data\n'
+                        contract_new.append(i)
 
             if len(msg_contract_update) != 0:
                 msg_contract_update = msg_contract_update[:-1]
@@ -1269,28 +1271,29 @@ def check_data():
             site_new = []
             # project table check
             for i in site_data:
-                s_new = ['','','']
-                s_new[0] = i[0]
-                s_new[1] = i[1]
-                s_new[2] = i[2]
-                count = 0
-                for x in site:
-                    s_old = ['','','']
-                    s_old[0] = x[1]
-                    s_old[1] = x[2]
-                    s_old[2] = x[3]
-                    if s_new[0] == s_old[0] and s_new[1] == s_old[1] and s_new[2] == s_old[2]:
-                        count += 1
-                        if i[0] == x[1] and i[1] == x[2] and i[2] == x[3] and i[3] == x[4] and i[4] == x[5] and i[5] == x[6] and i[6] == x[7]:
-                            msg_site_old += s_new[0]+","+s_new[1]+' already in database\n'
-                        else:
-                            msg_site_update += s_new[0]+","+s_new[1]+' will update\n'
-                            i.append(x[0])
-                            site_update.append(i)
-                        break
-                if count == 0:
-                    msg_site_update += s_new[0]+","+s_new[1]+' new data\n'
-                    site_new.append(i)
+                if i[0] != "-" and i[1] != "-" and i[2] != "-":
+                    s_new = ['','','']
+                    s_new[0] = i[0]
+                    s_new[1] = i[1]
+                    s_new[2] = i[2]
+                    count = 0
+                    for x in site:
+                        s_old = ['','','']
+                        s_old[0] = x[1]
+                        s_old[1] = x[2]
+                        s_old[2] = x[3]
+                        if s_new[0] == s_old[0] and s_new[1] == s_old[1] and s_new[2] == s_old[2]:
+                            count += 1
+                            if i[0] == x[1] and i[1] == x[2] and i[2] == x[3] and i[3] == x[4] and i[4] == x[5] and i[5] == x[6] and i[6] == x[7]:
+                                msg_site_old += s_new[0]+","+s_new[1]+' already in database\n'
+                            else:
+                                msg_site_update += s_new[0]+","+s_new[1]+' will update\n'
+                                i.append(x[0])
+                                site_update.append(i)
+                            break
+                    if count == 0:
+                        msg_site_update += s_new[0]+","+s_new[1]+' new data\n'
+                        site_new.append(i)
 
             if len(msg_site_update) != 0:
                 msg_site_update = msg_site_update[:-1]
@@ -1321,55 +1324,56 @@ def check_data():
             equipment_new = []
             # equipment table check
             for i in equipment_data:
-                e_new = i[1]
-                #print(e_new)
-                count = 0
-                try:
-                    if type(i[7]) == str:
-                        i[7] = datetime.datetime.strptime(i[7], '%d/%m/%Y')
-                    if type(i[8]) == str:
-                        i[8] = datetime.datetime.strptime(i[8], '%d/%m/%Y')
-                except (Exception) as error:
-                    pass
-                    # print("project",error)
-                for x in equipment:
-                    e_old = x[0]
-                    if e_old == e_new:
-                        count += 1
-                        # if i[0] != x[2]:
-                        #     print(i[0],x[2])
-                        # if i[1] != x[0]:
-                        #     print(i[1],x[0])
-                        # if i[2] != x[3]:
-                        #     print(i[2],x[3])
-                        # if i[3] != x[4]:
-                        #     print(i[3],x[4])
-                        # if i[4] != x[5]:
-                        #     print(i[4],x[5])
-                        # if i[5] != x[6]:
-                        #     print(i[5],x[6])
-                        # if i[6] != x[7]:
-                        #     print(i[6],x[7])
-                        # if i[7] != x[8]:
-                        #     print(i[7],x[8])
-                        # if i[8] != x[9]:
-                        #     print(i[8],x[9])
-                        # if i[9] != x[11]:
-                        #     print(i[9],x[11])
-                        # if i[10] != x[-2]:
-                        #     print(i[10],x[-2])
-                        # if i[11] != x[1]:
-                        #     print(i[11],x[1])
-                        # print("***")
-                        if i[0] == x[2] and i[1] == x[0] and i[2] == x[3] and i[3] == x[4] and i[4] == x[5] and i[5] == x[6] and i[6] == x[7] and i[7] == x[8] and i[8] == x[9] and i[9] == x[11] and i[10] == x[-2] and i[11] == x[1]:
-                            msg_equipment_old += e_new+' already in database\n'
-                        else:
-                            msg_equipment_update += e_new+' will update\n'
-                            equipment_update.append(i)
-                        break
-                if count == 0:
-                    msg_equipment_update += e_new+' new data\n'
-                    equipment_new.append(i)
+                if i[1] != "-":
+                    e_new = i[1]
+                    #print(e_new)
+                    count = 0
+                    try:
+                        if type(i[7]) == str:
+                            i[7] = datetime.datetime.strptime(i[7], '%d/%m/%Y')
+                        if type(i[8]) == str:
+                            i[8] = datetime.datetime.strptime(i[8], '%d/%m/%Y')
+                    except (Exception) as error:
+                        #print("project",error)
+                        pass
+                    for x in equipment:
+                        e_old = x[0]
+                        if e_old == e_new:
+                            count += 1
+                            # if i[0] != x[2]:
+                            #     print(i[0],x[2])
+                            # if i[1] != x[0]:
+                            #     print(i[1],x[0])
+                            # if i[2] != x[3]:
+                            #     print(i[2],x[3])
+                            # if i[3] != x[4]:
+                            #     print(i[3],x[4])
+                            # if i[4] != x[5]:
+                            #     print(i[4],x[5])
+                            # if i[5] != x[6]:
+                            #     print(i[5],x[6])
+                            # if i[6] != x[7]:
+                            #     print(i[6],x[7])
+                            # if i[7] != x[8]:
+                            #     print(i[7],x[8])
+                            # if i[8] != x[9]:
+                            #     print(i[8],x[9])
+                            # if i[9] != x[11]:
+                            #     print(i[9],x[11])
+                            # if i[10] != x[-2]:
+                            #     print(i[10],x[-2])
+                            # if i[11] != x[1]:
+                            #     print(i[11],x[1])
+                            # print("***")
+                            if i[0] == x[2] and i[1] == x[0] and i[2] == x[3] and i[3] == x[4] and i[4] == x[5] and i[5] == x[6] and i[6] == x[7] and i[7] == x[8] and i[8] == x[9] and i[9] == x[11] and i[10] == x[-2] and i[11] == x[1]:
+                                msg_equipment_old += e_new+' already in database\n'
+                            else:
+                                msg_equipment_update += e_new+' will update\n'
+                                equipment_update.append(i)
+                            break
+                    if count == 0:
+                        msg_equipment_update += e_new+' new data\n'
+                        equipment_new.append(i)
             if len(msg_equipment_update) != 0:
                 msg_equipment_update = msg_equipment_update[:-1]
 
@@ -1400,55 +1404,56 @@ def check_data():
             circuit_new = []
             # equipment table check
             for i in circuit_data:
-                cir_new = str(i[1])
-                count = 0
-                #print(i)
-                for x in circuit:
-                    cir_old = x[0]
-                    if cir_new == cir_old:
-                        count += 1
-                        i[7] = str(i[7])
-                        i[8] = (str(i[8])).upper()
-                        i[9] = (str(i[9])).upper()
-                        # print(i[9])
-                        # if str(i[9]) == "True":
-                        #     i[9] = 'TRUE'
-                        #     #print(i[9])
-                        # if str(i[8]) == "True":
-                        #     i[8] = 'TRUE'
-                        # if i[0] != x[1]:
-                        #     print(i[0],x[1])
-                        # if i[1] != x[0]:
-                        #     print(i[1],x[0])
-                        # if i[2] != x[2]:
-                        #     print(i[2],x[2])
-                        # if i[3] != x[3]:
-                        #     print(i[3],x[3])
-                        # if i[4] != x[4]:
-                        #     print(i[4],x[4])
-                        # if i[5] != x[5]:
-                        #     print(i[5],x[5])
-                        # if i[6] != x[6]:
-                        #     print(i[6],x[6])
-                        # if i[7] != x[7]:
-                        #     print(i[7],x[7])
-                        #     print(type(i[7]),type(x[7]))
-                        # if i[8] != x[8]:
-                        #     print(i[8],x[8])
-                        # if i[9] != x[9]:
-                        #     print(i[9],x[9])
-                        # if i[10] != x[10]:
-                        #     print(i[10],x[10])
-                        if str(i[0]) == x[1] and str(i[1]) == x[0] and str(i[2]) == x[2] and str(i[3]) == x[3] and str(i[4]) == x[4] and str(i[5]) == x[5] and str(i[6]) == x[6] and str(i[7]) == x[7] and str(i[8]) == x[8] and str(i[9]) == x[9] and str(i[10]) == x[10]: 
-                            msg_circuit_old += cir_new+' already in database\n'
-                        else:
-                            msg_circuit_update += cir_new+' will update\n'
-                            #print(i)
-                            circuit_update.append(i)
-                        break
-                if count == 0:
-                    msg_circuit_update += cir_new+' new data\n'
-                    circuit_new.append(i)
+                if i[1] != "-":
+                    cir_new = str(i[1])
+                    count = 0
+                    #print(i)
+                    for x in circuit:
+                        cir_old = x[0]
+                        if cir_new == cir_old:
+                            count += 1
+                            i[7] = str(i[7])
+                            i[8] = (str(i[8])).upper()
+                            i[9] = (str(i[9])).upper()
+                            # print(i[9])
+                            # if str(i[9]) == "True":
+                            #     i[9] = 'TRUE'
+                            #     #print(i[9])
+                            # if str(i[8]) == "True":
+                            #     i[8] = 'TRUE'
+                            # if i[0] != x[1]:
+                            #     print(i[0],x[1])
+                            # if i[1] != x[0]:
+                            #     print(i[1],x[0])
+                            # if i[2] != x[2]:
+                            #     print(i[2],x[2])
+                            # if i[3] != x[3]:
+                            #     print(i[3],x[3])
+                            # if i[4] != x[4]:
+                            #     print(i[4],x[4])
+                            # if i[5] != x[5]:
+                            #     print(i[5],x[5])
+                            # if i[6] != x[6]:
+                            #     print(i[6],x[6])
+                            # if i[7] != x[7]:
+                            #     print(i[7],x[7])
+                            #     print(type(i[7]),type(x[7]))
+                            # if i[8] != x[8]:
+                            #     print(i[8],x[8])
+                            # if i[9] != x[9]:
+                            #     print(i[9],x[9])
+                            # if i[10] != x[10]:
+                            #     print(i[10],x[10])
+                            if str(i[0]) == x[1] and str(i[1]) == x[0] and str(i[2]) == x[2] and str(i[3]) == x[3] and str(i[4]) == x[4] and str(i[5]) == x[5] and str(i[6]) == x[6] and str(i[7]) == x[7] and str(i[8]) == x[8] and str(i[9]) == x[9] and str(i[10]) == x[10]: 
+                                msg_circuit_old += cir_new+' already in database\n'
+                            else:
+                                msg_circuit_update += cir_new+' will update\n'
+                                #print(i)
+                                circuit_update.append(i)
+                            break
+                    if count == 0:
+                        msg_circuit_update += cir_new+' new data\n'
+                        circuit_new.append(i)
             if len(msg_circuit_update) != 0:
                 msg_circuit_update = msg_circuit_update[:-1]
             if len(msg_circuit_old) != 0:
@@ -1477,26 +1482,27 @@ def check_data():
             interface_update = []
             interface_new = []
             for i in interface_data:
-                inter_new = ['','']
-                inter_new[0] = str(i[0])
-                inter_new[1] = str(i[1])
-                count = 0
-                for x in interface:
-                    inter_old = ['','']
-                    inter_old[0] = x[1]
-                    inter_old[1] = x[2]
-                    if str(inter_new[0]) == inter_old[0] and str(inter_new[1]) == inter_old[1]:
-                        count += 1
-                        if str(i[0]) == x[1] and str(i[1]) == x[2] and str(i[2]) == x[3] and str(i[3]) == x[4] and str(i[4]) == x[5] and str(i[5]) == x[6] and str(i[6]) == x[7]:
-                            msg_interface_old += inter_new[0]+","+inter_new[1]+' already in database\n'
-                        else:
-                            msg_interface_update += inter_new[0]+","+inter_new[1]+' will update\n'
-                            i.append(x[0])
-                            interface_update.append(i)
-                        break
-                if count == 0:
-                    msg_interface_update += inter_new[0]+","+inter_new[1]+' new data\n'
-                    interface_new.append(i)
+                if i[0] != '-' and i[1] != '-':
+                    inter_new = ['','']
+                    inter_new[0] = str(i[0])
+                    inter_new[1] = str(i[1])
+                    count = 0
+                    for x in interface:
+                        inter_old = ['','']
+                        inter_old[0] = x[1]
+                        inter_old[1] = x[2]
+                        if str(inter_new[0]) == inter_old[0] and str(inter_new[1]) == inter_old[1]:
+                            count += 1
+                            if str(i[0]) == x[1] and str(i[1]) == x[2] and str(i[2]) == x[3] and str(i[3]) == x[4] and str(i[4]) == x[5] and str(i[5]) == x[6] and str(i[6]) == x[7]:
+                                msg_interface_old += inter_new[0]+","+inter_new[1]+' already in database\n'
+                            else:
+                                msg_interface_update += inter_new[0]+","+inter_new[1]+' will update\n'
+                                i.append(x[0])
+                                interface_update.append(i)
+                            break
+                    if count == 0:
+                        msg_interface_update += inter_new[0]+","+inter_new[1]+' new data\n'
+                        interface_new.append(i)
             if len(msg_interface_update) != 0:
                 msg_interface_update = msg_interface_update[:-1]
             if len(msg_interface_old) != 0:

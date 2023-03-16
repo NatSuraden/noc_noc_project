@@ -1,99 +1,140 @@
-
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <div>
+    <p>Equipment  {{zone2[0]}} details are below:</p>
     <table>
         <tr>
-            <td><div>Your {{zone2[0]}} Details are below : </div></td>
-        </tr>
-        <tr>
-            <td>Project Name : </td>
+            <td>Project Name:</td>
             <td>{{ zone1[0] }}</td>
         </tr>
+    </table>
+    <p>---------------------------------------------------------------</p>
+    <table>
         <tr>
-            <td>Serial Number : </td>
+            <td>serial_number:</td>
             <td>{{ zone2[0] }}</td>
         </tr>
         <tr>
-            <td>Project Name : </td>
+            <td>project_name:</td>
             <td>{{ zone2[1] }}</td>
         </tr>
         <tr>
-            <td>Site Name : </td>
+            <td>site_name:</td>
             <td>{{ zone2[2] }}</td>
         </tr>
         <tr>
-            <td>Brand : </td>
+            <td>brand:</td>
             <td>{{ zone2[3] }}</td>
         </tr>
         <tr>
-            <td>Model : </td>
+            <td>model:</td>
             <td>{{ zone2[4] }}</td>
         </tr>
         <tr>
-            <td>Disty Name : </td>
+            <td>disty_name:</td>
             <td>{{ zone2[5] }}</td>
         </tr>
         <tr>
-            <td>Disty Contact : </td>
+            <td>disty_contact:</td>
             <td>{{ zone2[6] }}</td>
         </tr>
         <tr>
-            <td>Open Case Contact : </td>
+            <td>open_case_contact:</td>
             <td>{{ zone2[7] }}</td>
         </tr>
         <tr>
-            <td>Start of Warranty : </td>
+            <td>start_of_warranty:</td>
             <td>{{ zone2[8] }}</td>
         </tr>
         <tr>
-            <td>End of Warranty : </td>
+            <td>end_of_warranty:</td>
             <td>{{ zone2[9] }}</td>
         </tr>
         <tr>
-            <td>HA Status : </td>
+            <td>ha_status:</td>
             <td>{{ zone2[10] }}</td>
         </tr>
         <tr>
-            <td>HA : </td>
+            <td>ha:</td>
             <td>{{ zone2[11] }}</td>
         </tr>
+    </table>
+    <p>---------------------------------------------------------------</p>
+    <table>
         <tr>
-            <td>Project Name : </td>
+            <td>project_name:</td>
             <td>{{ zone3[1] }}</td>
         </tr>
         <tr>
-            <td>Site Name : </td>
+            <td>site_name</td>
             <td>{{ zone3[2] }}</td>
         </tr>
         <tr>
-            <td>Location : </td>
+            <td>location</td>
             <td>{{ zone3[3] }}</td>
         </tr>
         <tr>
-            <td>Site Short Name : </td>
+            <td>site_short_name:</td>
             <td>{{ zone3[4] }}</td>
         </tr>
         <tr>
-            <td>Contact Owner Site : </td>
+            <td>contact_owner_site</td>
             <td>{{ zone3[5] }}</td>
         </tr>
         <tr>
-            <td>Contact : </td>
+            <td>contact</td>
             <td>{{ zone3[6] }}</td>
         </tr>
         <tr>
-            <td>Type : </td>
+            <td>type</td>
             <td>{{ zone3[7] }}</td>
         </tr>
     </table>
     <p>---------------------------------------------------------------</p>
     <table>
-        <form action="{{ url_for('serial_number_detial') }}" method="post">
-        <tr><td>Circuit ID List</td></tr>
-        {% for row in zone4 %}
-        <tr><td>###</td>
-            <td >{{row}}</td>
+        <form action="{{ url_for('ajaxfile') }}" method="post">
+        <tr><td>Circuit_ID list</td></tr>
+        {% for row in range(zone4_num) %}
+        <tr><td>{{row+1}}</td>
+            <td><button  data-id ='{{ [zone1[0]],zone4[row] }}' class="details_data btn btn-success">{{zone4[row]}}</button></td>
             {% endfor %}
         </tr>
     </form>
     </table>
 </div>
+
+<div class="modal fade" id="empModal" role="dialog">
+              <div class="modal-dialog">
+                  <div class="modal-content">
+                      <div class="modal-header">
+                          <h4 class="modal-title">Details</h4>
+                        <button type="button" class="close" data-dismiss="modal">×</button>
+                      </div>
+                      <div class="modal-body"></div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                      </div>
+                  </div>
+              </div>
+      </div>
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('.details_data').click(function(){
+      var circuit_data = $(this).data('id');
+      $.ajax({
+        url: '/ajaxfile',
+        type: 'post',
+        data: {circuit_data:circuit_data},
+        success: function(data){
+          $('.modal-body').html(data);
+          $('.modal-body').append(data.htmlcircuit_detial);
+          $('.modal-body').append(data.htmlproject_detial);
+          $('.modal-body').append(data.htmlsite_detial); 
+          $('.modal-body').append(data.htmlserial_number_detial); 
+          $('#empModal').modal('show');
+        }
+      });
+    });
+  });
+</script>

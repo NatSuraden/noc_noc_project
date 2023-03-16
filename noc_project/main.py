@@ -1643,7 +1643,6 @@ def ajaxfile():
                         #zone4 = zone3[-1]
                         # zone4 = str(zone3[0]).replace("\n"," <br/> ")
                         # zone4 = Markup(zone4)
-                        
                     return jsonify({'htmlproject_detial': render_template('project_detial.html',zone1 = zone1,zone2 = zone2,zone3 = zone3)})
             elif index == 2:
                     zone1 = [res[0][1],res[0][0],res[0][3]] #Project Name , circuit_Id ,Serial_number
