@@ -426,7 +426,7 @@
                 <div class="modal-logout">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
+                    <a class="btn btn-primary" href="{{ url_for('logout') }}">Logout</a>
                 </div>
             </div>
         </div>
@@ -445,7 +445,7 @@
                 <div class="modal-profile "></div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Edit</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
+                    <button type="button" class="btn btn-primary"  data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
