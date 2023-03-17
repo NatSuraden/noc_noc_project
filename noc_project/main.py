@@ -891,13 +891,112 @@ def interface_table_update(data):
     
 @app.route('/check_cell',methods=["POST","GET"])
 def check_cell():
-    msg = 'test'
-    if request.method == 'POST':
-        msg = check_data()
-        #print(msg)
-        #msg = [[],[]]
-    return jsonify({'htmlcheck_cell': render_template('check_cell.html',msg = msg)})
+    try:
+        if request.method == 'POST':
+            msg = in_xlsx_duplicate()
+            if msg[1] == 0:
+                msg = check_data()
+                return jsonify({'htmlcheck_cell': render_template('check_cell.html',msg = msg)})
+            else:
+                print(msg)
+                return jsonify({'htmlin_cell': render_template('in_cell.html',msg = msg)})
+        msg = [[]]
+        return jsonify({'htmlcheck_cell': render_template('check_cell.html',msg = msg)})
+    except Exception as error:
+        msg = error
+        return render_template('upload.html',error = msg)
 
+def duplicateparameter(index,data):
+    list1 = []
+    duplicate= []
+    missingparameter =[]
+    data = data.values.tolist()
+    count = 1
+    count2 = 0
+    for i in data:
+        count += 1
+        if i[index] != "-":
+            if i[index] not in list1:
+                list1.append(i[index])
+            elif i[index] in list1:
+                duplicate.append([count,i])
+                count2 += 1
+        else:
+            missingparameter.append([count,i])
+            count2 += 1
+    total = [duplicate,missingparameter,count2]
+    return total
+def duplicateparameter2(name,data):
+    list1 = []
+    duplicate= []
+    missingparameter =[]
+    data = data.values.tolist()
+    count = 1
+    count2 = 0
+    if name != 'Interface':
+        for i in data:
+            count += 1
+            if i[0] != "-" and i[1] != "-" and i[2] != "-":
+                if [i[0],i[1],i[2]] not in list1:
+                    list1.append([i[0],i[1],i[2]])
+                elif [i[0],i[1],i[2]] in list1:
+                    duplicate.append([count,i])
+                    count2 += 1
+            else:
+                missingparameter.append([count,i])
+                count2 += 1
+    else:
+        for i in data:
+            count += 1
+            if i[0] != "-" and i[1] != "-":
+                if [i[0],i[1],i[2]] not in list1:
+                    list1.append([i[0],i[1]])
+                elif [i[0],i[1]] in list1:
+                    duplicate.append([count,i])
+                    count2 += 1
+            else:
+                missingparameter.append([count,i])
+                count2 += 1
+
+    total = [duplicate,missingparameter,count2]
+    return total
+
+def in_xlsx_duplicate():
+    ex_name_sheet = ['Project','Contract','Site','Equipment','Circuit','Interface']
+    msg_list = []
+    count = 0
+    for i in ex_name_sheet:
+        filename = 'data_up_load.xlsx'
+        data = pd.read_excel(os.path.join("noc_project/upload/", filename),sheet_name=i)
+        data = data.replace(np.nan, '-', regex=True)
+        data = data.replace('', '-', regex=True)
+        data = data.replace('NaT', '-', regex=True)
+        data = data.replace('None', '-', regex=True)
+        if i == "Project":
+            msg = duplicateparameter(0,data)
+            msg_list.append(msg[:2])
+            count+= msg[2]
+        elif i == "Contract":
+            msg = duplicateparameter2(i,data)
+            msg_list.append(msg[:2])
+            count+= msg[2]
+        elif i == "Site":
+            msg = duplicateparameter2(i,data)
+            msg_list.append(msg[:2])
+            count+= msg[2]
+        elif i == "Equipment":
+            msg = duplicateparameter(1,data)
+            msg_list.append(msg[:2])
+            count+= msg[2]
+        elif i == "Circuit":
+            msg = duplicateparameter(1,data)
+            msg_list.append(msg[:2])
+            count+= msg[2]
+        elif i == "Interface":
+            msg = duplicateparameter2(i,data)
+            msg_list.append(msg[:2])
+            count+= msg[2]
+    return msg_list,count
 
 @app.route('/download')
 def download():
@@ -1519,7 +1618,8 @@ def check_data():
         msg_list = [msg_new,msg_old]
         return msg_list
     except (Exception) as error:
-        print(error,'333')
+        msg_list = []
+        return msg_list
 
 @app.route("/ajaxfile",methods=["POST","GET"])
 def ajaxfile():
