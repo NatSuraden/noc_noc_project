@@ -206,7 +206,7 @@
                                 <table class="table" id="dataTable">
                                     <thead>
                                         <tr>
-                                            <th>CircuitID</th>
+                                            <th>Circuit ID</th>
                                             <th>Project Name</th>
                                             <th>Site Name</th>
                                             <th>Equipment Serial </th>
@@ -218,10 +218,10 @@
                                         
                                         {% for row in data %}
                                         <tr> 
-                                            <td><a data-id ='{{row,row[0]}}' class="userinfo">{{row[0]}}</a></td>
-                                            <td><a data-id ='{{row,row[1]}}' class="userinfo">{{row[1]}}</a></td>
-                                            <td><a data-id ='{{row,row[2]}}' class="userinfo">{{row[2]}}</a></td>
-                                            <td><a data-id ='{{row,row[3]}}' class="userinfo">{{row[3]}}</a></td>
+                                            <td><a href='#' data-id ='{{row,row[0]}}' class="userinfo">{{row[0]}}</a></td>
+                                            <td><a href='#' data-id ='{{row,row[1]}}' class="userinfo">{{row[1]}}</a></td>
+                                            <td><a href='#' data-id ='{{row,row[2]}}' class="userinfo">{{row[2]}}</a></td>
+                                            <td><a href='#' data-id ='{{row,row[3]}}' class="userinfo">{{row[3]}}</a></td>
                                             <td>{{row[4]}}</td>
                                             <td>{{row[5]}}</td>
                                         </tr>

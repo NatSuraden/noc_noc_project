@@ -11376,7 +11376,7 @@ table.table tr th, table.table tr td {
   vertical-align: middle;
 }
 table.table tr th:first-child {
-  width: 60px;
+  width: 95px;
 }
 /* table.table tr th:last-child {
   width: 100px;
@@ -11398,7 +11398,6 @@ table.table td:last-child i {
   margin: 0 5px;
 }
 table.table td a {
-  color: #566787;
   display: inline-block;
   text-decoration: none;
 }
