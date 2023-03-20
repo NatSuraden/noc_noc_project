@@ -891,7 +891,7 @@ def interface_table_update(data):
             session['project_error'] += msg
     cursor.close()
     connection.close()
-    
+
 @app.route('/check_cell',methods=["POST","GET"])
 def check_cell():
     try:
