@@ -317,6 +317,7 @@
 			success: function(data){
 			$('.modal-body').html(data);
 			$('.modal-body').append(data.htmlcheck_cell);
+            $('.modal-body').append(data.htmlin_cell);
 			$('#empModal').modal('show');
 			}
 		});

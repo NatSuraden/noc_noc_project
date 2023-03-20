@@ -103,5 +103,7 @@ def in_xlsx_duplicate():
 
     
 x = in_xlsx_duplicate()
-print(x[1])
-print(x[0][3][0])
+print(len(x[0]))
+
+# for i in x:
+#     print(i)
