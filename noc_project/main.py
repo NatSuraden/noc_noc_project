@@ -76,50 +76,53 @@ def check_test():
             try:
                 global project_new,project_update,contract_new,contract_update,site_update,site_new,equipment_update,equipment_new,circuit_new,circuit_update
                 global equipment,site,circuit,interface,project,contrat,interface_update,interface_new
-                session['project_error'] = []
-                if len(project_update) != 0:
-                    project_table_update(project_update)
-                if len(project_new) != 0:
-                    project_table_new_data(project_new)
-                if len(contract_update) != 0:
-                    contract_table_update(contract_update)
-                if len(contract_new) != 0:
-                    contract_table_new_data(contract_new)
-                if len(site_update) != 0:
-                    site_table_update(site_update)
-                if len(site_new) != 0:
-                    site_table_new_data(site_new)
-                if len(equipment_update) != 0:
-                    equipment_table_update(equipment_update)
-                if len(equipment_new) != 0:
-                    equipment_table_new_data(equipment_new)
-                if len(circuit_update) != 0:
-                    circuit_table_update(circuit_update)
-                if len(circuit_new) != 0:
-                    circuit_table_new_data(circuit_new)
-                if len(interface_update) != 0:
-                    interface_table_update(interface_update)
-                if len(interface_new) != 0:
-                    interface_table_new_data(interface_new)
-                    #print(len(interface_new))
-                connection = connect()
-                cursor = connection.cursor()
-                cursor.execute('SELECT * FROM circuit')
-                circuit = cursor.fetchall()
-                cursor.execute('SELECT * FROM equipment')
-                equipment = cursor.fetchall()
-                cursor.execute('SELECT * FROM interface')
-                interface = cursor.fetchall()
-                cursor.execute('SELECT * FROM project')
-                project = cursor.fetchall()
-                cursor.execute('SELECT * FROM contract')
-                contrat = cursor.fetchall()
-                cursor.execute('SELECT * FROM site')
-                site = cursor.fetchall()
-                cursor.close()
-                connection.close()
-                event = 'update data to database.'
-                save_log(event)
+                if session['in_cell_check'] == 0:
+                    session['project_error'] = []
+                    if len(project_update) != 0:
+                        project_table_update(project_update)
+                    if len(project_new) != 0:
+                        project_table_new_data(project_new)
+                    if len(contract_update) != 0:
+                        contract_table_update(contract_update)
+                    if len(contract_new) != 0:
+                        contract_table_new_data(contract_new)
+                    if len(site_update) != 0:
+                        site_table_update(site_update)
+                    if len(site_new) != 0:
+                        site_table_new_data(site_new)
+                    if len(equipment_update) != 0:
+                        equipment_table_update(equipment_update)
+                    if len(equipment_new) != 0:
+                        equipment_table_new_data(equipment_new)
+                    if len(circuit_update) != 0:
+                        circuit_table_update(circuit_update)
+                    if len(circuit_new) != 0:
+                        circuit_table_new_data(circuit_new)
+                    if len(interface_update) != 0:
+                        interface_table_update(interface_update)
+                    if len(interface_new) != 0:
+                        interface_table_new_data(interface_new)
+                        #print(len(interface_new))
+                    connection = connect()
+                    cursor = connection.cursor()
+                    cursor.execute('SELECT * FROM circuit')
+                    circuit = cursor.fetchall()
+                    cursor.execute('SELECT * FROM equipment')
+                    equipment = cursor.fetchall()
+                    cursor.execute('SELECT * FROM interface')
+                    interface = cursor.fetchall()
+                    cursor.execute('SELECT * FROM project')
+                    project = cursor.fetchall()
+                    cursor.execute('SELECT * FROM contract')
+                    contrat = cursor.fetchall()
+                    cursor.execute('SELECT * FROM site')
+                    site = cursor.fetchall()
+                    cursor.close()
+                    connection.close()
+                    event = 'update data to database.'
+                    save_log(event)
+                else:
+                    session['project_error'] = ['file xlsx not ready']
             except (Exception) as error:
                 msg = []
                 error = str(error)  
@@ -894,12 +897,13 @@ def check_cell():
     try:
         if request.method == 'POST':
             msg = in_xlsx_duplicate()
+            session['in_cell_check'] = msg[1]
             if msg[1] == 0:
                 msg = check_data()
                 return jsonify({'htmlcheck_cell': render_template('check_cell.html',msg = msg)})
             else:
-                print(msg)
-                return jsonify({'htmlin_cell': render_template('in_cell.html',msg = msg)})
+                msg = msg
+                return jsonify({'htmlin_cell': render_template('in_cell.html',msg = msg[0])})
         msg = [[]]
         return jsonify({'htmlcheck_cell': render_template('check_cell.html',msg = msg)})
     except Exception as error:

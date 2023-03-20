@@ -76,50 +76,53 @@ def check_test():
             try:
                 global project_new,project_update,contract_new,contract_update,site_update,site_new,equipment_update,equipment_new,circuit_new,circuit_update
                 global equipment,site,circuit,interface,project,contrat,interface_update,interface_new
-                session['project_error'] = []
-                if len(project_update) != 0:
-                    project_table_update(project_update)
-                if len(project_new) != 0:
-                    project_table_new_data(project_new)
-                if len(contract_update) != 0:
-                    contract_table_update(contract_update)
-                if len(contract_new) != 0:
-                    contract_table_new_data(contract_new)
-                if len(site_update) != 0:
-                    site_table_update(site_update)
-                if len(site_new) != 0:
-                    site_table_new_data(site_new)
-                if len(equipment_update) != 0:
-                    equipment_table_update(equipment_update)
-                if len(equipment_new) != 0:
-                    equipment_table_new_data(equipment_new)
-                if len(circuit_update) != 0:
-                    circuit_table_update(circuit_update)
-                if len(circuit_new) != 0:
-                    circuit_table_new_data(circuit_new)
-                if len(interface_update) != 0:
-                    interface_table_update(interface_update)
-                if len(interface_new) != 0:
-                    interface_table_new_data(interface_new)
-                    #print(len(interface_new))
-                connection = connect()
-                cursor = connection.cursor()
-                cursor.execute('SELECT * FROM circuit')
-                circuit = cursor.fetchall()
-                cursor.execute('SELECT * FROM equipment')
-                equipment = cursor.fetchall()
-                cursor.execute('SELECT * FROM interface')
-                interface = cursor.fetchall()
-                cursor.execute('SELECT * FROM project')
-                project = cursor.fetchall()
-                cursor.execute('SELECT * FROM contract')
-                contrat = cursor.fetchall()
-                cursor.execute('SELECT * FROM site')
-                site = cursor.fetchall()
-                cursor.close()
-                connection.close()
-                event = 'update data to database.'
-                save_log(event)
+                if session['in_cell_check'] == 0:
+                    session['project_error'] = []
+                    if len(project_update) != 0:
+                        project_table_update(project_update)
+                    if len(project_new) != 0:
+                        project_table_new_data(project_new)
+                    if len(contract_update) != 0:
+                        contract_table_update(contract_update)
+                    if len(contract_new) != 0:
+                        contract_table_new_data(contract_new)
+                    if len(site_update) != 0:
+                        site_table_update(site_update)
+                    if len(site_new) != 0:
+                        site_table_new_data(site_new)
+                    if len(equipment_update) != 0:
+                        equipment_table_update(equipment_update)
+                    if len(equipment_new) != 0:
+                        equipment_table_new_data(equipment_new)
+                    if len(circuit_update) != 0:
+                        circuit_table_update(circuit_update)
+                    if len(circuit_new) != 0:
+                        circuit_table_new_data(circuit_new)
+                    if len(interface_update) != 0:
+                        interface_table_update(interface_update)
+                    if len(interface_new) != 0:
+                        interface_table_new_data(interface_new)
+                        #print(len(interface_new))
+                    connection = connect()
+                    cursor = connection.cursor()
+                    cursor.execute('SELECT * FROM circuit')
+                    circuit = cursor.fetchall()
+                    cursor.execute('SELECT * FROM equipment')
+                    equipment = cursor.fetchall()
+                    cursor.execute('SELECT * FROM interface')
+                    interface = cursor.fetchall()
+                    cursor.execute('SELECT * FROM project')
+                    project = cursor.fetchall()
+                    cursor.execute('SELECT * FROM contract')
+                    contrat = cursor.fetchall()
+                    cursor.execute('SELECT * FROM site')
+                    site = cursor.fetchall()
+                    cursor.close()
+                    connection.close()
+                    event = 'update data to database.'
+                    save_log(event)
+                else:
+                    session['project_error'] = ['file xlsx not ready']
             except (Exception) as error:
                 msg = []
                 error = str(error)  
@@ -130,8 +133,8 @@ def check_test():
             if len(session['project_error']) != 0:
                 # for i in session['project_error']:
                 #     print(i)
-                return render_template('upload.html',error = session['project_error'],username=session['username'])
-    return render_template('upload.html',username=session['username'])
+                return render_template('upload.html',error = session['project_error'])
+    return render_template('upload.html')
 
 def project_table_new_data(data):
     
@@ -892,17 +895,124 @@ def interface_table_update(data):
 @app.route('/noc_project/log', methods=['GET', 'POST'])
 def log():
     if 'loggedin' in session:
-        return render_template('act_log.html',username=session['username'])
+        connection = connect()
+        cursor = connection.cursor()
+        cursor.execute('SELECT * FROM event_logs')
+        log_table = cursor.fetchall()
+        for i in log_table:
+            print(i)
+        return render_template('act_log.html',log_table = log_table,username=session['username'])
     return redirect(url_for('log'))    
 
 @app.route('/check_cell',methods=["POST","GET"])
 def check_cell():
-    msg = 'test'
-    if request.method == 'POST':
-        msg = check_data()
-        #print(msg)
-        #msg = [[],[]]
-    return jsonify({'htmlcheck_cell': render_template('check_cell.html',msg = msg)})
+    try:
+        if request.method == 'POST':
+            msg = in_xlsx_duplicate()
+            session['in_cell_check'] = msg[1]
+            if msg[1] == 0:
+                msg = check_data()
+                return jsonify({'htmlcheck_cell': render_template('check_cell.html',msg = msg)})
+            else:
+                msg = msg
+                return jsonify({'htmlin_cell': render_template('in_cell.html',msg = msg[0])})
+        msg = [[]]
+        return jsonify({'htmlcheck_cell': render_template('check_cell.html',msg = msg)})
+    except Exception as error:
+        msg = error
+        return render_template('upload.html',error = msg)
+
+def duplicateparameter(index,data):
+    list1 = []
+    duplicate= []
+    missingparameter =[]
+    data = data.values.tolist()
+    count = 1
+    count2 = 0
+    for i in data:
+        count += 1
+        if i[index] != "-":
+            if i[index] not in list1:
+                list1.append(i[index])
+            elif i[index] in list1:
+                duplicate.append([count,i])
+                count2 += 1
+        else:
+            missingparameter.append([count,i])
+            count2 += 1
+    total = [duplicate,missingparameter,count2]
+    return total
+def duplicateparameter2(name,data):
+    list1 = []
+    duplicate= []
+    missingparameter =[]
+    data = data.values.tolist()
+    count = 1
+    count2 = 0
+    if name != 'Interface':
+        for i in data:
+            count += 1
+            if i[0] != "-" and i[1] != "-" and i[2] != "-":
+                if [i[0],i[1],i[2]] not in list1:
+                    list1.append([i[0],i[1],i[2]])
+                elif [i[0],i[1],i[2]] in list1:
+                    duplicate.append([count,i])
+                    count2 += 1
+            else:
+                missingparameter.append([count,i])
+                count2 += 1
+    else:
+        for i in data:
+            count += 1
+            if i[0] != "-" and i[1] != "-":
+                if [i[0],i[1],i[2]] not in list1:
+                    list1.append([i[0],i[1]])
+                elif [i[0],i[1]] in list1:
+                    duplicate.append([count,i])
+                    count2 += 1
+            else:
+                missingparameter.append([count,i])
+                count2 += 1
+
+    total = [duplicate,missingparameter,count2]
+    return total
+
+def in_xlsx_duplicate():
+    ex_name_sheet = ['Project','Contract','Site','Equipment','Circuit','Interface']
+    msg_list = []
+    count = 0
+    for i in ex_name_sheet:
+        filename = 'data_up_load.xlsx'
+        data = pd.read_excel(os.path.join("noc_project/upload/", filename),sheet_name=i)
+        data = data.replace(np.nan, '-', regex=True)
+        data = data.replace('', '-', regex=True)
+        data = data.replace('NaT', '-', regex=True)
+        data = data.replace('None', '-', regex=True)
+        if i == "Project":
+            msg = duplicateparameter(0,data)
+            msg_list.append(msg[:2])
+            count+= msg[2]
+        elif i == "Contract":
+            msg = duplicateparameter2(i,data)
+            msg_list.append(msg[:2])
+            count+= msg[2]
+        elif i == "Site":
+            msg = duplicateparameter2(i,data)
+            msg_list.append(msg[:2])
+            count+= msg[2]
+        elif i == "Equipment":
+            msg = duplicateparameter(1,data)
+            msg_list.append(msg[:2])
+            count+= msg[2]
+        elif i == "Circuit":
+            msg = duplicateparameter(1,data)
+            msg_list.append(msg[:2])
+            count+= msg[2]
+        elif i == "Interface":
+            msg = duplicateparameter2(i,data)
+            msg_list.append(msg[:2])
+            count+= msg[2]
+    return msg_list,count
 
 
 @app.route('/download')

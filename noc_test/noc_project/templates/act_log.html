@@ -183,87 +183,21 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>User</th>
-                                <th>Date</th>
+                                <th>id</th>
+                                <th>username</th>
                                 <th>Time</th>
-                                <th>Detail</th>
-                                <th>Action</th>
+                                <th>event</th>
                             </tr>
                         </thead>
                         <tbody>
+                            {% for row in log_table %}
                             <tr>
-                                <td>
-                                    Prakorn
-                                </td>
-                                <td>10/12/2022</td>
-                                <td>17:00:00</td>
-                                <td>Upload file</td>
-                                <td>
-                                    <div class="dropdown open">
-                                        <a href="#!" class="px-2" id="triggerId1" data-toggle="dropdown" aria-haspopup="true"
-                                                aria-expanded="false">
-                                                    <i class="fa fa-ellipsis-v"></i>
-                                        </a>
-                                        <div class="dropdown-menu" aria-labelledby="triggerId1">
-                                            <a class="dropdown-item" href="#"><i class="fa fa-pencil mr-1"></i> Edit</a>
-                                            <a class="dropdown-item text-danger" href="#"><i class="fa fa-trash mr-1"></i> Delete</a>
-                                        </div>
-                                    </div>
-                                </td>
+                                <td>{{row[0]}}</td>
+                                <td>{{row[1]}}</td>
+                                <td>{{row[2]}}</td>
+                                <td>{{row[3]}}</td>
                             </tr>
-                            <tr>
-                                <td>
-                                    Admin
-                                </td>
-                                <td>10/12/2022</td>
-                                <td>12:00:00</td>
-                                <td>prakorn.chaikure@gmail.com</td>
-                                <td>
-                                    <div class="dropdown open">
-                                        <a href="#!" class="px-2" id="triggerId1" data-toggle="dropdown" aria-haspopup="true"
-                                                aria-expanded="false">
-                                                    <i class="fa fa-ellipsis-v"></i>
-                                        </a>
-                                        <div class="dropdown-menu" aria-labelledby="triggerId1">
-                                            <a class="dropdown-item" href="#"><i class="fa fa-pencil mr-1"></i> Edit</a>
-                                            <a class="dropdown-item text-danger" href="#"><i class="fa fa-trash mr-1"></i> Delete</a>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <!-- <tr>
-                                <td>
-                                    <div class="user-info">
-                                        <div class="user-info__img">
-                                            <img src="img/user1.jpg" alt="User Img">
-                                        </div>
-                                        <div class="user-info__basic">
-                                            <h5 class="mb-0">Kiran Acharya</h5>
-                                            <p class="text-muted mb-0">@kiranacharyaa</p>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <span class="active-circle bg-danger"></span> Inactive
-                                </td>
-                                <td>Bangalore</td>
-                                <td>+91 9876543215</td>
-                                <td>
-                                    <button class="btn btn-primary btn-sm">Contact</button>
-                                </td>
-                                <td>
-                                    <div class="dropdown open">
-                                        <a href="#!" class="px-2" id="triggerId2" data-toggle="dropdown" aria-haspopup="true"
-                                                aria-expanded="false">
-                                                    <i class="fa fa-ellipsis-v"></i>
-                                        </a>
-                                        <div class="dropdown-menu" aria-labelledby="triggerId2">
-                                            <a class="dropdown-item" href="#"><i class="fa fa-pencil mr-1"></i> Edit</a>
-                                            <a class="dropdown-item text-danger" href="#"><i class="fa fa-trash mr-1"></i> Delete</a>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr> -->
+                            {% endfor %}
                         </tbody>
                     </table>
                                 <div class="displayflexend pagination-table"></div>
