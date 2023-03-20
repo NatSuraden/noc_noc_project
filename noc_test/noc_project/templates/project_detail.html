@@ -8,16 +8,16 @@
             <td>{{ zone1[0] }}</td>
         </tr>
         <tr>
-            <td>Circuit ID : </td>
-            <td>{{ zone1[1] }}</td>
-        </tr>
-        <tr>
-            <td>Serial number : </td>
-            <td>{{ zone1[2] }}</td>
-        </tr>
-        <tr>
             <td>S/O : </td>
             <td>{{ zone2[1] }}</td>
+        </tr>
+        <tr>
+            <td>Important Detail : </td>
+            <td>{{ zone2[7] }}</td>
+        </tr>
+        <tr>
+            <td>VPN Detail : </td>
+            <td>{{ zone2[6] }}</td>
         </tr>
         <tr>
             <td>Customer Start of Contract : </td>
@@ -36,14 +36,6 @@
             <td>{{ zone2[5] }}</td>
         </tr>
         <tr>
-            <td>VPN Detail : </td>
-            <td>{{ zone2[6] }}</td>
-        </tr>
-        <tr>
-            <td>Important Detail : </td>
-            <td>{{ zone2[7] }}</td>
-        </tr>
-        <tr>
             <td>Addition Detail : </td>
             <td>{{ zone2[8] }}</td>
         </tr>
@@ -51,9 +43,14 @@
             <td>Remark : </td>
             <td>{{ zone2[9] }}</td>
         </tr>
-        </table>
 
+        </table>
+        <br>
+        <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Contact Table</h6>
+        </div>
         <table class="table" id="dataTable">
+
         <tr>
             <td>Role</td>
             <td>Name</td>
