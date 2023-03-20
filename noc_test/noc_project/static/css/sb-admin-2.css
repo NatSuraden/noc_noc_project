@@ -11657,3 +11657,12 @@ a:hover{
 .f-size{
   font-size: 1.5rem;
 }
+.scrolls {
+  overflow-x: scroll;
+  overflow-y: hidden;
+  height: auto;
+  white-space:nowrap;
+}
+.bg-blue{
+  background-color: 4e73df;
+}

@@ -174,7 +174,7 @@
                 <div class="container">
 
                     <!-- Page Heading -->
-                    <div class="d-sm-flex align-items-center justify-content-end mb-4">
+                    <div class="d-sm-flex align-items-center justify-content-end">
                         <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                                 class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
                     </div>
@@ -182,7 +182,42 @@
                     <!-- Page Heading -->
 
                     <!-- <h1 class="h3 mb-2 text-gray-800">Tables</h1> -->
-                    
+                        <div style="margin-top: 10px;">
+                                <div class="input-group">
+                                    <a href="#"class="mg-b0 form-control btn-primary bi-funnel" onclick="togglefilter(this);" > Advanced Search</a>
+                                        <div class='filbox-in' id="myfilter" hidden="hidden">
+                                            <div class="box-group">
+                                                <form action="{{ url_for('advanced_search') }}" method="post">
+                                                <div class="F-group">
+                                                <div class="inputbox">Project Name : <input class="form-control bg-light" type="text" list="projectname" name="project_name"></div>
+                                                <div class="inputbox">S/O : <input class="form-control bg-light" type="text" list="S_O" name="s_o"/></div>
+                                                <div class="inputbox">Customer Start Contract : <input  class="form-control bg-light" type="date" name="customer_start_contract"></div>
+                                                <div class="inputbox">Customer End Contract : <input  class="form-control bg-light" type="date" name="customer_end_contract"></div>
+                                                <div class="inputbox">Vendor Start Contract : <input class="form-control bg-light" type="date" name="disty_Start_contract"></div>
+                                                <div class="inputbox">Vendor END Contract <input class="form-control bg-light" type="date" name="disty_End_contract"></div><br>
+
+                                                <div class="inputbox">Site name : <input class="form-control bg-light" type="text" list="s_name" name="site_name"></div>
+                                                <div class="inputbox">Site Type : <input class="form-control bg-light" type="text" list="s_type" name="site_type"></div><br>
+
+                                                <div class="inputbox">Serial number : <input class="form-control bg-light" type="text" list="s_n" name="serial_number"/> </div>
+                                                <div class="inputbox">Disty name : <input class="form-control bg-light" type="text" list="d_n" name="disty_name"/></div>
+                                                <div class="inputbox">Equipment Model : <input class="form-control bg-light" type="text" list="e_m" name="equipment_model"/> </div>
+                                                <div class="inputbox">Equipment Brand : <input class="form-control bg-light" type="text" list="e_b" name="equipment_brand"/></div>
+                                                <div class="inputbox">Equipment Start of warranty : <input class="form-control bg-light" type="date" name="start_of_warranty"></div>
+                                                <div class="inputbox">Equipment End of warranty : <input class="form-control bg-light" type="date" name="end_of_warranty"></div>
+                                                <div class="inputbox">HA Status : <input class="form-control bg-light" type="text" list="ha" name="ha_status"/></div><br>
+
+                                                <div class="inputbox">Circuit ID : <input class="form-control bg-light" type="text" list="c_i" name="circuit_id"/> </div>
+                                                <div class="inputbox">IP address CE : <input class="form-control bg-light" type="text" list="ip_ce" name="ip_address_ce"/></div>
+                                                <div class="inputbox">IP Loopback : <input class="form-control bg-light" type="text" list="ip_lb" name="ip_loopback"/> </div>
+                                                <div class="inputbox">Owner ISP : <input class="form-control bg-light" type="text" list="o_i" name="owner_isp"/></div>
+                                                <br>
+                                                <div class="subbox"><input class="form-control bg-light" type = "submit"/></div></form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
                     <!-- DataTales Example -->
                         <div class="card shadow mb-4">
                             <div class="card-header py-3">
@@ -190,9 +225,9 @@
                                     <button class="form-control bg-light bi bi-caret-down-square" onclick="toggletable(this);"></button>
                             </div>
                                 <div id="mytable">
-                                    <div style="margin-top: 10px;">
-                                        <div class="input-group">                                    
-                                            <a class="mg-b0 form-control bg-light bi-funnel" onclick="togglefilter(this);" ></a>
+                                    <!--<div style="margin-top: 10px;">
+                                         <div class="input-group">-->
+                                            <!-- <a class="mg-b0 form-control bg-light bi-funnel" onclick="togglefilter(this);" ></a>
                                             <div class='filbox-in' id="myfilter" hidden="hidden">
                                                 <div class="box-group">
                                                 <form action="{{ url_for('advanced_search') }}" method="post">
@@ -221,11 +256,11 @@
                                                 <div class="inputbox">Owner ISP : <input class="form-control bg-light" type="text" list="o_i" name="owner_isp"/></div>
                                                 <br>
                                                 <div class="subbox"><input class="form-control bg-light" type = "submit"/></div></form>
-                                            </div>
+                                            </div> 
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div>-->
                                 <table class="table" id="dataTable">
                                     <thead>
                                         <tr>
@@ -346,10 +381,10 @@
                         <tbody>
                             {% for row in equipment_table %}
                             <tr> 
-                                <td><a data-id ='{{row,row[0]}}' class="userinfo">{{row[0]}}</a></td>
-                                <td><a data-id ='{{row,row[1]}}' class="userinfo">{{row[1]}}</a></td>
-                                <td><a data-id ='{{row,row[2]}}' class="userinfo">{{row[2]}}</a></td>
-                                <td><a data-id ='{{row,row[3]}}' class="userinfo">{{row[3]}}</a></td>
+                                <td><a href='#'  data-id ='{{row,row[0]}}' class="userinfo">{{row[0]}}</a></td>
+                                <td><a href='#'  data-id ='{{row,row[1]}}' class="userinfo">{{row[1]}}</a></td>
+                                <td><a href='#'  data-id ='{{row,row[2]}}' class="userinfo">{{row[2]}}</a></td>
+                                <td><a href='#'  data-id ='{{row,row[3]}}' class="userinfo">{{row[3]}}</a></td>
                                 <td>{{row[4]}}</td>
                                 <td>{{row[5]}}</td>
                             </tr>
@@ -508,10 +543,10 @@
   
       if (hidden) {
          element.removeAttribute("hidden");
-         button.innerText = "Hide";
+         button.innerText = "";
       } else {
          element.setAttribute("hidden", "hidden");
-         button.innerText = "Show";
+         button.innerText = "";
       }
     }
 </script>
