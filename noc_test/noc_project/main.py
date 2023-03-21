@@ -2198,7 +2198,7 @@ def delete_table():
         return data
 
 def connect():
-    connection = psycopg2.connect(user="postgres",password="pplus1234",host="127.0.0.1",port="5432",database="python2565")
+    connection = psycopg2.connect(user="postgres",password="1234",host="127.0.0.1",port="5432",database="python2565")
     return connection
 
 def delete_search_option(tablename):

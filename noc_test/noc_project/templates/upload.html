@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>PPlus UPLOAD</title>
+    <title>PPLUS UPLOAD</title>
 
     <!-- Custom fonts for this template -->
     <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"> -->
@@ -55,12 +55,6 @@
                 <a class="nav-link" href="{{ url_for('home') }}">
                     <i class="bi bi-house-fill"></i>
                     <span>Home</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('advanced_search') }}">
-                    <!-- <i class="bi bi-activity"></i> -->
-                    <i class="bi bi-search"></i>
-                    <span>Advanced Search</span></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="{{ url_for('user_table') }}">
@@ -174,8 +168,13 @@
                 <div class="container-fluid">
                     <div class="d-sm-flex align-items-center justify-content-end mb-4">
                         <a href="{{url_for('download')}}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                                class="fas fa-download fa-sm text-white-50"></i>Download CSV</a>
+                                class="fas fa-download fa-sm text-white-50"></i>Download Template CSV</a>
                     </div>
+                    <div class="text-center">
+                        <p class="lead blacktext">How to Use</p>
+                        <p class="blacktext">1. Choose Files</p>
+                        <p class="blacktext">2. Click Upload button to Save Backup File</p>
+                        <p class="blacktext">3  Click Check button to Confirm Upload data to Database</p>
                     <div class="boxtext">
 					{% with messages = get_flashed_messages() %}
 						{% if messages %}
@@ -196,10 +195,11 @@
 								<div id="msg"></div>
                                 <input type="file" id="multiFiles" name="files[]" multiple="multiple" class="uploadbox d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
 								
-								<div><button class="uploadbox d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" id="upload">Upload</button></div>
-                                <div><button data-id ='test_data' class="uploadbox check_data d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">Check</button></div>
+								<div><button class="uploadbox d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" id="upload">Upload File </button></div>
+                                <div><button data-id ='test_data' class="uploadbox check_data d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">Check and Confirm</button></div>
                             </div>
                             </div>
+                        </div>
                         </div>
                     </div>
                 </div>
