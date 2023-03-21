@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Homepage</title>
+    <title>PPLUS HOMEPAGE</title>
 
     <!-- Custom fonts for this template -->
     <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"> -->
@@ -56,12 +56,6 @@
                 <a class="nav-link" href="{{ url_for('home') }}">
                     <i class="bi bi-house-fill"></i>
                     <span>Home</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('advanced_search') }}">
-                    <!-- <i class="bi bi-activity"></i> -->
-                    <i class="bi bi-search"></i>
-                    <span>Advanced Search</span></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="{{ url_for('user_table') }}">
@@ -176,7 +170,7 @@
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-end mb-4">
-                        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" onclick="tableToExcel()"><i
                                 class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
                     </div>
                     
@@ -196,13 +190,15 @@
 
                                 <form action="{{ url_for('home') }}" method="post">
                                     <!-- <a class="form-control bg-light bi-funnel" onclick="togglefilter(this);"></a> -->
-                                    <a  href="{{ url_for('advanced_search') }}" class="form-control bg-light bi-funnel"></a>
+                                    <a  href="{{ url_for('advanced_search') }}" class="btn-primary form-control bi-funnel"> Advanced Search</a>
                                     <input type="text" name="data_search" class="form-control bg-light" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
                                     <button class="form-control bg-light bi bi-search" >
                                     <!-- <input class="form-control bg-light" type = "submit"> -->
                                 </form>
                                 </div>
                             </div>
+                            
+                            
                                 <table class="table" id="dataTable">
                                     <thead>
                                         <tr>
@@ -228,6 +224,7 @@
                                       {% endfor %}
                                     </tbody>
                                 </table>
+                            
                                 <div class="displayflexend mg-b0 pagination-table"></div>
                             </div>
                         </div>
@@ -319,6 +316,9 @@
 
     <!-- Custom scripts for all pages-->
     <script src="../static/js/sb-admin-2.js"></script>
+    <script src="../static/js/table2excel.js"></script>
+    <script src="../static/js/script.js"></script>
+
 </body>
 <script type="text/javascript">
     $(document).ready(function(){

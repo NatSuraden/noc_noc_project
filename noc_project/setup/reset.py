@@ -12,7 +12,7 @@ role = "admin"
 # password = fernet.encrypt(password.encode())
 # key = Fernet.generate_key().decode()
 def connect():
-    connection = psycopg2.connect(user="postgres",password="pplus1234",host="127.0.0.1",port="5432",database="python2565")
+    connection = psycopg2.connect(user="postgres",password="1234",host="127.0.0.1",port="5432",database="python2565")
     return connection
 try:
     #connection = psycopg2.connect(user="postgres",password="1234",host="127.0.0.1",port="5432",database="postgres")
