@@ -216,6 +216,7 @@
                                         <td>{{ row }}</td>
                                         {% endfor %}
                                         <td>
+                                                <a data-id ='{{ data }}' class="return_edit btn btn-secondary" href="#"><i class="bi bi-trash"></i></i> edit</a>
                                                 <a data-id ='{{ data }}' class="return dropdown-item text-danger" href="#"><i class="bi bi-trash"></i></i> Delete</a>
                                         </td>
                             </tr>
@@ -350,4 +351,41 @@
 	  });
 	});
   </script>
+
+<script type="text/javascript">
+	$(document).ready(function(){
+	  $('.return_edit').click(function(){
+		var msg = $(this).data('id');
+		$.ajax({
+		  url: '/ajax_edit',
+		  type: 'post',
+		  data: {msg:msg},
+		  success: function(data){
+			$('.modal-body').html(data);
+            $('.modal-body').append(data.htmledit_project);
+            $('.modal-body').append(data.htmledit_contract);
+            $('.modal-body').append(data.htmledit_site);
+            $('.modal-body').append(data.htmledit_equipment);
+            $('.modal-body').append(data.htmledit_circuit);
+			$('#edit_page').modal('show');
+		  }
+		});
+	  });
+	});
+  </script>
+
+<div class="modal fade" id="edit_page" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">edit</h4>
+              <button type="button" class="close" data-dismiss="modal">×</button>
+            </div>
+            <div class="modal-body"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary"  data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 </html>

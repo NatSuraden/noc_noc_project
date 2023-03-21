@@ -1,0 +1,37 @@
+<form action="{{ url_for('edit_site_page') }}" method="post">
+    <table>
+        <tr>
+            <td>{{columns[0]}} : </td>
+            <td>{{ msg[0] }}</td>
+        </tr>
+        <tr>
+            <td>{{columns[1]}} : </td>
+            <td><input type="text" name="project_name" placeholder= "{{ msg[1] }}" id="s_o"></td>
+        </tr>
+        <tr>
+            <td>{{columns[2]}} : </td>
+            <td><input type="text" name="site_name" placeholder= "{{ msg[2] }}" id="c_s_c"></td>
+        </tr>
+        <tr>
+            <td>{{columns[3]}} : </td>
+            <td><input type="text" name="location" placeholder= "{{ msg[3] }}" id="c_e_c"></td>
+        </tr>
+        <tr>
+            <td>{{columns[4]}} : </td>
+            <td><input type="text" name="short_name" placeholder= "{{ msg[4] }}" id="d_s_c"></td>
+        </tr>
+        <tr>
+            <td>{{columns[5]}} : </td>
+            <td><input type="text" name="contact_owner_site" placeholder= "{{ msg[5] }}" id="d_e_c"></td>
+        </tr>
+        <tr>
+            <td>{{columns[6]}} : </td>
+            <td><input type="text" name="contact" placeholder= "{{ msg[6] }}" id="vpn"></td>
+        </tr>
+        <tr>
+            <td>{{columns[7]}} : </td>
+            <td><input type="text" name="type" placeholder= "{{ msg[7] }}" id="important"></td>
+        </tr>
+    </table>
+    <button type="submit" value= "{{ msg[0] }}" name="pk">Submit</button>
+    </form>

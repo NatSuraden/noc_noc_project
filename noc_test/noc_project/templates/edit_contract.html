@@ -1,0 +1,30 @@
+<form action="{{ url_for('edit_contract_page') }}" method="post">
+    <table>
+        <tr>
+            <td>{{columns[0]}} : </td>
+            <td>{{ msg[0] }}</td>
+        </tr>
+        <tr>
+            <td>{{columns[1]}} : </td>
+            <td><input type="text" name="project_name" placeholder= "{{ msg[1] }}" id="s_o"></td>
+        </tr>
+        <tr>
+            <td>{{columns[2]}} : </td>
+            <td><input type="text" name="role" placeholder= "{{ msg[2] }}" id="c_s_c"></td>
+        </tr>
+        <tr>
+            <td>{{columns[3]}} : </td>
+            <td><input type="text" name="name" placeholder= "{{ msg[3] }}" id="c_e_c"></td>
+        </tr>
+        <tr>
+            <td>{{columns[4]}} : </td>
+            <td><input type="text" name="tel" placeholder= "{{ msg[4] }}" id="d_s_c"></td>
+        </tr>
+        <tr>
+            <td>{{columns[5]}} : </td>
+            <td><input type="text" name="additional_detail" placeholder= "{{ msg[5] }}" id="d_e_c"></td>
+        </tr>
+        </tr>
+    </table>
+    <button type="submit" value= "{{ msg[0] }}" name="pk">Submit</button>
+    </form>

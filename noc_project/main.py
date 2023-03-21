@@ -3,11 +3,13 @@ from werkzeug.utils import secure_filename
 from flask_sqlalchemy import SQLAlchemy
 import psycopg2
 import random
+import base64
 from datetime import date
 from datetime import datetime
 import datetime
 import numpy as np
 from sqlalchemy import Column,Integer,String,Date 
+from cryptography.fernet import Fernet
 import re
 import json
 import ast
@@ -45,25 +47,31 @@ def login():
         password = request.form['password']
         connection = connect()
         cursor = connection.cursor()
-        cursor.execute('SELECT * FROM accounts WHERE username = %s AND password = %s', (username, password,))
+        cursor.execute('SELECT * FROM accounts WHERE username = %s', (username,))
         account = cursor.fetchall()
         for row in account:
             user_id += row[0]
             role += row[3]
         if account:
-            session['loggedin'] = True
-            session['user_id'] = user_id
-            for i in password:
-                i = '*'
-                newpass += i
-            session['password'] = newpass
-            session['username'] = username
-            session['role'] = role
-            global_data()
-            event = 'Login'
-            save_log(event)
-
-            return redirect(url_for('home'))
+            user_password = account[0][2]
+            # print(type(user_password),user_password)
+            key = account[0][-1]
+            fernet = Fernet(key)
+            user_password = fernet.decrypt(user_password).decode()
+            print(user_password)
+            if user_password == password:
+                session['loggedin'] = True
+                session['user_id'] = user_id
+                for i in password:
+                    i = '*'
+                    newpass += i
+                session['password'] = newpass
+                session['username'] = username
+                session['role'] = role
+                global_data()
+                event = 'Login'
+                save_log(event)
+                return redirect(url_for('home'))
         else:
             msg = 'Incorrect username/password!'
     return render_template('index.html', msg=msg)
@@ -2055,8 +2063,10 @@ def register_user():
         if request.method == 'POST' and 'username' in request.form and 'password' in request.form and 'role' in request.form:
             A_username = request.form['username']
             A_password = request.form['password']
+            key = Fernet.generate_key()
+            fernet = Fernet(key)
+            A_password = fernet.encrypt(A_password.encode())
             A_role = request.form['role']
-            #print(A_role)
             connection = connect()
             cursor = connection.cursor()
             cursor.execute('SELECT * FROM accounts WHERE username = %s', (A_username,))

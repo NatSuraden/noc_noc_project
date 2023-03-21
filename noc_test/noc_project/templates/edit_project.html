@@ -1,0 +1,45 @@
+<form action="{{ url_for('edit_project_page') }}" method="post">
+<table>
+    <tr>
+        <td>{{columns[0]}} : </td>
+        <td>{{ msg[0] }}</td>
+    </tr>
+    <tr>
+        <td>{{columns[1]}} : </td>
+        <td><input type="text" name="s_o" placeholder= "{{ msg[1] }}" id="s_o"></td>
+    </tr>
+    <tr>
+        <td>{{columns[2]}} : </td>
+        <td>{{ msg[2] }}:<input type="text" name="c_s_c" placeholder= "{{ msg[2] }}" id="c_s_c"></td>
+    </tr>
+    <tr>
+        <td>{{columns[3]}} : </td>
+        <td>{{ msg[3] }}:<input type="text" name="c_e_c" placeholder= "{{ msg[3] }}" id="c_e_c"></td>
+    </tr>
+    <tr>
+        <td>{{columns[4]}} : </td>
+        <td>{{ msg[4] }}:<input type="text" name="d_s_c" placeholder= "{{ msg[4] }}" id="d_s_c"></td>
+    </tr>
+    <tr>
+        <td>{{columns[5]}} : </td>
+        <td>{{ msg[5] }}:<input type="text" name="d_e_c" placeholder= "{{ msg[5] }}" id="d_e_c"></td>
+    </tr>
+    <tr>
+        <td>{{columns[6]}} : </td>
+        <td><input type="text" name="vpn" placeholder= "{{ msg[6] }}" id="vpn"></td>
+    </tr>
+    <tr>
+        <td>{{columns[7]}} : </td>
+        <td><input type="text" name="important" placeholder= "{{ msg[7] }}" id="important"></td>
+    </tr>
+    <tr>
+        <td>{{columns[8]}} : </td>
+        <td><input type="text" name="addition" placeholder= "{{ msg[8] }}" id="addition"></td>
+    </tr>
+    <tr>
+        <td>{{columns[9]}} : </td>
+        <td><input type="text" name="remark" placeholder= "{{ msg[9] }}" id="remark"></td>
+    </tr>
+</table>
+<button type="submit" value= "{{ msg[0] }}" name="pk">Submit</button>
+</form>

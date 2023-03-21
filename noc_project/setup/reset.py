@@ -3,9 +3,14 @@ from psycopg2 import Error
 from datetime import date
 from datetime import datetime
 import datetime
+from cryptography.fernet import Fernet
 username = "admin"
 password = "1234"
 role = "admin" 
+# key = Fernet.generate_key()
+# fernet = Fernet(key)
+# password = fernet.encrypt(password.encode())
+# key = Fernet.generate_key().decode()
 def connect():
     connection = psycopg2.connect(user="postgres",password="pplus1234",host="127.0.0.1",port="5432",database="python2565")
     return connection
@@ -31,13 +36,23 @@ try:
     #connection = psycopg2.connect(user="webadmin",password="BFCqhr46914", host="node4943-env-2254395.th.app.ruk-com.cloud", port="11043", database="pythonlogin")
 
     try:
+        # cursor = connection.cursor()
+        # # TABLE accounts
+        # create_table_guery = '''CREATE TABLE accounts 
+        #     (user_id SERIAL PRIMARY KEY,
+        #     username      VARCHAR(50) NOT NULL,
+        #     password      VARCHAR(5000) NOT NULL,
+        #     role      VARCHAR(50) NOT NULL,
+        #     key_password      VARCHAR(5000) NOT NULL); '''
+        # cursor.execute(create_table_guery)
+        # connection.commit()
         cursor = connection.cursor()
         # TABLE accounts
         create_table_guery = '''CREATE TABLE accounts 
             (user_id SERIAL PRIMARY KEY,
             username      VARCHAR(50) NOT NULL,
-            password      VARCHAR(50) NOT NULL,
-            role      VARCHAR(50)); '''
+            password      VARCHAR(5000) NOT NULL,
+            role      VARCHAR(50) NOT NULL); '''
         cursor.execute(create_table_guery)
         connection.commit()
     except (Exception, psycopg2.DatabaseError) as error: 
@@ -166,6 +181,9 @@ try:
 
     cursor = connection.cursor()
     try:
+        # postgres_insert_query = """ INSERT INTO accounts (username, password, role, key_password) VALUES (%s,%s,%s,%s)"""
+        # cursor.execute(postgres_insert_query,(username,password,role,key))
+        # connection.commit()
         postgres_insert_query = """ INSERT INTO accounts (username, password, role) VALUES (%s,%s,%s)"""
         cursor.execute(postgres_insert_query,(username,password,role))
         connection.commit()
