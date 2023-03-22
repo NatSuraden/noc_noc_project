@@ -18,7 +18,7 @@ import pandas as pd
 
 app = Flask(__name__)
 app.secret_key = 'how_to_be_got_A'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:pplus1234@127.0.0.1:5432/python2565'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:pplus1234@127.0.0.1:5432/pyreturnthon2565'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config["UPLOAD_FOLDER"] = "noc_test/noc_project/upload/"
 #app.config["DOWNLOAD_FOLDER"] = "noc_project/test/"
@@ -899,8 +899,7 @@ def log():
         cursor = connection.cursor()
         cursor.execute('SELECT * FROM event_logs')
         log_table = cursor.fetchall()
-        for i in log_table:
-            print(i)
+        log_table = log_table[::-1]
         return render_template('act_log.html',log_table = log_table,username=session['username'])
     return redirect(url_for('log'))    
 
@@ -2386,6 +2385,8 @@ def table_delete(PK_name,tablename,columns_delete):
 def project_table_update_edit(data):
     connection = connect()
     cursor = connection.cursor()
+    msg_successful = []
+    msg_error = []
     for data_update_project in data:
         #print(data_update_project)
         try:
@@ -2393,9 +2394,10 @@ def project_table_update_edit(data):
                 sql_update_query = """Update project set s_o = %s where project_name = %s"""
                 cursor.execute(sql_update_query, (data_update_project[1], data_update_project[0]))
                 connection.commit()
+                msg_successful.append(data_update_project[1])
         except (Exception) as error:
             error = "s_o",data_update_project[0],str(error)
-            print(error)
+            msg_error.append(error)
         try:
             if data_update_project[2] != "-":
                 data_update_project[2] = data_update_project[2].strftime('%Y/%m/%d')
@@ -2403,9 +2405,10 @@ def project_table_update_edit(data):
                 sql_update_query = """Update project set customer_start_of_contract = %s where project_name = %s"""
                 cursor.execute(sql_update_query, (date_2, data_update_project[0]))
                 connection.commit()
+                msg_successful.append(data_update_project[2])
         except (Exception) as error:
             error = "customer_start_of_contract",data_update_project[0],str(error)
-            print(error)
+            msg_error.append(error)
         try:
             if data_update_project[3] != "-":
                 data_update_project[3] = data_update_project[3].strftime('%Y/%m/%d')
@@ -2413,9 +2416,10 @@ def project_table_update_edit(data):
                 sql_update_query = """Update project set customer_end_of_contract = %s where project_name = %s"""
                 cursor.execute(sql_update_query, (date_3, data_update_project[0]))
                 connection.commit()
+                msg_successful.append(data_update_project[3])
         except (Exception) as error:
             error = "customer_end_of_contract",data_update_project[0],str(error)
-            print(error)
+            msg_error.append(error)
         try:
             if data_update_project[4] != "-":
                 data_update_project[4] = data_update_project[4].strftime('%Y/%m/%d')
@@ -2424,9 +2428,10 @@ def project_table_update_edit(data):
                 sql_update_query = """Update project set disty_start_of_contract = %s where project_name = %s"""
                 cursor.execute(sql_update_query, (date_4, data_update_project[0]))
                 connection.commit()
+                msg_successful.append(data_update_project[4])
         except (Exception) as error:
             error = "disty_start_of_contract",data_update_project[0],str(error)
-            print(error)
+            msg_error.append(error)
         try:
             if data_update_project[5] != "-":
                 data_update_project[5] = data_update_project[5].strftime('%Y/%m/%d')
@@ -2434,41 +2439,52 @@ def project_table_update_edit(data):
                 sql_update_query = """Update project set disty_end_of_contract = %s where project_name = %s"""
                 cursor.execute(sql_update_query, (date_5, data_update_project[0]))
                 connection.commit()
+                msg_successful.append(data_update_project[5])
         except (Exception) as error:
             error = "disty_end_of_contract",data_update_project[0],str(error)
-            print(error)
+            msg_error.append(error)
         try:
             if data_update_project[6] != "-":
                 sql_update_query = """Update project set vpn_detail = %s where project_name = %s"""
                 cursor.execute(sql_update_query, (data_update_project[6], data_update_project[0]))
                 connection.commit()
+                msg_successful.append(data_update_project[6])
         except (Exception) as error:
             error = "vpn_detail",data_update_project[0],str(error)
-            print(error)
+            msg_error.append(error)
         try:
             if data_update_project[7] != "-":
                 sql_update_query = """Update project set important_detail = %s where project_name = %s"""
                 cursor.execute(sql_update_query, (data_update_project[7], data_update_project[0]))
                 connection.commit()
+                msg_successful.append(data_update_project[7])
         except (Exception) as error:
             error = "important_detail",data_update_project[0],str(error)
-            print(error)
+            msg_error.append(error)
         try:
             if data_update_project[8] != "-":
                 sql_update_query = """Update project set addition_detail = %s where project_name = %s"""
                 cursor.execute(sql_update_query, (data_update_project[8], data_update_project[0]))
                 connection.commit()
+                msg_successful.append(data_update_project[8])
         except (Exception) as error:
             error = "addition_detail",data_update_project[0],str(error)
-            print(error)
+            msg_error.append(error)
         try:
             if data_update_project[9] != "-":
                 sql_update_query = """Update project set remark = %s where project_name = %s"""
                 cursor.execute(sql_update_query, (data_update_project[9], data_update_project[0]))
                 connection.commit()
+                msg_successful.append(data_update_project[9])
         except (Exception) as error:
             error = "remark",data_update_project[0],str(error)
-            print(error)
+            msg_error.append(error)
+    if len(msg_successful) != 0:
+        msg = "successful update "+data[0][0]+" "+str(msg_successful)
+        save_log(msg)
+    if len(msg_error) != 0:
+        msg = "error update "+data[0][0]+" "+str(msg_error)
+        save_log(msg)
     cursor.close()
     connection.close()
 
@@ -2476,47 +2492,60 @@ def contract_table_update_edit(data):
     #recheck
     connection = connect()
     cursor = connection.cursor()
+    msg_successful = []
+    msg_error = []
     for data_update_contract in data:
         try:
             if data_update_contract[1] != "-":
                 sql_update_query = """Update contract set project_name = %s where contrat_id = %s"""
                 cursor.execute(sql_update_query, (data_update_contract[1], data_update_contract[0]))
                 connection.commit()
+                msg_successful.append(data_update_contract[1])
         except (Exception) as error:
             error = "name",data_update_contract[0],data_update_contract[1],str(error)
-            print(error)
+            msg_error.append(error)
         try:
             if data_update_contract[2] != "-":
                 sql_update_query = """Update contract set role = %s where contrat_id = %s"""
                 cursor.execute(sql_update_query, (data_update_contract[2], data_update_contract[0]))
                 connection.commit()
+                msg_successful.append(data_update_contract[2])
         except (Exception) as error:
             error = "name",data_update_contract[0],data_update_contract[1],str(error)
-            print(error)
+            msg_error.append(error)
         try:
             if data_update_contract[3] != "-":
                 sql_update_query = """Update contract set name = %s where contrat_id = %s"""
                 cursor.execute(sql_update_query, (data_update_contract[3], data_update_contract[0]))
                 connection.commit()
+                msg_successful.append(data_update_contract[3])
         except (Exception) as error:
             error = "name",data_update_contract[0],data_update_contract[1],str(error)
-            print(error)
+            msg_error.append(error)
         try:
             if data_update_contract[4] != "-":
                 sql_update_query = """Update contract set tel = %s where contrat_id = %s"""
                 cursor.execute(sql_update_query, (data_update_contract[4], data_update_contract[0]))
                 connection.commit()
+                msg_successful.append(data_update_contract[4])
         except (Exception) as error:
             error = "tel",data_update_contract[0],data_update_contract[1],str(error)
-            print(error)
+            msg_error.append(error)
         try:
             if data_update_contract[5] != "-":
                 sql_update_query = """Update contract set additional_detail = %s where contrat_id = %s"""
                 cursor.execute(sql_update_query, (data_update_contract[5], data_update_contract[0]))
                 connection.commit()
+                msg_successful.append(data_update_contract[5])
         except (Exception) as error:
             error = "additional_detail",data_update_contract[0],data_update_contract[1],str(error)
-            print(error)
+            msg_error.append(error)
+    if len(msg_successful) != 0:
+        msg = "successful update "+data[0][0]+" "+str(msg_successful)
+        save_log(msg)
+    if len(msg_error) != 0:
+        msg = "error update "+data[0][0]+" "+str(msg_error)
+        save_log(msg)
     cursor.close()
     connection.close()
 
@@ -2524,69 +2553,87 @@ def site_table_update_edit(data):
     #recheck
     connection = connect()
     cursor = connection.cursor()
+    msg_successful = []
+    msg_error = []
     for data_update_site in data:
         try:
             if data_update_site[1] != "-":
                 sql_update_query = """Update site set project_name = %s where site_id = %s"""
                 cursor.execute(sql_update_query, (data_update_site[1], data_update_site[0]))
                 connection.commit()
+                msg_successful.append(data_update_site[1])
         except (Exception) as error:
             error = "location",data_update_site[1],data_update_site[2],str(error)
-            print(error)
+            msg_error.append(error)
         try:
             if data_update_site[2] != "-":
                 sql_update_query = """Update site set site_name = %s where site_id = %s"""
                 cursor.execute(sql_update_query, (data_update_site[2], data_update_site[0]))
                 connection.commit()
+                msg_successful.append(data_update_site[2])
         except (Exception) as error:
             error = "location",data_update_site[1],data_update_site[2],str(error)
-            print(error)
+            msg_error.append(error)
         try:
             if data_update_site[3] != "-":
                 sql_update_query = """Update site set location = %s where site_id = %s"""
                 cursor.execute(sql_update_query, (data_update_site[3], data_update_site[0]))
                 connection.commit()
+                msg_successful.append(data_update_site[3])
         except (Exception) as error:
             error = "location",data_update_site[1],data_update_site[2],str(error)
-            print(error)
+            msg_error.append(error)
         try:
             if data_update_site[4] != "-":
                 sql_update_query = """Update site set site_short_name = %s where site_id = %s"""
                 cursor.execute(sql_update_query, (data_update_site[4], data_update_site[0]))
                 connection.commit()
+                msg_successful.append(data_update_site[4])
         except (Exception) as error:
             error = "site_short_name ",data_update_site[1],data_update_site[2],str(error)
-            print(error)
+            msg_error.append(error)
         try:
             if data_update_site[5] != "-":
                 sql_update_query = """Update site set contact_owner_site = %s where site_id = %s"""
                 cursor.execute(sql_update_query, (data_update_site[5], data_update_site[0]))
                 connection.commit()
+                msg_successful.append(data_update_site[5])
         except (Exception) as error:
             error = "contact_owner_site",data_update_site[1],data_update_site[2],str(error)
-            print(error)
+            msg_error.append(error)
         try:
             if data_update_site[6] != "-":
                 sql_update_query = """Update site set contact = %s where site_id = %s"""
                 cursor.execute(sql_update_query, (data_update_site[6], data_update_site[0]))
                 connection.commit()
+                msg_successful.append(data_update_site[6])
         except (Exception) as error:
             error = "contact",data_update_site[1],data_update_site[2],str(error)
-            print(error)
+            msg_error.append(error)
         try:
             if data_update_site[7] != "-":
                 sql_update_query = """Update site set type = %s where site_id = %s"""
                 cursor.execute(sql_update_query, (data_update_site[7], data_update_site[0]))
                 connection.commit()
+                msg_successful.append(data_update_site[7])
         except (Exception) as error:
             error = "type",data_update_site[1],data_update_site[2],str(error)
-            print(error)
+            msg_error.append(error)
+
+    if len(msg_successful) != 0:
+        msg = "successful update "+data[0][0]+" "+str(msg_successful)
+        save_log(msg)
+    if len(msg_error) != 0:
+        msg = "error update "+data[0][0]+" "+str(msg_error)
+        save_log(msg)
     cursor.close()
     connection.close()  
 
 def equipment_table_update_edit(data):
     connection = connect()
     #cursor = connection.cursor()
+    msg_successful = []
+    msg_error = []
     for data_update_equipment in data:
         cursor = connection.cursor()
         try:
@@ -2594,57 +2641,64 @@ def equipment_table_update_edit(data):
                 sql_update_query = """Update equipment set project_name = %s where serial_number = %s"""
                 cursor.execute(sql_update_query, (data_update_equipment[1], data_update_equipment[0]))
                 connection.commit()
+                msg_successful.append(data_update_equipment[1])
         except (Exception) as error:
             error = "project_name",data_update_equipment[0],str(error)
-            print(error)
+            msg_error.append(error)
         try:
             if data_update_equipment[2] != "-":
                 sql_update_query = """Update equipment set site_name = %s where serial_number = %s"""
                 cursor.execute(sql_update_query, (data_update_equipment[2], data_update_equipment[0]))
                 connection.commit()
+                msg_successful.append(data_update_equipment[2])
         except (Exception) as error:
             error = "site_name",data_update_equipment[0],str(error)
-            print(error)
+            msg_error.append(error)
         try:
-            if data_update_equipment[2] != "-":
+            if data_update_equipment[3] != "-":
                 sql_update_query = """Update equipment set brand = %s where serial_number = %s"""
                 cursor.execute(sql_update_query, (data_update_equipment[3], data_update_equipment[0]))
                 connection.commit()
+                msg_successful.append(data_update_equipment[3])
         except (Exception) as error:
             error = "brand",data_update_equipment[0],str(error)
-            print(error)
+            msg_error.append(error)
         try:
             if data_update_equipment[4] != "-":
                 sql_update_query = """Update equipment set model = %s where serial_number = %s"""
                 cursor.execute(sql_update_query, (data_update_equipment[4], data_update_equipment[0]))
                 connection.commit()
+                msg_successful.append(data_update_equipment[4])
         except (Exception) as error:
             error = "model",data_update_equipment[0],str(error)
-            print(error)
+            msg_error.append(error)
         try:
             if data_update_equipment[5] != "-":
                 sql_update_query = """Update equipment set disty_name = %s where serial_number = %s"""
                 cursor.execute(sql_update_query, (data_update_equipment[5], data_update_equipment[0]))
                 connection.commit()
+                msg_successful.append(data_update_equipment[5])
         except (Exception) as error:
             error = "disty_name",data_update_equipment[0],str(error)
-            print(error)
+            msg_error.append(error)
         try:
             if data_update_equipment[6] != "-":
                 sql_update_query = """Update equipment set disty_contact = %s where serial_number = %s"""
                 cursor.execute(sql_update_query, (data_update_equipment[6], data_update_equipment[0]))
                 connection.commit()
+                msg_successful.append(data_update_equipment[6])
         except (Exception) as error:
             error = "disty_contact",data_update_equipment[0],str(error)
-            print(error)
+            msg_error.append(error)
         try:
             if data_update_equipment[7] != "-":
                 sql_update_query = """Update equipment set open_case_contact = %s where serial_number = %s"""
                 cursor.execute(sql_update_query, (data_update_equipment[7], data_update_equipment[0]))
                 connection.commit()
+                msg_successful.append(data_update_equipment[7])
         except (Exception) as error:
             error = "open_case_contact",data_update_equipment[0],str(error)
-            print(error)
+            msg_error.append(error)
         try:
             if data_update_equipment[8] != "-":
                 data_update_equipment[8] = data_update_equipment[8].strftime('%Y/%m/%d')
@@ -2652,9 +2706,10 @@ def equipment_table_update_edit(data):
                 sql_update_query = """Update equipment set start_of_warranty = %s where serial_number = %s"""
                 cursor.execute(sql_update_query, (data_update_equipment[8], data_update_equipment[0]))
                 connection.commit()
+                msg_successful.append(data_update_equipment[8])
         except (Exception) as error:
             error = "start_of_warranty",data_update_equipment[0],str(error)
-            print(error)
+            msg_error.append(error)
         try:
             if data_update_equipment[9] != "-":
                 data_update_equipment[9] = data_update_equipment[9].strftime('%Y/%m/%d')
@@ -2662,114 +2717,226 @@ def equipment_table_update_edit(data):
                 sql_update_query = """Update equipment set end_of_warranty = %s where serial_number = %s"""
                 cursor.execute(sql_update_query, (date_8, data_update_equipment[0]))
                 connection.commit()
+                msg_successful.append(data_update_equipment[9])
         except (Exception) as error:
             error = "end_of_warranty",data_update_equipment[0],str(error)
-            print(error)
+            msg_error.append(error)
         try:
             if data_update_equipment[11] != "-":
                 #print(data_update_equipment[9],print(type(data_update_equipment[9])))
                 sql_update_query = """Update equipment set ha = %s where serial_number = %s"""
                 cursor.execute(sql_update_query, (data_update_equipment[11], data_update_equipment[0]))
                 connection.commit()
+                msg_successful.append(data_update_equipment[11])
         except (Exception) as error:
             error = "ha",data_update_equipment[0],str(error)
-            print(error)
+            msg_error.append(error)
         try:
             if data_update_equipment[10] != "-":
                 #print(data_update_equipment[10])
                 sql_update_query = """Update equipment set ha_status = %s where serial_number = %s"""
                 cursor.execute(sql_update_query, (data_update_equipment[10], data_update_equipment[0]))
                 connection.commit()
+                msg_successful.append(data_update_equipment[10])
         except (Exception) as error:
             error = "ha_status",data_update_equipment[0],str(error)
-            print(error)
+            msg_error.append(error)
+
+    if len(msg_successful) != 0:
+        msg = "successful update "+data[0][0]+" "+str(msg_successful)
+        save_log(msg)
+    if len(msg_error) != 0:
+        msg = "error update "+data[0][0]+" "+str(msg_error)
+        save_log(msg)
+    
     cursor.close()
     connection.close()
 
 def circuit_table_update_edit(data):
     connection = connect()
     cursor = connection.cursor()
+    msg_successful = []
+    msg_error = []
     for data_update_circuit in data:
         try:
             if data_update_circuit[1] != "-":
                 sql_update_query = """Update circuit set equipment_ref = %s where circuit_id = %s"""
                 cursor.execute(sql_update_query, (str(data_update_circuit[1]), str(data_update_circuit[0])))
                 connection.commit()
+                msg_successful.append(data_update_circuit[1])
         except (Exception) as error:
             error = "equipment_ref",data_update_circuit[0],str(error)
-            print(error)
+            msg_error.append(error)
         try:
             if data_update_circuit[2] != "-":
                 sql_update_query = """Update circuit set ip_address_pe = %s where circuit_id = %s"""
                 cursor.execute(sql_update_query, (str(data_update_circuit[2]), str(data_update_circuit[0])))
                 connection.commit()
+                msg_successful.append(data_update_circuit[2])
         except (Exception) as error:
             error = "ip_address_pe",data_update_circuit[0],str(error)
-            print(error)
+            msg_error.append(error)
         try:
             if data_update_circuit[3] != "-":
                 sql_update_query = """Update circuit set ip_address_ce = %s where circuit_id = %s"""
                 cursor.execute(sql_update_query, (str(data_update_circuit[3]), str(data_update_circuit[0])))
                 connection.commit()
+                msg_successful.append(data_update_circuit[3])
         except (Exception) as error:
             error = "ip_address_ce",data_update_circuit[0],str(error)
-            print(error)
+            msg_error.append(error)
         try:
             if data_update_circuit[4] != "-":
                 sql_update_query = """Update circuit set subnet = %s where circuit_id = %s"""
                 cursor.execute(sql_update_query, (str(data_update_circuit[4]), str(data_update_circuit[0])))
                 connection.commit()
+                msg_successful.append(data_update_circuit[4])
         except (Exception) as error:
             error = "subnet",data_update_circuit[0],str(error)
-            print(error)
+            msg_error.append(error)
         try:
             if data_update_circuit[5] != "-":
                 sql_update_query = """Update circuit set loopback = %s where circuit_id = %s"""
                 cursor.execute(sql_update_query, (str(data_update_circuit[5]), str(data_update_circuit[0])))
                 connection.commit()
+                msg_successful.append(data_update_circuit[5])
         except (Exception) as error:
             error = "loopback",data_update_circuit[0],str(error)
-            print(error)
+            msg_error.append(error)
         try:
             if data_update_circuit[6] != "-":
                 sql_update_query = """Update circuit set circuit_type = %s where circuit_id = %s"""
                 cursor.execute(sql_update_query, (str(data_update_circuit[6]), str(data_update_circuit[0])))
                 connection.commit()
+                msg_successful.append(data_update_circuit[6])
         except (Exception) as error:
             error = "circuit_type",data_update_circuit[0],str(error)
-            print(error)
+            msg_error.append(error)
         try:
             if data_update_circuit[7] != "-":
                 sql_update_query = """Update circuit set link_number = %s where circuit_id = %s"""
                 cursor.execute(sql_update_query, (str(data_update_circuit[7]), str(data_update_circuit[0])))
                 connection.commit()
+                msg_successful.append(data_update_circuit[7])
         except (Exception) as error:
             error = "link_number",data_update_circuit[0],str(error)
-            print(error)
+            msg_error.append(error)
         try:
             if data_update_circuit[8] != "-":
                 sql_update_query = """Update circuit set original_isp = %s where circuit_id = %s"""
                 cursor.execute(sql_update_query, (str(data_update_circuit[8]), str(data_update_circuit[0])))
                 connection.commit()
+                msg_successful.append(data_update_circuit[8])
         except (Exception) as error:
             error = "original_isp",data_update_circuit[0],str(error)
-            print(error) 
+            msg_error.append(error)
         try:
             if data_update_circuit[9] != "-":
                 sql_update_query = """Update circuit set owner_isp = %s where circuit_id = %s"""
                 cursor.execute(sql_update_query, (str(data_update_circuit[9]), str(data_update_circuit[0])))
                 connection.commit()
+                msg_successful.append(data_update_circuit[9])
         except (Exception) as error:
             error = "owner_isp",data_update_circuit[0],str(error)
-            print(error)
+            msg_error.append(error)
         try:
             if data_update_circuit[10] != "-":
                 sql_update_query = """Update circuit set isp_contact_tel = %s where circuit_id = %s"""
                 cursor.execute(sql_update_query, (str(data_update_circuit[10]), str(data_update_circuit[0])))
                 connection.commit()
+                msg_successful.append(data_update_circuit[10])
         except (Exception) as error:
             error = "isp_contact_tel",data_update_circuit[0],str(error)
-            print(error)
+            msg_error.append(error)
+
+    if len(msg_successful) != 0:
+        msg = "successful update "+data[0][0]+" "+str(msg_successful)
+        save_log(msg)
+    if len(msg_error) != 0:
+        msg = "error update "+data[0][0]+" "+str(msg_error)
+        save_log(msg)
+    
+    cursor.close()
+    connection.close()
+
+
+def interface_table_update_edit(data):
+    #recheck
+    connection = connect()
+    cursor = connection.cursor()
+    msg_successful = []
+    msg_error = []
+    for data_update_interface in data:
+        try:
+            if data_update_interface[1] != "-":
+                sql_update_query = """Update interface set interface_id = %s where interface_id = %s"""
+                cursor.execute(sql_update_query, (str(data_update_interface[1]), str(data_update_interface[0])))
+                connection.commit()
+                msg_successful.append(data_update_interface[1])
+        except (Exception) as error:
+            error = "equipment_brand",data_update_interface[0],str(error)
+            msg_error.append(error)
+        try:
+            if data_update_interface[2] != "-":
+                sql_update_query = """Update interface set circuit_id = %s where interface_id = %s"""
+                cursor.execute(sql_update_query, (str(data_update_interface[2]), str(data_update_interface[0])))
+                connection.commit()
+                msg_successful.append(data_update_interface[2])
+        except (Exception) as error:
+            error = "equipment_brand",data_update_interface[0],str(error)
+            msg_error.append(error)
+        try:
+            if data_update_interface[3] != "-":
+                sql_update_query = """Update interface set equipment_brand = %s where interface_id = %s"""
+                cursor.execute(sql_update_query, (str(data_update_interface[3]), str(data_update_interface[0])))
+                connection.commit()
+                msg_successful.append(data_update_interface[3])
+        except (Exception) as error:
+            error = "equipment_brand",data_update_interface[0],str(error)
+            msg_error.append(error)
+        try:
+            if data_update_interface[4] != "-":
+                sql_update_query = """Update interface set equipment_model = %s where interface_id = %s"""
+                cursor.execute(sql_update_query, (str(data_update_interface[4]), str(data_update_interface[0])))
+                connection.commit()
+                msg_successful.append(data_update_interface[4])
+        except (Exception) as error:
+            error = "equipment_model",data_update_interface[0],str(error)
+            msg_error.append(error)
+        try:
+            if data_update_interface[5] != "-":
+                sql_update_query = """Update interface set physical_interface = %s where interface_id = %s"""
+                cursor.execute(sql_update_query, (str(data_update_interface[5]), str(data_update_interface[0])))
+                connection.commit()
+                msg_successful.append(data_update_interface[5])
+        except (Exception) as error:
+            error = "physical_interface",data_update_interface[0],str(error)
+            msg_error.append(error)
+        try:
+            if data_update_interface[6] != "-":
+                sql_update_query = """Update interface set vlan_id = %s where interface_id = %s"""
+                cursor.execute(sql_update_query, (str(data_update_interface[6]), str(data_update_interface[0])))
+                connection.commit()
+                msg_successful.append(data_update_interface[6])
+        except (Exception) as error:
+            error = "vlan_id",data_update_interface[0],str(error)
+            msg_error.append(error)
+        try:
+            if data_update_interface[7] != "-":
+                sql_update_query = """Update interface set tunnel_interface_name = %s where interface_id = %s"""
+                cursor.execute(sql_update_query, (str(data_update_interface[7]), str(data_update_interface[0])))
+                connection.commit()
+                msg_successful.append(data_update_interface[7])
+        except (Exception) as error:
+            error = "tunnel_interface_name",data_update_interface[0],str(error)
+            msg_error.append(error)
+    if len(msg_successful) != 0:
+        msg = "successful update "+data[0][0]+" "+str(msg_successful)
+        save_log(msg)
+    if len(msg_error) != 0:
+        msg = "error update "+data[0][0]+" "+str(msg_error)
+        save_log(msg)
+
     cursor.close()
     connection.close()
 
@@ -2778,9 +2945,7 @@ def ajax_edite():
     if request.method == 'POST':
         global equipment,site,circuit,interface,project,contrat
         msg = request.form['msg']
-        
         res = ast.literal_eval(msg)
-
         if session['delete_table_name'] == 'Project':
             return jsonify({'htmledit_project': render_template('edit_project.html',msg=res,columns = session['columns_delete'])})
         elif session['delete_table_name'] == 'Contract':
@@ -2791,8 +2956,10 @@ def ajax_edite():
             return jsonify({'htmledit_equipment': render_template('edit_equipment.html',msg=res,columns = session['columns_delete'])})
         elif session['delete_table_name'] == 'Circuit':
             return jsonify({'htmledit_circuit': render_template('edit_circuit.html',msg=res,columns = session['columns_delete'])})
+        elif session['delete_table_name'] == 'Interface':
+            return jsonify({'htmledit_interface': render_template('edit_interface.html',msg=res,columns = session['columns_delete'])})
 
-        return jsonify({'htmldelete_pop': render_template('delete_pop.html',msg=res)})
+       
 
 @app.route("/edit_project_page",methods=["POST","GET"])
 def edit_project_page():
@@ -2890,6 +3057,23 @@ def edit_circuit_page():
         data = [inputdata]
         #print(data)
         circuit_table_update_edit(data)
+        global_data()
+        tablename = session['delete_table_name']
+        data_display = delete_table()
+        data_option = delete_search_option(tablename)
+    return render_template('delete_form.html', columns=session['columns_delete'] ,tablename = tablename,data_display = data_display,data_option = data_option,username=session['username'])
+
+@app.route("/edit_interface_page",methods=["POST","GET"])
+def edit_interface_page():
+    if request.method == 'POST':
+        inputdata = [request.form['pk'],request.form['circuit_id'],request.form['e_serial'],request.form['e_brand'],
+        request.form['e_model'],request.form['physical_interface'],request.form['vlan_id'],request.form['tunnel_interface_name']]
+        for i in range(len(inputdata)):
+            if inputdata[i] == "":
+                inputdata[i] = "-"
+        # print(inputdata)
+        data = [inputdata]
+        interface_table_update_edit(data)
         global_data()
         tablename = session['delete_table_name']
         data_display = delete_table()
