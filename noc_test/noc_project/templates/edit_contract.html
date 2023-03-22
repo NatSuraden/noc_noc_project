@@ -1,30 +1,33 @@
 <form action="{{ url_for('edit_contract_page') }}" method="post">
-    <table>
+    <table class="table">
         <tr>
-            <td>{{columns[0]}} : </td>
+            <td>Contract ID : </td>
             <td>{{ msg[0] }}</td>
         </tr>
         <tr>
-            <td>{{columns[1]}} : </td>
-            <td><input type="text" name="project_name" placeholder= "{{ msg[1] }}" id="project_name"></td>
+            <td>Project Name : </td>
+            <td><input class="inputbox2" type="text" name="project_name" placeholder= "{{ msg[1] }}" id="project_name"></td>
         </tr>
         <tr>
-            <td>{{columns[2]}} : </td>
-            <td><input type="text" name="role" placeholder= "{{ msg[2] }}" id="role"></td>
+            <td>Role : </td>
+            <td><input class="inputbox2" type="text" name="role" placeholder= "{{ msg[2] }}" id="role"></td>
         </tr>
         <tr>
-            <td>{{columns[3]}} : </td>
-            <td><input type="text" name="name" placeholder= "{{ msg[3] }}" id="name"></td>
+            <td>Name : </td>
+            <td><input class="inputbox2" type="text" name="name" placeholder= "{{ msg[3] }}" id="name"></td>
         </tr>
         <tr>
-            <td>{{columns[4]}} : </td>
-            <td><input type="text" name="tel" placeholder= "{{ msg[4] }}" id="tel"></td>
+            <td>Tel : </td>
+            <td><input class="inputbox2" type="text" name="tel" placeholder= "{{ msg[4] }}" id="tel"></td>
         </tr>
         <tr>
-            <td>{{columns[5]}} : </td>
-            <td><input type="text" name="additional_detail" placeholder= "{{ msg[5] }}" id="additional_detail"></td>
+            <td>Additional Detail : </td>
+            <td><textarea rows="4"  cols="50" type="text" name="additional_detail" placeholder="{{ msg[5] }}" id="additional_detail"></textarea></td>
         </tr>
         </tr>
     </table>
-    <button type="submit" value= "{{ msg[0] }}" name="pk">Submit</button>
+    <div class="modal-footer">
+        <button type="Submit" class="btn btn-primary"  value= "{{ msg[0] }}" name="pk">Submit</button>
+        <button type="Button" class="btn btn-primary"  data-dismiss="modal">Close</button>
+    </div>
     </form>

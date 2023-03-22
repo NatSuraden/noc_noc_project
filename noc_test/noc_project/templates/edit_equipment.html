@@ -1,53 +1,56 @@
 <form action="{{ url_for('edit_equipment_page') }}" method="post">
-    <table>
+    <table class="table">
         <tr>
-            <td>{{columns[0]}} : </td>
+            <td>Serial Number : </td>
             <td>{{ msg[0] }}</td>
         </tr>
         <tr>
-            <td>{{columns[1]}} : </td>
-            <td><input type="text" name="project_name" placeholder= "{{ msg[1] }}" id="project_name"></td>
+            <td>Project Name : </td>
+            <td><input class="inputbox2" type="text" name="project_name" placeholder= "{{ msg[1] }}" id="project_name"></td>
         </tr>
         <tr>
-            <td>{{columns[2]}} : </td>
-            <td><input type="text" name="site_name" placeholder= "{{ msg[2] }}" id="site_name"></td>
+            <td>Site Name : </td>
+            <td><input class="inputbox2" type="text" name="site_name" placeholder= "{{ msg[2] }}" id="site_name"></td>
         </tr>
         <tr>
-            <td>{{columns[3]}} : </td>
-            <td><input type="text" name="brand" placeholder= "{{ msg[3] }}" id="brand"></td>
+            <td>Brand : </td>
+            <td><input class="inputbox2" type="text" name="brand" placeholder= "{{ msg[3] }}" id="brand"></td>
         </tr>
         <tr>
-            <td>{{columns[4]}} : </td>
-            <td><input type="text" name="model" placeholder= "{{ msg[4] }}" id="model"></td>
+            <td>Model : </td>
+            <td><input class="inputbox2" type="text" name="model" placeholder= "{{ msg[4] }}" id="model"></td>
         </tr>
         <tr>
-            <td>{{columns[5]}} : </td>
-            <td><input type="text" name="disty_name" placeholder= "{{ msg[5] }}" id="disty_name"></td>
+            <td>Disty Name : </td>
+            <td><input class="inputbox2" type="text" name="disty_name" placeholder= "{{ msg[5] }}" id="disty_name"></td>
         </tr>
         <tr>
-            <td>{{columns[6]}} : </td>
-            <td><input type="text" name="disty_contact" placeholder= "{{ msg[6] }}" id="disty_contact"></td>
+            <td>Disty Contact : </td>
+            <td><input class="inputbox2" type="text" name="disty_contact" placeholder= "{{ msg[6] }}" id="disty_contact"></td>
         </tr>
         <tr>
-            <td>{{columns[7]}} : </td>
-            <td><input type="text" name="open_case_contact" placeholder= "{{ msg[7] }}" id="open_case_contact"></td>
+            <td>Open case Contact : </td>
+            <td><input class="inputbox2" type="text" name="open_case_contact" placeholder= "{{ msg[7] }}" id="open_case_contact"></td>
         </tr>
         <tr>
-            <td>{{columns[8]}} : </td>
-            <td>{{ msg[8] }} <input type="text" name="s_o_w" placeholder= "{{ msg[8] }}" id="s_o_w"></td>
+            <td>SOW : </td>
+            <td><input class="inputbox2" type="text" name="s_o_w" placeholder= "{{ msg[8] }}" id="s_o_w"></td>
         </tr>
         <tr>
-            <td>{{columns[9]}} : </td>
-            <td>{{ msg[9] }} <input type="text" name="e_o_w" placeholder= "{{ msg[9] }}" id="e_o_w"></td>
+            <td>EOW : </td>
+            <td><input class="inputbox2" type="text" name="e_o_w" placeholder= "{{ msg[9] }}" id="e_o_w"></td>
         </tr>
         <tr>
-            <td>{{columns[10]}} : </td>
-            <td><input type="text" name="ha_status" placeholder= "{{ msg[10] }}" id="ha_status"></td>
+            <td>HA Status : </td>
+            <td><input class="inputbox2" type="text" name="ha_status" placeholder= "{{ msg[10] }}" id="ha_status"></td>
         </tr>
         <tr>
-            <td>{{columns[11]}} : </td>
-            <td><input type="text" name="ha" placeholder= "{{ msg[11] }}" id="ha"></td>
+            <td>HA : </td>
+            <td><input class="inputbox2" type="text" name="ha" placeholder= "{{ msg[11] }}" id="ha"></td>
         </tr>
     </table>
-    <button type="submit" value= "{{ msg[0] }}" name="pk">Submit</button>
+    <div class="modal-footer">
+        <button type="Submit" class="btn btn-primary"  value= "{{ msg[0] }}" name="pk">Submit</button>
+        <button type="Button" class="btn btn-primary"  data-dismiss="modal">Close</button>
+    </div>
     </form>

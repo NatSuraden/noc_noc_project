@@ -1,49 +1,52 @@
 <form action="{{ url_for('edit_circuit_page') }}" method="post">
-    <table>
+    <table class="table">
         <tr>
-            <td>{{columns[0]}} : </td>
+            <td>Circuit ID : </td>
             <td>{{ msg[0] }}</td>
         </tr>
         <tr>
-            <td>{{columns[1]}} : </td>
-            <td><input type="text" name="equipment_ref" placeholder= "{{ msg[1] }}" id="equipment_ref"></td>
+            <td>Equipment Ref : </td>
+            <td><input class="inputbox2" type="text" name="equipment_ref" placeholder= "{{ msg[1] }}" id="equipment_ref"></td>
         </tr>
         <tr>
-            <td>{{columns[2]}} : </td>
-            <td><input type="text" name="ip_address_pe" placeholder= "{{ msg[2] }}" id="ip_address_pe"></td>
+            <td>IP address pe : </td>
+            <td><input class="inputbox2" type="text" name="ip_address_pe" placeholder= "{{ msg[2] }}" id="ip_address_pe"></td>
         </tr>
         <tr>
-            <td>{{columns[3]}} : </td>
-            <td><input type="text" name="ip_address_ce" placeholder= "{{ msg[3] }}" id="ip_address_ce"></td>
+            <td>IP address ce : </td>
+            <td><input class="inputbox2" type="text" name="ip_address_ce" placeholder= "{{ msg[3] }}" id="ip_address_ce"></td>
         </tr>
         <tr>
-            <td>{{columns[4]}} : </td>
-            <td><input type="text" name="subnet" placeholder= "{{ msg[4] }}" id="subnet"></td>
+            <td>Subnet : </td>
+            <td><input class="inputbox2" type="text" name="subnet" placeholder= "{{ msg[4] }}" id="subnet"></td>
         </tr>
         <tr>
-            <td>{{columns[5]}} : </td>
-            <td><input type="text" name="loopback" placeholder= "{{ msg[5] }}" id="loopback"></td>
+            <td>Loopback : </td>
+            <td><input class="inputbox2" type="text" name="loopback" placeholder= "{{ msg[5] }}" id="loopback"></td>
         </tr>
         <tr>
-            <td>{{columns[6]}} : </td>
-            <td><input type="text" name="circuit_type" placeholder= "{{ msg[6] }}" id="circuit_type"></td>
+            <td>Circuit Type : </td>
+            <td><input class="inputbox2" type="text" name="circuit_type" placeholder= "{{ msg[6] }}" id="circuit_type"></td>
         </tr>
         <tr>
-            <td>{{columns[7]}} : </td>
-            <td><input type="text" name="link_number" placeholder= "{{ msg[7] }}" id="link_number"></td>
+            <td>Link Number : </td>
+            <td><input class="inputbox2" type="text" name="link_number" placeholder= "{{ msg[7] }}" id="link_number"></td>
         </tr>
         <tr>
-            <td>{{columns[8]}} : </td>
-            <td><input type="text" name="original_isp" placeholder= "{{ msg[8] }}" id="original_isp"></td>
+            <td>Original ISP : </td>
+            <td><input class="inputbox2" type="text" name="original_isp" placeholder= "{{ msg[8] }}" id="original_isp"></td>
         </tr>
         <tr>
-            <td>{{columns[9]}} : </td>
-            <td><input type="text" name="owner_isp" placeholder= "{{ msg[9] }}" id="owner_isp"></td>
+            <td>Owner ISP : </td>
+            <td><input class="inputbox2" type="text" name="owner_isp" placeholder= "{{ msg[9] }}" id="owner_isp"></td>
         </tr>
         <tr>
-            <td>{{columns[10]}} : </td>
-            <td><input type="text" name="isp_contact_tel" placeholder= "{{ msg[10] }}" id="isp_contact_tel"></td>
+            <td>ISP Contact Tel : </td>
+            <td><input class="inputbox2" type="text" name="isp_contact_tel" placeholder= "{{ msg[10] }}" id="isp_contact_tel"></td>
         </tr>
     </table>
-    <button type="submit" value= "{{ msg[0] }}" name="pk">Submit</button>
+    <div class="modal-footer">
+    <button type="Submit" class="btn btn-primary"  value= "{{ msg[0] }}" name="pk">Submit</button>
+    <button type="Button" class="btn btn-primary"  data-dismiss="modal">Close</button>
+    </div>
     </form>

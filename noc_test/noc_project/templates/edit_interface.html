@@ -1,37 +1,40 @@
 <form action="{{ url_for('edit_interface_page') }}" method="post">
-    <table>
+    <table class="table">
         <tr>
-            <td>{{columns[0]}} : </td>
+            <td>Interface ID : </td>
             <td>{{ msg[0] }}</td>
         </tr>
         <tr>
-            <td>{{columns[1]}} : </td>
-            <td><input type="text" name="circuit_id" placeholder= "{{ msg[1] }}" id="circuit_id"></td>
+            <td>Circuit ID : </td>
+            <td><input class="inputbox2" type="text" name="circuit_id" placeholder= "{{ msg[1] }}" id="circuit_id"></td>
         </tr>
         <tr>
-            <td>{{columns[2]}} : </td>
-            <td><input type="text" name="e_serial" placeholder= "{{ msg[2] }}" id="e_serial"></td>
+            <td>Equipment Serial : </td>
+            <td><input class="inputbox2" type="text" name="e_serial" placeholder= "{{ msg[2] }}" id="e_serial"></td>
         </tr>
         <tr>
-            <td>{{columns[3]}} : </td>
-            <td><input type="text" name="e_brand" placeholder= "{{ msg[3] }}" id="e_brand"></td>
+            <td>Equipment Brand: </td>
+            <td><input class="inputbox2" type="text" name="e_brand" placeholder= "{{ msg[3] }}" id="e_brand"></td>
         </tr>
         <tr>
-            <td>{{columns[4]}} : </td>
-            <td><input type="text" name="e_model" placeholder= "{{ msg[4] }}" id="e_model"></td>
+            <td>Equipment Model : </td>
+            <td><input class="inputbox2" type="text" name="e_model" placeholder= "{{ msg[4] }}" id="e_model"></td>
         </tr>
         <tr>
-            <td>{{columns[5]}} : </td>
-            <td><input type="text" name="physical_interface" placeholder= "{{ msg[5] }}" id="physical_interface"></td>
+            <td>Physiccal Interface : </td>
+            <td><input class="inputbox2" type="text" name="physical_interface" placeholder= "{{ msg[5] }}" id="physical_interface"></td>
         </tr>
         <tr>
-            <td>{{columns[6]}} : </td>
-            <td><input type="text" name="vlan_id" placeholder= "{{ msg[6] }}" id="vlan_id"></td>
+            <td>Vlan ID : </td>
+            <td><input class="inputbox2" type="text" name="vlan_id" placeholder= "{{ msg[6] }}" id="vlan_id"></td>
         </tr>
         <tr>
-            <td>{{columns[7]}} : </td>
-            <td><input type="text" name="tunnel_interface_name" placeholder= "{{ msg[7] }}" id="tunnel_interface_name"></td>
+            <td>Tunnel Interface Name : </td>
+            <td><textarea rows="4"  cols="30" type="text" name="tunnel_interface_name" placeholder="{{ msg[7] }}" id="tunnel_interface_name"></textarea></td>
         </tr>
     </table>
-    <button type="submit" value= "{{ msg[0] }}" name="pk">Submit</button>
+    <div class="modal-footer">
+        <button type="Submit" class="btn btn-primary"  value= "{{ msg[0] }}" name="pk">Submit</button>
+        <button type="Button" class="btn btn-primary"  data-dismiss="modal">Close</button>
+    </div>
     </form>
