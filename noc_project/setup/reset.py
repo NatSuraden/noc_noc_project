@@ -15,7 +15,6 @@ def connect():
     connection = psycopg2.connect(user="postgres",password="pplus1234",host="127.0.0.1",port="5432",database="python2565")
     return connection
 try:
-    #connection = psycopg2.connect(user="postgres",password="1234",host="127.0.0.1",port="5432",database="postgres")
     connection = connect()
     table = ['accounts','circuit','contract','equipment','event_logs','interface','project','site']
     cursor = connection.cursor()
@@ -24,11 +23,6 @@ try:
         sql = 'DROP TABLE '+i
         cursor.execute(sql)
         connection.commit()
-    # sql = '''DROP table IF EXISTS accounts '''
-  
-    
-    # cursor.execute(sql)
-    # connection.commit()
 except (Exception, psycopg2.DatabaseError) as error: 
         print(error) 
 try:
@@ -194,8 +188,8 @@ try:
     # cursor.execute(postgres_insert_query,(equipment_ref,circuit_id,ip_address_pe,ip_address_ce,subnet,loopback,circuit_type,
     # link_number,original_isp,owner_isp,isp_contact_tel))
     try:
-        data = [["DC-TIDC-TT","FG6H0ETB20906010","Fortinet","FG-600E","SiS Distribution (Thailand) PCL.","074-559082-4","support_pack@sisthai.com",
-            "16/02/2001","16/02/2002","Yes","MAIN","Makro"]]
+        data = [["Demo_data","FG6H0ETB20906010_Demo","Fortinet","FG-600E","SiS Distribution (Thailand) PCL.","074-559082-4","support_pack@sisthai.com",
+            "16/02/2001","16/02/2002","Yes","MAIN","Demo_project"]]
         for i in data:
                 cursor = connection.cursor()
                 cursor.execute('SELECT * FROM equipment')
@@ -228,7 +222,7 @@ try:
         print(error,"equipment")
 
     try:
-        data = [["Makro","SO200162","01/10/2022","01/10/2023","01/10/2022","01/10/2023","IP : 58.97.106.134\nPort : 10443\nUsername : pplus\nPassword : pplus@123",
+        data = [["Demo_project","SO200162_Demo","01/10/2022","01/10/2023","01/10/2022","01/10/2023","IP : 58.97.106.134\nPort : 10443\nUsername : pplus\nPassword : pplus@123",
         "Fortimanager IP : 10.x.x.x","ผู้ติดต่อหลัก : XXXXXXXXXX","Suradech _Test"]]
         for i in data:
                 if i[2] != "-":
@@ -272,7 +266,7 @@ try:
         print(error,"project")
 
     try:
-        data = [["Officemate","Sale PPLUS","Suchat Onjai","088-8888888","เก็บข้อมูล detail ขนาดใหญ่ เว้นบรรทัดได้ "]]
+        data = [["Demo_data","Sale PPLUS","Suchat Onjai","088-8888888","เก็บข้อมูล detail ขนาดใหญ่ เว้นบรรทัดได้ "]]
         for i in data:
                 cursor.execute('SELECT * FROM contract WHERE project_name = %s AND role = %s AND name = %s',(i[0],i[1],i[2],))
                 data_in_base = cursor.fetchall()
@@ -286,7 +280,7 @@ try:
     except Exception as error:
         print(error,"contract")
     try:
-        data = [["SuperTrader","SuperTrader","394 ชั้น4 ตึกธนาคารกรุงเทพ , ตรงข้ามสยามพารากอน, ปทุมวัน, เขตปทุมวัน กรุงเทพมหานคร 10330","088-8888888","เก็บข้อมูล detail ขนาดใหญ่ เว้นบรรทัดได้ ",
+        data = [["Demo_project","Demo_data","394 ชั้น4 ตึกธนาคารกรุงเทพ , ตรงข้ามสยามพารากอน, ปทุมวัน, เขตปทุมวัน กรุงเทพมหานคร 10330","088-8888888","เก็บข้อมูล detail ขนาดใหญ่ เว้นบรรทัดได้ ",
         "SPTR","-","-","HQ"]]
         for i in data:
             cursor.execute('SELECT * FROM site WHERE project_name = %s AND site_name = %s AND location = %s',(i[0],i[1],i[2],))
@@ -302,7 +296,7 @@ try:
         print(error,"site")
 
     try:
-        data = [["9610663051","FG200FT922929184","Fortinet","FG-200F","Wan3","-","-"]]
+        data = [["9610663051_Demo","FG6H0ETB20906010_Demo","Fortinet","FG-200F","Wan3","-","-"]]
         for i in data:
             cursor.execute('SELECT * FROM interface WHERE circuit_id = %s AND equipment_serial = %s AND equipment_brand = %s',(str(i[0]),str(i[1]),str(i[2]),))
             data_in_base = cursor.fetchall()
