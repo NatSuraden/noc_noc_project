@@ -366,37 +366,3 @@
     <!-- Custom scripts for all pages-->
     <script src="../static/js/sb-admin-2.js"></script>
 </body>
-<script type="text/javascript">
-	$(document).ready(function(){
-	  $('.return').click(function(){
-		var msg = $(this).data('id');
-		$.ajax({
-		  url: '/ajaxfile_delete',
-		  type: 'post',
-		  data: {msg:msg},
-		  success: function(data){
-			$('.modal-body').html(data);
-			$('.modal-body').append(data.htmldelete_pop);
-			$('#empModal').modal('show');
-		  }
-		});
-	  });
-	});
-  </script>
-    <div class="modal fade" id="empModal" role="dialog">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Delete</h4>
-                  <button type="button" class="close" data-dismiss="modal">×</button>
-                </div>
-                <div class="modal-body"></div>
-                <div class="modal-footer">
-                    <form action="{{ url_for('delete_pop_get') }}" method="post">
-                    <button type="submit" class="btn btn-secondary"value="submit_done" name="test">Submit</button>
-                    <button type="button" class="btn btn-primary"  data-dismiss="modal">Close</button></form>
-                </div>
-            </div>
-        </div>
-    </div>
-</html>
