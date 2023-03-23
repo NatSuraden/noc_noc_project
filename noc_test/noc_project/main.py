@@ -2088,7 +2088,7 @@ def register_user():
                 save_log(event)
                 return render_template('home.html',text='register successfully')
         return render_template('register_user.html')
-    return redirect(url_for('login'))
+    return render_template('home.html',text='role != admin')
 
 @app.route('/noc_project/user_table', methods=['GET', 'POST'])
 def user_table():
@@ -2321,7 +2321,7 @@ def delete_page():
             data_option = delete_search_option(tablename)
         global_data()
         return render_template('delete_form.html', columns=session['columns_delete'] ,tablename = tablename,data_display = data_display,data_option = data_option,username=session['username'])
-    return redirect(url_for('delete_page'))
+    return render_template('home.html',text='role != admin')
 
 @app.route('/delete_pop_get', methods=['GET', 'POST'])
 def delete_pop_get():
