@@ -2153,10 +2153,6 @@ def upload_file():
 @app.route("/ajaxfile_delete",methods=["POST","GET"])
 def ajaxfile_delete():
     if request.method == 'POST':
-<<<<<<< HEAD
-=======
-        global equipment,site,circuit,interface,project,contrat,useracc
->>>>>>> 7df9ed1dfd8d101c09357d4e6cda2db4216236ae
         msg = request.form['msg']
         res = ast.literal_eval(msg)
      
@@ -2328,11 +2324,8 @@ def delete_page():
                 resetdata()
                 return render_template('home.html', text="Reset data by admin!" ,data = data ,username=session['username'])
             if request.form['PK'] == "/reset_user" and 'admin' in session['role']:
-<<<<<<< HEAD
                 data = []
-=======
                 data=[]
->>>>>>> 7df9ed1dfd8d101c09357d4e6cda2db4216236ae
                 resetuser()
                 return render_template('home.html', text="Reset user by admin!" ,data = data ,username=session['username'])
             if 'delete_table_name' not in session:
@@ -3054,7 +3047,7 @@ def ajax_edite():
             return jsonify({'htmledit_circuit': render_template('edit_circuit.html',msg=res,columns = session['columns_delete'])})
         elif session['delete_table_name'] == 'Interface':
             return jsonify({'htmledit_interface': render_template('edit_interface.html',msg=res,columns = session['columns_delete'])})
-<<<<<<< HEAD
+
         
 @app.route("/ajax_edit_user",methods=["POST","GET"])
 def ajax_edite_user():
@@ -3064,12 +3057,6 @@ def ajax_edite_user():
         res = ast.literal_eval(msg)
         column = ['user_id','username','password','role']
         return jsonify({'htmledit_user': render_template('edit_user.html',msg=res,columns = column)})
-=======
-        elif session['delete_table_name'] == 'User':
-            return jsonify({'htmledit_User': render_template('edit_User.html',msg=res,columns = session['columns_delete'])})
-
->>>>>>> 7df9ed1dfd8d101c09357d4e6cda2db4216236ae
-       
 
 @app.route("/edit_project_page",methods=["POST","GET"])
 def edit_project_page():
@@ -3095,21 +3082,6 @@ def edit_project_page():
             print('edit_project date time error')
         data = [inputdata]
         project_table_update_edit(data)
-        global_data()
-        tablename = session['delete_table_name']
-        data_display = delete_table()
-        data_option = delete_search_option(tablename)
-    return render_template('delete_form.html', columns=session['columns_delete'] ,tablename = tablename,data_display = data_display,data_option = data_option,username=session['username'])
-
-@app.route("/edit_User_page",methods=["POST","GET"])
-def edit_user_page():
-    if request.method == 'POST':
-        inputdata = [request.form['pk'],request.form['username'],request.form['password'],request.form['role']]
-        for i in range(len(inputdata)):
-            if inputdata[i] == "":
-                inputdata[i] = "-"
-        data = [inputdata]
-        contract_table_update_edit(data)
         global_data()
         tablename = session['delete_table_name']
         data_display = delete_table()
@@ -3215,7 +3187,8 @@ def edit_user_page():
                 inputdata[i] = "-"
         # print(inputdata)
         data = [inputdata]
-        user_table_update_edit(data)
+        if data[0][0] != "1":
+            user_table_update_edit(data)
     return redirect(url_for('user_table'))
 
 def replace_space(data):
