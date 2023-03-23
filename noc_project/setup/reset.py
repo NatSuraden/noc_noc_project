@@ -5,7 +5,7 @@ from datetime import datetime
 import datetime
 from cryptography.fernet import Fernet
 username = "admin"
-password = "1234"
+password = "pplus@123"
 role = "admin" 
 # key = Fernet.generate_key()
 # fernet = Fernet(key)
