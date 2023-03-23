@@ -8,7 +8,7 @@ def connect():
     return connection
 
 username = "admin"
-password = "1234"
+password = "pplus@123"
 role = "admin" 
 
 def resetdata():
