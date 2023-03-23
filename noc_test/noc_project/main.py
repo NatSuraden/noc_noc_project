@@ -1949,11 +1949,11 @@ def home():
             if len(data) == 0:
                 msg = "Not Found"
             else:
-                msg = "We Found"
+                msg = "Search Found "
                 event = 'normal search '+search_data
                 save_log(event)
             return render_template('home.html', text=msg ,data = data ,username=session['username'])
-        return render_template('home.html', text='Hello '+str(session['role']),data = data,username=session['username'])
+        return render_template('home.html', text='Hello '+str(session['role']) +" "+ str(session['username']),data = data, username=session['username'])
     return redirect(url_for('login'))
 
 @app.route('/noc_project/advance_search', methods=['GET', 'POST'])
@@ -2256,7 +2256,7 @@ def global_data():
 
 @app.route('/delete_page', methods=['GET', 'POST'])
 def delete_page():
-    if 'loggedin' in session and session['role'] == 'admin':
+    if 'admin' in session['role'] or 'super_user' in session['role']:
         # session['delete_table_name'] = 'Project'
         if request.method == 'POST' and 'table_name' in request.form:
             tablename = request.form['table_name']
