@@ -57,16 +57,16 @@
                     <span>Home</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('user_table') }}">
-                    <!-- <i class="bi bi-activity"></i> -->
-                    <i class="bi bi-people"></i>
-                    <span>User List</span></a>
-            </li>
-            <li class="nav-item">
                 <a class="nav-link" href="{{ url_for('log') }}">
                     <!-- <i class="bi bi-activity"></i> -->
                     <i class="bi bi-list-columns-reverse"></i>
                     <span>Activity Log</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('user_table') }}">
+                    <!-- <i class="bi bi-activity"></i> -->
+                    <i class="bi bi-people"></i>
+                    <span>User List</span></a>
             </li>
 
             <!-- Divider -->
@@ -206,7 +206,7 @@
                                                 <div class="inputbox">IP Loopback : <input class="form-control bg-light" type="text" list="ip_lb" name="ip_loopback"/> </div>
                                                 <div class="inputbox">Owner ISP : <input class="form-control bg-light" type="text" list="o_i" name="owner_isp"/></div>
                                                 <br>
-                                                <div class="subbox"><input class="form-control bg-light" type = "submit"/></div></form>
+                                                <div class="subbox "><input class="form-control btn-primary" type = "submit"/></div></form>
                                                 </div>
                                             </div>
                                         </div>

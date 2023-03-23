@@ -57,16 +57,16 @@
                     <span>Home</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('user_table') }}">
-                    <!-- <i class="bi bi-activity"></i> -->
-                    <i class="bi bi-people"></i>
-                    <span>User List</span></a>
-            </li>
-            <li class="nav-item">
                 <a class="nav-link" href="{{ url_for('log') }}">
                     <!-- <i class="bi bi-activity"></i> -->
                     <i class="bi bi-list-columns-reverse"></i>
                     <span>Activity Log</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('user_table') }}">
+                    <!-- <i class="bi bi-activity"></i> -->
+                    <i class="bi bi-people"></i>
+                    <span>User List</span></a>
             </li>
 
             <!-- Divider -->
@@ -181,7 +181,7 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>Username</th>
+                                <th>Email</th>
                                 <th>Password</th>
                                 <th>Role</th>
                                 <th>Action</th>
