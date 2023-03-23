@@ -175,6 +175,7 @@
                                 <option value="Equipment">Equipment</option>
                                 <option value="Circuit">Circuit</option>
                                 <option value="Interface">Interface</option>
+                                <option value="User">User</option>
                             </select>
                         </form>
                         <form action="{{ url_for('delete_page') }}" method="POST">
@@ -361,6 +362,7 @@
             $('.modal-body').append(data.htmledit_site);
             $('.modal-body').append(data.htmledit_equipment);
             $('.modal-body').append(data.htmledit_circuit);
+            $('.modal-body').append(data.htmledit_User);
             $('.modal-body').append(data.htmledit_interface);
 			$('#edit_page').modal('show');
 		  }

@@ -102,6 +102,7 @@ def check_test():
                         interface_table_update(interface_update)
                     if len(interface_new) != 0:
                         interface_table_new_data(interface_new)
+                        
                         #print(len(interface_new))
                     connection = connect()
                     cursor = connection.cursor()
@@ -1942,12 +1943,6 @@ def home():
         data = []
         if request.method == "POST" and 'data_search' in request.form:
             search_data = request.form['data_search']
-            if search_data == "/reset_data" and 'admin' in session['role']:
-                resetdata()
-                return render_template('home.html', text="Reset data by admin!" ,data = data ,username=session['username'])
-            if search_data == "/reset_user" and 'admin' in session['role']:
-                resetuser()
-                return render_template('home.html', text="Reset user by admin!" ,data = data ,username=session['username'])
             data = search(search_data)
             if len(data) == 0:
                 msg = "Not Found"
@@ -2158,7 +2153,7 @@ def upload_file():
 @app.route("/ajaxfile_delete",methods=["POST","GET"])
 def ajaxfile_delete():
     if request.method == 'POST':
-        global equipment,site,circuit,interface,project,contrat
+        global equipment,site,circuit,interface,project,contrat,useracc
         msg = request.form['msg']
         
         res = ast.literal_eval(msg)
@@ -2170,7 +2165,7 @@ def ajaxfile_delete():
 #@app.route('/delete_table')
 def delete_table():
     data = session['delete_table_name']
-    global equipment,site,circuit,interface,project,contrat
+    global equipment,site,circuit,interface,project,contrat,useracc
     try:
         if data == 'Project':
             project1 = replace_space(project)
@@ -2195,6 +2190,10 @@ def delete_table():
             #site = session['interface']
             interface1 = replace_space(interface)
             return interface1
+        elif data == 'User':
+            #site = session['interface']
+            user1 = replace_space(useracc)
+            return user1
     except:
         data = [["1","2"]]
         return data
@@ -2240,7 +2239,7 @@ def delete_search_option(tablename):
         return data2
 
 def global_data():
-    global equipment,site,circuit,interface,project,contrat
+    global equipment,site,circuit,interface,project,contrat,useracc
     connection = connect()
     cursor = connection.cursor()
     cursor.execute('SELECT * FROM circuit')
@@ -2255,6 +2254,8 @@ def global_data():
     contrat = cursor.fetchall()
     cursor.execute('SELECT * FROM site')
     site = cursor.fetchall()
+    cursor.execute('SELECT * FROM accounts')
+    useracc = cursor.fetchall()
     cursor.close()
     connection.close()
 
@@ -2302,7 +2303,22 @@ def delete_page():
                 session['delete_table_name'] = 'Interface'
                 data_display = delete_table()
                 data_option = delete_search_option(tablename)
+            elif tablename == 'User':
+                columns = ["user_id","username", "password", "role"]
+                session['columns_delete'] = columns
+                session['delete_table_name'] = 'User'
+                data_display = delete_table()
+                data_option = delete_search_option(tablename)
+            
         if request.method == 'POST' and 'PK' in request.form:
+            if request.form['PK'] == "/reset_data" and 'admin' in session['role']:
+                data = []
+                resetdata()
+                return render_template('home.html', text="Reset data by admin!" ,data = data ,username=session['username'])
+            if request.form['PK'] == "/reset_user" and 'admin' in session['role']:
+                data=[]
+                resetuser()
+                return render_template('home.html', text="Reset user by admin!" ,data = data ,username=session['username'])
             if 'delete_table_name' not in session:
                 tablename = 'Project'
             else:
@@ -2962,6 +2978,8 @@ def ajax_edite():
             return jsonify({'htmledit_circuit': render_template('edit_circuit.html',msg=res,columns = session['columns_delete'])})
         elif session['delete_table_name'] == 'Interface':
             return jsonify({'htmledit_interface': render_template('edit_interface.html',msg=res,columns = session['columns_delete'])})
+        elif session['delete_table_name'] == 'User':
+            return jsonify({'htmledit_User': render_template('edit_User.html',msg=res,columns = session['columns_delete'])})
 
        
 
@@ -2989,6 +3007,21 @@ def edit_project_page():
             print('edit_project date time error')
         data = [inputdata]
         project_table_update_edit(data)
+        global_data()
+        tablename = session['delete_table_name']
+        data_display = delete_table()
+        data_option = delete_search_option(tablename)
+    return render_template('delete_form.html', columns=session['columns_delete'] ,tablename = tablename,data_display = data_display,data_option = data_option,username=session['username'])
+
+@app.route("/edit_User_page",methods=["POST","GET"])
+def edit_user_page():
+    if request.method == 'POST':
+        inputdata = [request.form['pk'],request.form['username'],request.form['password'],request.form['role']]
+        for i in range(len(inputdata)):
+            if inputdata[i] == "":
+                inputdata[i] = "-"
+        data = [inputdata]
+        contract_table_update_edit(data)
         global_data()
         tablename = session['delete_table_name']
         data_display = delete_table()
