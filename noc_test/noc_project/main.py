@@ -2102,6 +2102,7 @@ def user_table():
         account = cursor.fetchall()
         columns = ['Username', 'password', 'Role']
         return render_template('user_table.html', columns=columns,data=account,username=session['username'])
+    return render_template('home.html',text='role != admin')
 
 
 @app.route('/noc_project/page_upload', methods = ['GET', 'POST'])
