@@ -2086,7 +2086,7 @@ def register_user():
                 connection.close()
                 event = 'register ' + A_username
                 save_log(event)
-                return render_template('home.html',text='register successfully')
+                return render_template('home.html',text='Register Successfully')
         return render_template('register_user.html')
     return render_template('home.html',text='role != admin')
 
