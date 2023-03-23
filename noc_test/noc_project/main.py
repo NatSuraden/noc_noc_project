@@ -1942,12 +1942,6 @@ def home():
         data = []
         if request.method == "POST" and 'data_search' in request.form:
             search_data = request.form['data_search']
-            if search_data == "/reset_data" and 'admin' in session['role']:
-                resetdata()
-                return render_template('home.html', text="Reset data by admin!" ,data = data ,username=session['username'])
-            if search_data == "/reset_user" and 'admin' in session['role']:
-                resetuser()
-                return render_template('home.html', text="Reset user by admin!" ,data = data ,username=session['username'])
             data = search(search_data)
             if len(data) == 0:
                 msg = "Not Found"
@@ -2158,14 +2152,22 @@ def upload_file():
 @app.route("/ajaxfile_delete",methods=["POST","GET"])
 def ajaxfile_delete():
     if request.method == 'POST':
-        global equipment,site,circuit,interface,project,contrat
         msg = request.form['msg']
-        
         res = ast.literal_eval(msg)
      
         session['delete_pk'] = res[0]
         
-        return jsonify({'htmldelete_pop': render_template('delete_pop.html',msg=res)})
+        return jsonify({'htmldelete_pop': render_template('delete_pop.html',msg=res,tablename = session['delete_table_name'])})
+
+@app.route("/ajaxfile_delete_user",methods=["POST","GET"])
+def ajaxfile_delete_user():
+    if request.method == 'POST':
+        msg = request.form['msg']
+        res = ast.literal_eval(msg)
+     
+        session['delete_pk'] = res[0]
+        
+        return jsonify({'htmldelete_pop': render_template('delete_pop.html',msg=res,tablename = 'accounts')})
 
 #@app.route('/delete_table')
 def delete_table():
@@ -2303,6 +2305,14 @@ def delete_page():
                 data_display = delete_table()
                 data_option = delete_search_option(tablename)
         if request.method == 'POST' and 'PK' in request.form:
+            if request.form['PK'] == "/reset_data" and 'admin' in session['role']:
+                data = []
+                resetdata()
+                return render_template('home.html', text="Reset data by admin!" ,data = data ,username=session['username'])
+            if request.form['PK'] == "/reset_user" and 'admin' in session['role']:
+                data = []
+                resetuser()
+                return render_template('home.html', text="Reset user by admin!" ,data = data ,username=session['username'])
             if 'delete_table_name' not in session:
                 tablename = 'Project'
             else:
@@ -2344,6 +2354,22 @@ def delete_pop_get():
         tablename = session['delete_table_name']
         data_option = delete_search_option(tablename)
         return render_template('delete_form.html', columns=session['columns_delete'] ,tablename = tablename,data_display = data_display ,data_option = data_option,username=session['username'])
+
+@app.route('/delete_pop_get_user', methods=['GET', 'POST'])
+def delete_pop_get_user():
+    try:
+        if request.method == 'POST':
+            submit_request = request.form['test']
+            if submit_request == 'submit_done':
+                if str(session['delete_pk']) != "1":
+                    table = 'accounts'
+                    column = 'user_id'
+                    table_delete(str(session['delete_pk']),table,column)
+                return redirect(url_for('user_table'))
+    except Exception as error:
+        text = 'delete user Error '+error
+        return render_template('home.html',text=text)
+
 def delete_search(PK_name,tablename,columns_delete):
     try:
         connection = connect()
@@ -2873,21 +2899,21 @@ def interface_table_update_edit(data):
     for data_update_interface in data:
         try:
             if data_update_interface[1] != "-":
-                sql_update_query = """Update interface set interface_id = %s where interface_id = %s"""
+                sql_update_query = """Update interface set circuit_id = %s where interface_id = %s"""
                 cursor.execute(sql_update_query, (str(data_update_interface[1]), str(data_update_interface[0])))
                 connection.commit()
                 msg_successful.append(data_update_interface[1])
         except (Exception) as error:
-            error = "equipment_brand",data_update_interface[0],str(error)
+            error = "circuit_id",data_update_interface[0],str(error)
             msg_error.append(error)
         try:
             if data_update_interface[2] != "-":
-                sql_update_query = """Update interface set circuit_id = %s where interface_id = %s"""
+                sql_update_query = """Update interface set equipment_serial = %s where interface_id = %s"""
                 cursor.execute(sql_update_query, (str(data_update_interface[2]), str(data_update_interface[0])))
                 connection.commit()
                 msg_successful.append(data_update_interface[2])
         except (Exception) as error:
-            error = "equipment_brand",data_update_interface[0],str(error)
+            error = "equipment_serial",data_update_interface[0],str(error)
             msg_error.append(error)
         try:
             if data_update_interface[3] != "-":
@@ -2944,6 +2970,50 @@ def interface_table_update_edit(data):
     cursor.close()
     connection.close()
 
+def user_table_update_edit(data):
+    #recheck
+    connection = connect()
+    cursor = connection.cursor()
+    msg_successful = []
+    msg_error = []
+    for data_update_user in data:
+        try:
+            if data_update_user[1] != "-":
+                sql_update_query = """Update accounts set username = %s where user_id = %s"""
+                cursor.execute(sql_update_query, (str(data_update_user[1]), str(data_update_user[0])))
+                connection.commit()
+                msg_successful.append(data_update_user[1])
+        except (Exception) as error:
+            error = "username",data_update_user[0],str(error)
+            msg_error.append(error)
+        try:
+            if data_update_user[2] != "-":
+                sql_update_query = """Update accounts set password = %s where user_id = %s"""
+                cursor.execute(sql_update_query, (str(data_update_user[2]), str(data_update_user[0])))
+                connection.commit()
+                msg_successful.append(data_update_user[2])
+        except (Exception) as error:
+            error = "password",data_update_user[0],str(error)
+            msg_error.append(error)
+        try:
+            if data_update_user[3] != "-":
+                sql_update_query = """Update accounts set role = %s where user_id = %s"""
+                cursor.execute(sql_update_query, (str(data_update_user[3]), str(data_update_user[0])))
+                connection.commit()
+                msg_successful.append(data_update_user[3])
+        except (Exception) as error:
+            error = "role",data_update_user[0],str(error)
+            msg_error.append(error)
+    if len(msg_successful) != 0:
+        msg = "successful update "+data[0][0]+" "+str(msg_successful)
+        save_log(msg)
+    if len(msg_error) != 0:
+        msg = "error update "+data[0][0]+" "+str(msg_error)
+        save_log(msg)
+
+    cursor.close()
+    connection.close()
+
 @app.route("/ajax_edit",methods=["POST","GET"])
 def ajax_edite():
     if request.method == 'POST':
@@ -2962,7 +3032,15 @@ def ajax_edite():
             return jsonify({'htmledit_circuit': render_template('edit_circuit.html',msg=res,columns = session['columns_delete'])})
         elif session['delete_table_name'] == 'Interface':
             return jsonify({'htmledit_interface': render_template('edit_interface.html',msg=res,columns = session['columns_delete'])})
-
+        
+@app.route("/ajax_edit_user",methods=["POST","GET"])
+def ajax_edite_user():
+    if request.method == 'POST':
+        global equipment,site,circuit,interface,project,contrat
+        msg = request.form['msg']
+        res = ast.literal_eval(msg)
+        column = ['user_id','username','password','role']
+        return jsonify({'htmledit_user': render_template('edit_user.html',msg=res,columns = column)})
        
 
 @app.route("/edit_project_page",methods=["POST","GET"])
@@ -3083,6 +3161,19 @@ def edit_interface_page():
         data_display = delete_table()
         data_option = delete_search_option(tablename)
     return render_template('delete_form.html', columns=session['columns_delete'] ,tablename = tablename,data_display = data_display,data_option = data_option,username=session['username'])
+
+@app.route("/edit_user_page",methods=["POST","GET"])
+def edit_user_page():
+    if request.method == 'POST':
+        inputdata = [request.form['pk'],request.form['username'],request.form['password'],
+        request.form['role']]
+        for i in range(len(inputdata)):
+            if inputdata[i] == "":
+                inputdata[i] = "-"
+        # print(inputdata)
+        data = [inputdata]
+        user_table_update_edit(data)
+    return redirect(url_for('user_table'))
 
 def replace_space(data):
     data2 = []
@@ -3419,7 +3510,7 @@ def resetdata():
             print(error,"site")
 
         try:
-            data = [["9610663051","FG200FT922929184_Demo","Fortinet","FG-200F","Wan3","-","-"]]
+            data = [["9610663051_Demo","FG200FT922929184_Demo","Fortinet","FG-200F","Wan3","-","-"]]
             for i in data:
                 cursor.execute('SELECT * FROM interface WHERE circuit_id = %s AND equipment_serial = %s AND equipment_brand = %s',(str(i[0]),str(i[1]),str(i[2]),))
                 data_in_base = cursor.fetchall()
