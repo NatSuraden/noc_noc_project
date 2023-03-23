@@ -14,6 +14,7 @@ role = "admin"
 def connect():
     connection = psycopg2.connect(user="postgres",password="pplus1234",host="127.0.0.1",port="5432",database="python2565")
     return connection
+
 try:
     connection = connect()
     table = ['accounts','circuit','contract','equipment','event_logs','interface','project','site']
@@ -188,7 +189,7 @@ try:
     # cursor.execute(postgres_insert_query,(equipment_ref,circuit_id,ip_address_pe,ip_address_ce,subnet,loopback,circuit_type,
     # link_number,original_isp,owner_isp,isp_contact_tel))
     try:
-        data = [["Demo_data","FG6H0ETB20906010_Demo","Fortinet","FG-600E","SiS Distribution (Thailand) PCL.","074-559082-4","support_pack@sisthai.com",
+        data = [["Demo_data","FG200FT922929184_Demo","Fortinet","FG-600E","SiS Distribution (Thailand) PCL.","074-559082-4","support_pack@sisthai.com",
             "16/02/2001","16/02/2002","Yes","MAIN","Demo_project"]]
         for i in data:
                 cursor = connection.cursor()
@@ -296,7 +297,7 @@ try:
         print(error,"site")
 
     try:
-        data = [["9610663051_Demo","FG6H0ETB20906010_Demo","Fortinet","FG-200F","Wan3","-","-"]]
+        data = [["9610663051","FG200FT922929184_Demo","Fortinet","FG-200F","Wan3","-","-"]]
         for i in data:
             cursor.execute('SELECT * FROM interface WHERE circuit_id = %s AND equipment_serial = %s AND equipment_brand = %s',(str(i[0]),str(i[1]),str(i[2]),))
             data_in_base = cursor.fetchall()
@@ -311,7 +312,7 @@ try:
         print(error,'interface')
 
     try:
-        data = [["FG100FTK20022966","O13944","171.103.24.161","171.103.24.162","255.255.255.252","10.11.220.166","Internet","3","CAT","TRUE","1239*6"]]
+        data = [["FG200FT922929184_Demo","9610663051_Demo","171.103.24.161","171.103.24.162","255.255.255.252","10.11.220.166","Internet","3","CAT","TRUE","1239*6"]]
         for i in data:
                 cursor = connection.cursor()
                 cursor.execute('SELECT * FROM circuit')
