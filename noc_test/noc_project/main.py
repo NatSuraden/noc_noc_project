@@ -2173,7 +2173,7 @@ def ajaxfile_delete_user():
 #@app.route('/delete_table')
 def delete_table():
     data = session['delete_table_name']
-    global equipment,site,circuit,interface,project,contrat,useracc
+    global equipment,site,circuit,interface,project,contrat
     try:
         if data == 'Project':
             project1 = replace_space(project)
@@ -2198,10 +2198,6 @@ def delete_table():
             #site = session['interface']
             interface1 = replace_space(interface)
             return interface1
-        elif data == 'User':
-            #site = session['interface']
-            user1 = replace_space(useracc)
-            return user1
     except:
         data = [["1","2"]]
         return data
@@ -2247,7 +2243,7 @@ def delete_search_option(tablename):
         return data2
 
 def global_data():
-    global equipment,site,circuit,interface,project,contrat,useracc
+    global equipment,site,circuit,interface,project,contrat
     connection = connect()
     cursor = connection.cursor()
     cursor.execute('SELECT * FROM circuit')
@@ -2262,8 +2258,6 @@ def global_data():
     contrat = cursor.fetchall()
     cursor.execute('SELECT * FROM site')
     site = cursor.fetchall()
-    cursor.execute('SELECT * FROM accounts')
-    useracc = cursor.fetchall()
     cursor.close()
     connection.close()
 
@@ -2311,12 +2305,6 @@ def delete_page():
                 session['delete_table_name'] = 'Interface'
                 data_display = delete_table()
                 data_option = delete_search_option(tablename)
-            elif tablename == 'User':
-                columns = ["user_id","username", "password", "role"]
-                session['columns_delete'] = columns
-                session['delete_table_name'] = 'User'
-                data_display = delete_table()
-                data_option = delete_search_option(tablename)
             
         if request.method == 'POST' and 'PK' in request.form:
             if request.form['PK'] == "/reset_data" and 'admin' in session['role']:
@@ -2351,6 +2339,7 @@ def delete_page():
         global_data()
         return render_template('delete_form.html', columns=session['columns_delete'] ,tablename = tablename,data_display = data_display,data_option = data_option,username=session['username'])
     return render_template('home.html',text='role != admin')
+
 
 @app.route('/delete_pop_get', methods=['GET', 'POST'])
 def delete_pop_get():
