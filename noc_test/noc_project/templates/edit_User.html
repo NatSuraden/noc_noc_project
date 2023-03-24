@@ -15,18 +15,17 @@
         <tr>
             <td>Role : </td>
             <td>
-                <select type="role" name ='role' id="role" class="form-control2 form-control-user">
-                <option value="none">Please select</option>
+                <select type="role" name ='role' id="role" class="form-control form-control-user">
+                <option value="none">Defalut Role : {{ msg[3] }}</option>
                 <option value="super_user">Super User</option>
                 <option value="user">User</option>
                 </select>
             </td>
-            <td><input class="inputbox2" type="text" name="role" placeholder= "{{ msg[3] }}" id="role"></td>
         </tr>
         <tr>
     </table>
     <div class="modal-footer">
-        <button type="Submit" class="btn btn-primary"  value= "{{ msg[0] }}" name="pk">Submit</button>
+        <button type="Submit" class="btn btn-secondary"  value= "{{ msg[0] }}" name="pk">Submit</button>
         <button type="Button" class="btn btn-primary"  data-dismiss="modal">Close</button>
     </div>
     </form>
