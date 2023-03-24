@@ -919,6 +919,9 @@ def check_cell():
             if msg[1] == 0:
                 msg = check_data()
                 return jsonify({'htmlcheck_cell': render_template('check_cell.html',msg = msg)})
+            elif msg[1] == "error":
+                msg = msg
+                return jsonify({'htmlin_cell': render_template('in_cell.html',msg = msg[0])})
             else:
                 msg = msg
                 return jsonify({'htmlin_cell': render_template('in_cell.html',msg = msg[0])})
@@ -984,41 +987,48 @@ def duplicateparameter2(name,data):
     return total
 
 def in_xlsx_duplicate():
-    ex_name_sheet = ['Project','Contract','Site','Equipment','Circuit','Interface']
-    msg_list = []
-    count = 0
-    for i in ex_name_sheet:
-        filename = 'data_up_load.xlsx'
-        data = pd.read_excel(os.path.join(app.config['UPLOAD_FOLDER'], filename),sheet_name=i)
-        data = data.replace(np.nan, '-', regex=True)
-        data = data.replace('', '-', regex=True)
-        data = data.replace('NaT', '-', regex=True)
-        data = data.replace('None', '-', regex=True)
-        if i == "Project":
-            msg = duplicateparameter(0,data)
-            msg_list.append(msg[:2])
-            count+= msg[2]
-        elif i == "Contract":
-            msg = duplicateparameter2(i,data)
-            msg_list.append(msg[:2])
-            count+= msg[2]
-        elif i == "Site":
-            msg = duplicateparameter2(i,data)
-            msg_list.append(msg[:2])
-            count+= msg[2]
-        elif i == "Equipment":
-            msg = duplicateparameter(1,data)
-            msg_list.append(msg[:2])
-            count+= msg[2]
-        elif i == "Circuit":
-            msg = duplicateparameter(1,data)
-            msg_list.append(msg[:2])
-            count+= msg[2]
-        elif i == "Interface":
-            msg = duplicateparameter2(i,data)
-            msg_list.append(msg[:2])
-            count+= msg[2]
-    return msg_list,count
+    try:
+        ex_name_sheet = ['Project','Contract','Site','Equipment','Circuit','Interface']
+        msg_list = []
+        count = 0
+        for i in ex_name_sheet:
+            filename = 'data_up_load.xlsx'
+            data = pd.read_excel(os.path.join(app.config['UPLOAD_FOLDER'], filename),sheet_name=i)
+            data = data.replace(np.nan, '-', regex=True)
+            data = data.replace('', '-', regex=True)
+            data = data.replace('NaT', '-', regex=True)
+            data = data.replace('None', '-', regex=True)
+            if i == "Project":
+                msg = duplicateparameter(0,data)
+                msg_list.append(msg[:2])
+                count+= msg[2]
+            elif i == "Contract":
+                msg = duplicateparameter2(i,data)
+                msg_list.append(msg[:2])
+                count+= msg[2]
+            elif i == "Site":
+                msg = duplicateparameter2(i,data)
+                msg_list.append(msg[:2])
+                count+= msg[2]
+            elif i == "Equipment":
+                msg = duplicateparameter(1,data)
+                msg_list.append(msg[:2])
+                count+= msg[2]
+            elif i == "Circuit":
+                msg = duplicateparameter(1,data)
+                msg_list.append(msg[:2])
+                count+= msg[2]
+            elif i == "Interface":
+                msg = duplicateparameter2(i,data)
+                msg_list.append(msg[:2])
+                count+= msg[2]
+        return msg_list,count
+    except:
+        msg_list = [[["plese check template"],["plese check template"]],
+        [["plese check template"],["plese check template"]],[["plese check template"],["plese check template"]],
+        [["plese check template"],["plese check template"]],[["plese check template"],["plese check template"]],[["plese check template"],["plese check template"]]]
+        count = 'error'
+        return msg_list,count
 
 
 @app.route('/download')
