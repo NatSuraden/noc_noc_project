@@ -672,6 +672,12 @@ def circuit_table_new_data(data):
                     i[1] = str(len(circuit_for_count))
                 i[-3] = str(i[-3]).upper()
                 i[-4] = str(i[-4]).upper()
+                try:
+                    i[7] = float(i[7])
+                    i[7] = int(i[7])
+                    i[7] = str(i[7])
+                except:
+                    pass
                 #print(i)
                 cursor = connection.cursor()
                 #cursor.execute('SELECT * FROM circuit WHERE equipment_ref = %s AND owner_isp = %s', (a, b,))
