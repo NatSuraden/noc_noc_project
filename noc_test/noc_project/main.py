@@ -2316,6 +2316,7 @@ def delete_page():
             if request.form['PK'] == "/reset_data" and 'admin' in session['role']:
                 data = []
                 resetdata()
+                global_data()
                 return render_template('home.html', text="Reset data by admin!" ,data = data ,username=session['username'])
             if request.form['PK'] == "/reset_user" and 'admin' in session['role']:
                 data = []
