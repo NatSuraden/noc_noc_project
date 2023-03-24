@@ -989,7 +989,7 @@ def in_xlsx_duplicate():
     count = 0
     for i in ex_name_sheet:
         filename = 'data_up_load.xlsx'
-        data = pd.read_excel(os.path.join("noc_project/upload/", filename),sheet_name=i)
+        data = pd.read_excel(os.path.join(app.config['UPLOAD_FOLDER'], filename),sheet_name=i)
         data = data.replace(np.nan, '-', regex=True)
         data = data.replace('', '-', regex=True)
         data = data.replace('NaT', '-', regex=True)
