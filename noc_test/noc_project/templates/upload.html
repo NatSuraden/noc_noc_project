@@ -250,10 +250,6 @@
                     </button>
                 </div>
                 <div class="modal-profile "></div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Edit</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
             </div>
         </div>
     </div>
@@ -268,8 +264,8 @@
 				<div class="modal-body"></div>
 				<div class="modal-footer">
 				<form action="{{ url_for('check_test') }}" method="post">
-				<button type="submit" class="btn btn-default" value="submit_done" name="test">submit</button></form>
-				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				<button type="submit" class="btn btn-secondary" value="submit_done" name="test">Submit</button></form>
+				<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
 				</div>
 			</div>
 		</div>

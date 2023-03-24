@@ -65,7 +65,7 @@ def login():
 
             return redirect(url_for('home'))
         else:
-            msg = 'Incorrect username/password!'
+            msg = 'Incorrect username/password !'
     return render_template('index.html', msg=msg)
 
 @app.route('/check_test',methods=["POST","GET"])

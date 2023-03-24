@@ -169,8 +169,8 @@
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-end">
-                        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                                class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
+                        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" onclick="tableToExcel()"><i
+                            class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
                     </div>
                     
                     <!-- Page Heading -->
@@ -258,12 +258,12 @@
                                 <table class="table" id="dataTable">
                                     <thead>
                                         <tr>
-                                            <th>CircuitID</th>
+                                            <th>Circuit ID</th>
                                             <th>Project Name</th>
                                             <th>Site Name</th>
+                                            <th>Equipment Serial </th>
                                             <th>Equipment Loopback</th>
                                             <th>IP add CE</th>
-                                            <th>E Serial number</th>
                                         </tr>
                                     </thead>
                         
@@ -293,12 +293,12 @@
                             <table class="table" >
                                 <thead>
                                     <tr>
-                                        <th>CircuitID</th>
+                                        <th>Circuit ID</th>
                                         <th>Project Name</th>
                                         <th>Site Name</th>
+                                        <th>Equipment Serial </th>
                                         <th>Equipment Loopback</th>
                                         <th>IP add CE</th>
-                                        <th>E Serial number</th>
                                     </tr>
                                 </thead>
                     
@@ -315,7 +315,6 @@
                                   {% endfor %}
                                 </tbody>
                             </table>
-                            <div class="displayflexend mg-b0 pagination-table"></div>
                         </div>
                         </div>
                         <div class="card shadow mb-4">
@@ -328,12 +327,12 @@
                         <table class="table" >
                             <thead>
                                 <tr>
-                                    <th>CircuitID</th>
+                                    <th>Circuit ID</th>
                                     <th>Project Name</th>
                                     <th>Site Name</th>
+                                    <th>Equipment Serial </th>
                                     <th>Equipment Loopback</th>
                                     <th>IP add CE</th>
-                                    <th>E Serial number</th>
                                 </tr>
                             </thead>
                 
@@ -350,7 +349,6 @@
                               {% endfor %}
                             </tbody>
                         </table>
-                        <div class="displayflexend mg-b0 pagination-table"></div>
                     </div>
                     </div>
                     <div class="card shadow mb-4">
@@ -363,12 +361,12 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>CircuitID</th>
+                                <th>Circuit ID</th>
                                 <th>Project Name</th>
                                 <th>Site Name</th>
+                                <th>Equipment Serial </th>
                                 <th>Equipment Loopback</th>
                                 <th>IP add CE</th>
-                                <th>E Serial number</th>
                             </tr>
                         </thead>
             
@@ -385,7 +383,6 @@
                           {% endfor %}
                         </tbody>
                     </table>
-                    <div class="displayflexend mg-b0 pagination-table"></div>
                 </div>
                 </div>
                 <div class="card shadow mb-4">
@@ -398,12 +395,12 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>CircuitID</th>
+                            <th>Circuit ID</th>
                             <th>Project Name</th>
                             <th>Site Name</th>
+                            <th>Equipment Serial </th>
                             <th>Equipment Loopback</th>
                             <th>IP add CE</th>
-                            <th>E Serial number</th>
                         </tr>
                     </thead>
         
@@ -420,7 +417,6 @@
                       {% endfor %}
                     </tbody>
                 </table>
-                <div class="displayflexend mg-b0 pagination-table"></div>
             </div>
             </div>
             </div>
@@ -510,6 +506,9 @@
 
     <!-- Custom scripts for all pages-->
     <script src="../static/js/sb-admin-2.js"></script>
+    <script src="../static/js/table2excel.js"></script>
+    <script src="../static/js/script.js"></script>
+
 </body>
 <script type="text/javascript">
     $(document).ready(function(){
